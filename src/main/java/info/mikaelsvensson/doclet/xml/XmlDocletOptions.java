@@ -1,8 +1,6 @@
 package info.mikaelsvensson.doclet.xml;
 
 import info.mikaelsvensson.doclet.shared.DocumentCreator;
-import info.mikaelsvensson.doclet.xml.documentcreator.ElementsOnlyDocumentCreator;
-import info.mikaelsvensson.doclet.xml.documentcreator.StandardDocumentCreator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -19,6 +17,11 @@ public class XmlDocletOptions {
     public Map<String, XmlDocletAction> getActions() {
         return actions;
     }
+
+    public XmlDocletOptions(String[][] args) {
+        init(args);
+    }
+
     public XmlDocletAction getAction(String key) {
         if (!actions.containsKey(key)) {
             actions.put(key, new XmlDocletAction());
@@ -33,26 +36,48 @@ public class XmlDocletOptions {
         return 0;
     }
 
-    public static XmlDocletOptions load(String[][] args) {
-        XmlDocletOptions options = new XmlDocletOptions();
+    private void init(String[][] args) {
+        actions = new HashMap<String, XmlDocletAction>();
         for (String[] arg : args) {
-            String argName = arg[0];
-            if (argName.startsWith(PARAMETER_FORMAT)) {
-                String key = argName.substring(PARAMETER_FORMAT.length());
-                XmlDocletAction.Format format = XmlDocletAction.Format.valueOfSimple(arg[1]);
-                if (format != null) {
-                    options.getAction(key).setFormat(format);
-                } else {
-                    throw new IllegalArgumentException(arg[1] + " is not a recognized format.");
-                }
-            } else if (argName.startsWith(PARAMETER_OUTPUT)) {
-                String key = argName.substring(PARAMETER_OUTPUT.length());
-                options.getAction(key).setOutput(new File(arg[1]));
-            } else if (argName.startsWith(PARAMETER_TRANSFORMER)) {
-                String key = argName.substring(PARAMETER_TRANSFORMER.length());
-                options.getAction(key).setTransformer(new File(arg[1]));
+            initOption(arg);
+        }
+    }
+
+    protected void initOption(String[] arg) {
+        String argName = arg[0];
+        if (argName.startsWith(PARAMETER_FORMAT)) {
+            String key = argName.substring(PARAMETER_FORMAT.length());
+//            XmlDocletAction.Format format = XmlDocletAction.Format.valueOfSimple(arg[1]);
+            DocumentCreator documentCreator = createDocumentCreator(arg[1]);
+            if (documentCreator != null) {
+                getAction(key).setDocumentCreator(documentCreator);
+            } else {
+                throw new IllegalArgumentException(arg[1] + " is not a recognized format.");
+            }
+        } else if (argName.startsWith(PARAMETER_OUTPUT)) {
+            String key = argName.substring(PARAMETER_OUTPUT.length());
+            getAction(key).setOutput(new File(arg[1]));
+        } else if (argName.startsWith(PARAMETER_TRANSFORMER)) {
+            String key = argName.substring(PARAMETER_TRANSFORMER.length());
+            getAction(key).setTransformer(new File(arg[1]));
+        }
+    }
+
+/*
+    public static XmlDocletOptions load(String[][] args) {
+        return new XmlDocletOptions(args);
+    }
+*/
+
+    protected DocumentCreator createDocumentCreator(String name) {
+        XmlDocletAction.Format format = XmlDocletAction.Format.valueOfSimple(name);
+        if (null != format) {
+            try {
+                return format.createDocumentCreator();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
-        return options;
+        return null;
     }
 }

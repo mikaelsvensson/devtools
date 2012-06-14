@@ -16,27 +16,31 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.InputStream;
 
-public class XmlDoclet extends AbstractDoclet {
-    private static XmlDocletOptions options;
+public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
 
-    protected XmlDoclet(RootDoc root) {
+    private O options;
+
+    protected XmlDoclet(RootDoc root, O options) {
         super(root);
+        this.options = options;
     }
 
     public static boolean start(RootDoc root) {
-        options = XmlDocletOptions.load(root.options());
+        return new XmlDoclet(root, new XmlDocletOptions(root.options())).generate();
+    }
 
+    public boolean generate() {
         System.out.println("#############################################################################################");
 
         try {
 
             for (XmlDocletAction action : options.getActions().values()) {
-                
+
                 root.printNotice("Building XML document.");
-                Document document = action.getFormat().createDocumentCreator().generateDocument(root);
+                Document document = action.getDocumentCreator().generateDocument(root);
                 root.printNotice("Finished building XML document.");
-                
-                generate(document, action.getOutput(), action.getTransformer(), root);
+
+                generate(document, action.getOutput(), action.getTransformer());
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -44,7 +48,7 @@ public class XmlDoclet extends AbstractDoclet {
         return true;
     }
 
-    public static void generate(Document doc, File outputFile, File xsltFile, RootDoc root) throws ParserConfigurationException {
+    public void generate(Document doc, File outputFile, File xsltFile) throws ParserConfigurationException {
         try {
             if (xsltFile != null) {
                 root.printNotice("Transforming XML document using XSLT");

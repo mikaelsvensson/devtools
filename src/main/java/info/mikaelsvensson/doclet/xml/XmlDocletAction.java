@@ -38,17 +38,30 @@ public class XmlDocletAction {
         }
     }
 
-    private Format format;
+//    private Format format;
     private File output;
     private File transformer;
+    private DocumentCreator documentCreator;
 
+    public DocumentCreator getDocumentCreator() {
+        return documentCreator;
+    }
+
+    public void setDocumentCreator(DocumentCreator documentCreator) {
+        this.documentCreator = documentCreator;
+    }
+
+/*
     public Format getFormat() {
         return format;
     }
+*/
 
+/*
     public void setFormat(Format format) {
         this.format = format;
     }
+*/
 
     public File getOutput() {
         return output;

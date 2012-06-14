@@ -5,8 +5,8 @@ import com.sun.tools.doclets.standard.Standard;
 
 public class XmlAndStandardDoclet extends XmlDoclet {
 
-    protected XmlAndStandardDoclet(RootDoc root) {
-        super(root);
+    protected XmlAndStandardDoclet(RootDoc root, XmlDocletOptions options) {
+        super(root, options);
     }
 
     public static int optionLength(String option) {
@@ -28,7 +28,7 @@ public class XmlAndStandardDoclet extends XmlDoclet {
         standard.start(root);
 
         root.printNotice("Generating XML based API documentation");
-        XmlDoclet.start(root);
+        new XmlDoclet(root, new XmlDocletOptions(root.options())).generate();
 
         return true;
     }

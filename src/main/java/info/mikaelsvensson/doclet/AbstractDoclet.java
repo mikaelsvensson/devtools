@@ -5,11 +5,13 @@ import com.sun.javadoc.RootDoc;
 
 public class AbstractDoclet {
 
+/*
     public RootDoc getRoot() {
         return root;
     }
+*/
 
-    private RootDoc root;
+    protected RootDoc root;
 
     protected AbstractDoclet(RootDoc root) {
         this.root = root;
