@@ -1,6 +1,6 @@
-package info.mikaelsvensson.doclet.documentcreator;
+package info.mikaelsvensson.doclet.xml.documentcreator;
 
-import info.mikaelsvensson.doclet.DocumentCreator;
+import info.mikaelsvensson.doclet.shared.DocumentCreator;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;

@@ -1,8 +1,8 @@
-package info.mikaelsvensson.doclet.documentcreator;
+package info.mikaelsvensson.doclet.xml.documentcreator;
 
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
-import info.mikaelsvensson.doclet.DocumentWrapper;
+import info.mikaelsvensson.doclet.shared.DocumentWrapper;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;
