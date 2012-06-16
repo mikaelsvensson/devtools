@@ -15,7 +15,7 @@
         </head>
     </xsl:template>
 
-    <xsl:template match="/classes">
+    <xsl:template match="/">
         <html>
             <xsl:call-template name="head">
                 <xsl:with-param name="pageTitle" select="$title" />

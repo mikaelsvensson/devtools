@@ -2,7 +2,6 @@ package info.mikaelsvensson.doclet.xml;
 
 import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.doclet.AbstractDoclet;
-import info.mikaelsvensson.doclet.xml.documentcreator.StandardDocumentCreator;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,7 +13,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.File;
-import java.io.InputStream;
+import java.util.Map;
 
 public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
 
@@ -30,8 +29,6 @@ public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
     }
 
     public boolean generate() {
-        System.out.println("#############################################################################################");
-
         try {
 
             for (XmlDocletAction action : options.getActions().values()) {
@@ -40,7 +37,7 @@ public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
                 Document document = action.getDocumentCreator().generateDocument(root);
                 root.printNotice("Finished building XML document.");
 
-                generate(document, action.getOutput(), action.getTransformer());
+                generate(document, action.getOutput(), action.getTransformer(), action.getParameters());
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -48,11 +45,11 @@ public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
         return true;
     }
 
-    public void generate(Document doc, File outputFile, File xsltFile) throws ParserConfigurationException {
+    public void generate(Document doc, File outputFile, File xsltFile, Map<String, String> parameters) throws ParserConfigurationException {
         try {
             if (xsltFile != null) {
                 root.printNotice("Transforming XML document using XSLT");
-                writeFile(doc, outputFile, xsltFile);
+                writeFile(doc, outputFile, xsltFile, parameters);
                 root.printNotice("Transformed XML document saved as " + outputFile.getAbsolutePath());
             }
             else {
@@ -64,21 +61,22 @@ public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
             root.printError(e.getMessage());
         }
     }
-    public static void writeFile(Document doc, File file, File xsltFile) throws TransformerException {
+    public static void writeFile(Document doc, File file, File xsltFile, Map<String, String> parameters) throws TransformerException {
         Source xsltSource = new StreamSource(xsltFile);
-        writeFile(doc, file, xsltSource);
+        writeFile(doc, file, xsltSource, parameters);
     }
 
-    public static void writeFile(Document doc, File file, InputStream xsltStream) throws TransformerException {
-        Source xsltSource = new StreamSource(xsltStream);
-        writeFile(doc, file, xsltSource);
-    }
-
-    private static void writeFile(Document doc, File file, Source xsltSource) throws TransformerException {
+    private static void writeFile(Document doc, File file, Source xsltSource, Map<String, String> parameters) throws TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xsltSource);
         StreamResult outputTarget = new StreamResult(file);
+
         Source xmlSource = new DOMSource(doc);
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            transformer.setParameter(entry.getKey(), entry.getValue());
+        }
+
+        transformer.setParameter("outputFile", file.getName());
         transformer.transform(xmlSource, outputTarget);
     }
 
@@ -99,11 +97,28 @@ public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
                 XmlDoclet.class.getName(),
                 new String[]{
                         XmlDocletOptions.PARAMETER_FORMAT,
-                        StandardDocumentCreator.class.getSimpleName(),
+                        XmlDocletAction.Format.STANDARD.name(),
 //                        ElementsOnlyDocumentCreator.class.getSimpleName(),
                         XmlDocletOptions.PARAMETER_OUTPUT,
                         "out.info.mikaelsvensson.doclet.xml",
                         "D:\\Dokument\\Utveckling\\doclet\\src\\test\\java\\info\\mikaelsvensson\\doclet\\XmlDocletTest.java"
+                });
+        com.sun.tools.javadoc.Main.execute(
+                "javadoc",
+                XmlDoclet.class.getName(),
+                new String[]{
+                        XmlDocletOptions.PARAMETER_FORMAT,
+                        XmlDocletAction.Format.STANDARD.name(),
+//                        ElementsOnlyDocumentCreator.class.getSimpleName(),
+                        XmlDocletOptions.PARAMETER_OUTPUT,
+                        "index2.html",
+                        XmlDocletOptions.PARAMETER_TRANSFORMER,
+                        "D:\\Dokument\\Utveckling\\doclet\\src\\test\\resources\\multiple-files.xslt",
+                        "-sourcepath",
+                        "D:\\Dokument\\Utveckling\\doclet\\src\\main\\java",
+                        "-subpackages",
+                        "info.mikaelsvensson.doclet"
+//                        "D:\\Dokument\\Utveckling\\doclet\\src\\test\\java\\info\\mikaelsvensson\\doclet\\XmlDocletTest.java"
                 });
     }
 }

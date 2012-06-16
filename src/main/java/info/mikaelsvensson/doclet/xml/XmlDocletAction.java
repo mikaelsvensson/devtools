@@ -6,6 +6,8 @@ import info.mikaelsvensson.doclet.xml.documentcreator.StandardDocumentCreator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class XmlDocletAction {
     public enum Format {
@@ -42,6 +44,11 @@ public class XmlDocletAction {
     private File output;
     private File transformer;
     private DocumentCreator documentCreator;
+    private Map<String, String> parameters = new HashMap<String, String>();
+
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
 
     public DocumentCreator getDocumentCreator() {
         return documentCreator;
