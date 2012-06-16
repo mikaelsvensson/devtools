@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 public class XmlDocletTest {
     @Test
+    @Ignore
     public void testClass1() throws Exception {
         performTest(ClassA.class, new StandardDocumentCreator());
     }
