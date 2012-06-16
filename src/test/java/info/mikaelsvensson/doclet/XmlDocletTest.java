@@ -1,6 +1,11 @@
 package info.mikaelsvensson.doclet;
 
-import info.mikaelsvensson.doclet.documentcreator.StandardDocumentCreator;
+import info.mikaelsvensson.doclet.shared.DocumentCreator;
+import info.mikaelsvensson.doclet.xml.XmlDoclet;
+import info.mikaelsvensson.doclet.xml.XmlDocletAction;
+import info.mikaelsvensson.doclet.xml.XmlDocletOptions;
+import info.mikaelsvensson.doclet.xml.documentcreator.StandardDocumentCreator;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -23,13 +28,13 @@ public class XmlDocletTest {
 
     private void performTest(Class testClass, DocumentCreator documentCreator) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
         String testClassFileName = new File(".").getAbsolutePath() + "\\src\\test\\java\\" + testClass.getName().replace('.', File.separatorChar) + ".java";
-        File actualFile = File.createTempFile("xmldoclet-test-" + testClass.getSimpleName() + "-" + documentCreator.getClass().getSimpleName() + "-", ".test");
+        File actualFile = File.createTempFile("xmldoclet-test-" + testClass.getSimpleName() + "-" + documentCreator.getClass().getSimpleName() + "-", ".xml");
         com.sun.tools.javadoc.Main.execute(
                 "javadoc",
                 XmlDoclet.class.getName(),
                 new String[]{
                         XmlDocletOptions.PARAMETER_FORMAT,
-                        documentCreator.getClass().getSimpleName(),
+                        XmlDocletAction.Format.STANDARD.simpleName(),
                         XmlDocletOptions.PARAMETER_OUTPUT,
                         actualFile.getAbsolutePath(),
                         testClassFileName
@@ -75,7 +80,7 @@ public class XmlDocletTest {
         FileReader reader = new FileReader(actualFile);
         char[] content = new char[(int) actualFile.length()];
         reader.read(content, 0, content.length);
-        String s = new String(content).replaceAll(">[\\n\\s]*<", "><").replaceAll("\\s/>", "/>");
+        String s = new String(content).replaceAll(">[\\n\\s]*<", "><").replaceAll("\\s/>", "/>").replaceAll("\\s+", " ");
         return s.substring(s.indexOf("?>"));
     }
 
