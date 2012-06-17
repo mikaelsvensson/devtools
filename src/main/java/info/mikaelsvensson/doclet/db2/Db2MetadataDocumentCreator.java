@@ -10,18 +10,19 @@ import info.mikaelsvensson.doclet.shared.DocumentWrapper;
 import info.mikaelsvensson.doclet.shared.ElementWrapper;
 import info.mikaelsvensson.doclet.xml.documentcreator.AbstractDocumentCreator;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
 
-    private Db2ConverterDocletOptions options;
+    private Db2ConverterDocletAction options;
 
-    protected Db2MetadataDocumentCreator(Db2ConverterDocletOptions options) throws ParserConfigurationException {
+    protected Db2MetadataDocumentCreator(Db2ConverterDocletAction options) throws ParserConfigurationException {
         super();
         this.options = options;
     }

@@ -10,21 +10,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class XmlDocletAction {
+    public DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
+        return Format.valueOfSimple(format).createDocumentCreator(parameters);
+    }
+
     public enum Format {
         STANDARD {
             @Override
-            DocumentCreator createDocumentCreator() throws ParserConfigurationException {
-                return new StandardDocumentCreator();
+            DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
+                return new StandardDocumentCreator(parameters);
             }
         },
         ELEMENTS_ONLY {
             @Override
-            DocumentCreator createDocumentCreator() throws ParserConfigurationException {
+            DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
                 return new ElementsOnlyDocumentCreator();
             }
         };
 
-        abstract DocumentCreator createDocumentCreator() throws ParserConfigurationException;
+        abstract DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException;
         
         public String simpleName() {
             return name().toLowerCase().replace("_", "");
@@ -40,35 +44,31 @@ public class XmlDocletAction {
         }
     }
 
-//    private Format format;
     private File output;
     private File transformer;
-    private DocumentCreator documentCreator;
+//    private Format format;
+    private String format;
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(final String format) {
+        this.format = format;
+    }
+
+/*
+    public DocumentCreator getDocumentCreator() throws ParserConfigurationException {
+        Format f = Format.valueOfSimple(format);
+        return f.createDocumentCreator(parameters);
+    }
+*/
+
     private Map<String, String> parameters = new HashMap<String, String>();
 
     public Map<String, String> getParameters() {
         return parameters;
     }
-
-    public DocumentCreator getDocumentCreator() {
-        return documentCreator;
-    }
-
-    public void setDocumentCreator(DocumentCreator documentCreator) {
-        this.documentCreator = documentCreator;
-    }
-
-/*
-    public Format getFormat() {
-        return format;
-    }
-*/
-
-/*
-    public void setFormat(Format format) {
-        this.format = format;
-    }
-*/
 
     public File getOutput() {
         return output;

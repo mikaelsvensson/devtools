@@ -15,8 +15,9 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.util.Map;
 
-public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
+public class XmlDoclet<A extends XmlDocletAction, O extends XmlDocletOptions<A>> extends AbstractDoclet {
 
+//    private Taglet taglets = new ImageTagHandler[]{new ImageTagHandler()};
     private O options;
 
     protected XmlDoclet(RootDoc root, O options) {
@@ -34,7 +35,7 @@ public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
             for (XmlDocletAction action : options.getActions().values()) {
 
                 root.printNotice("Building XML document.");
-                Document document = action.getDocumentCreator().generateDocument(root);
+                Document document = action.createDocumentCreator(action.getParameters()).generateDocument(root);
                 root.printNotice("Finished building XML document.");
 
                 generate(document, action.getOutput(), action.getTransformer(), action.getParameters());
@@ -57,6 +58,19 @@ public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
                 writeFile(doc, outputFile);
                 root.printNotice("XML document saved as " + outputFile.getAbsolutePath());
             }
+
+/*
+            try {
+                int length = (int) outputFile.length();
+                char[] content = new char[length];
+                FileReader reader = new FileReader(outputFile);
+                reader.read(content, 0, length);
+                System.out.println(content);
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+*/
+
         } catch (TransformerException e) {
             root.printError(e.getMessage());
         }
@@ -88,7 +102,9 @@ public class XmlDoclet<O extends XmlDocletOptions> extends AbstractDoclet {
     }
 
     public static int optionLength(String option) {
-        return XmlDocletOptions.optionLength(option);
+        int len = XmlDocletOptions.optionLength(option);
+        return len;
+//        return len > 0 ? len : Standard.optionLength(option);
     }
 
     public static void main(String[] args) {

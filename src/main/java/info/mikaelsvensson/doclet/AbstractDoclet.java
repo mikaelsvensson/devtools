@@ -3,6 +3,9 @@ package info.mikaelsvensson.doclet;
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 
+/**
+ * Image with {@image resources/cloud.png} or without {@image resources/cloud.png A cloud} alternative texts.
+ */
 public class AbstractDoclet {
 
 /*
