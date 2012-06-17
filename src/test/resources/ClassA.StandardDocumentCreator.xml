@@ -1,8 +1,8 @@
-<?info.mikaelsvensson.doclet.xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <packages>
     <package name="info.mikaelsvensson.doclet">
-        <class abstract="false" access="public" extends="Object" interface="false" name="ClassA"
-               qualifiedname="info.mikaelsvensson.doclet.ClassA" serializable="false">
+        <class abstract="false" access="public" extends="java.lang.Object" interface="false" name="ClassA"
+               qualified-name="info.mikaelsvensson.doclet.ClassA" serializable="false">
             <methods/>
             <interfaces/>
         </class>
