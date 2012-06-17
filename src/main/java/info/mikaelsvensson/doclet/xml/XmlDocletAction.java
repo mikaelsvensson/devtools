@@ -36,7 +36,7 @@ public class XmlDocletAction {
 
         public static Format valueOfSimple(String name) {
             for (Format format : values()) {
-                if (format.simpleName().equals(name)) {
+                if (format.simpleName().equalsIgnoreCase(name)) {
                     return format;
                 }
             }
