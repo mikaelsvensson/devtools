@@ -9,10 +9,10 @@ import java.util.Properties;
 
 public class XmlDocletOptions<T extends XmlDocletAction> {
     public static final String PARAMETER_FORMAT = "-format";
+    public static final String PARAMETER_FORMAT_PROPERTY = "-formatproperty";
+    public static final String PARAMETER_FORMAT_PROPERTIES_FILE = "-formatproperties";
     public static final String PARAMETER_OUTPUT = "-output";
     public static final String PARAMETER_TRANSFORMER = "-transformer";
-    public static final String PARAMETER_PROPERTIES_FILE = "-properties";
-    public static final String PARAMETER_PROPERTY = "-property";
 
     private Map<String, T> actions = new HashMap<String, T>();
 
@@ -36,7 +36,7 @@ public class XmlDocletOptions<T extends XmlDocletAction> {
     }
 
     public static int optionLength(String option) {
-        if (option.startsWith(PARAMETER_FORMAT) || option.startsWith(PARAMETER_OUTPUT) || option.startsWith(PARAMETER_TRANSFORMER) || option.startsWith(PARAMETER_PROPERTIES_FILE) || option.startsWith(PARAMETER_PROPERTY)) {
+        if (option.startsWith(PARAMETER_FORMAT) || option.startsWith(PARAMETER_OUTPUT) || option.startsWith(PARAMETER_TRANSFORMER) || option.startsWith(PARAMETER_FORMAT_PROPERTIES_FILE) || option.startsWith(PARAMETER_FORMAT_PROPERTY)) {
             return 2;
         }
         return 0;
@@ -51,32 +51,18 @@ public class XmlDocletOptions<T extends XmlDocletAction> {
 
     protected void initOption(String[] arg) {
         String argName = arg[0];
-        if (argName.startsWith(PARAMETER_FORMAT)) {
-            String key = argName.substring(PARAMETER_FORMAT.length());
-            getAction(key).setFormat(arg[1]);
-
-/*
-            XmlDocletAction.Format format = XmlDocletAction.Format.valueOfSimple(arg[1]);
-//            DocumentCreator documentCreator = createDocumentCreator(arg[1]);
-            if (format != null) {
-                getAction(key).setFormat(format);
-//                getAction(key).setDocumentCreator(documentCreator);
-            } else {
-                throw new IllegalArgumentException(arg[1] + " is not a recognized format.");
-            }
-*/
-        } else if (argName.startsWith(PARAMETER_OUTPUT)) {
+        if (argName.startsWith(PARAMETER_OUTPUT)) {
             String key = argName.substring(PARAMETER_OUTPUT.length());
             getAction(key).setOutput(new File(arg[1]));
         } else if (argName.startsWith(PARAMETER_TRANSFORMER)) {
             String key = argName.substring(PARAMETER_TRANSFORMER.length());
             getAction(key).setTransformer(new File(arg[1]));
-        } else if (argName.startsWith(PARAMETER_PROPERTY)) {
-            String key = argName.substring(PARAMETER_PROPERTY.length());
+        } else if (argName.startsWith(PARAMETER_FORMAT_PROPERTY)) {
+            String key = argName.substring(PARAMETER_FORMAT_PROPERTY.length());
             int pos = arg[1].indexOf('=');
             getAction(key).getParameters().put(arg[1].substring(0, pos), arg[1].substring(pos + 1));
-        } else if (argName.startsWith(PARAMETER_PROPERTIES_FILE)) {
-            String key = argName.substring(PARAMETER_PROPERTIES_FILE.length());
+        } else if (argName.startsWith(PARAMETER_FORMAT_PROPERTIES_FILE)) {
+            String key = argName.substring(PARAMETER_FORMAT_PROPERTIES_FILE.length());
             Properties properties = new Properties();
             try {
                 properties.load(new FileReader(arg[1]));
@@ -86,6 +72,9 @@ public class XmlDocletOptions<T extends XmlDocletAction> {
             } catch (IOException e) {
                 throw new IllegalArgumentException(arg[1] + " could not be loaded. " + e.getMessage());
             }
+        } else if (argName.startsWith(PARAMETER_FORMAT)) {
+            String key = argName.substring(PARAMETER_FORMAT.length());
+            getAction(key).setFormat(arg[1]);
         }
     }
 

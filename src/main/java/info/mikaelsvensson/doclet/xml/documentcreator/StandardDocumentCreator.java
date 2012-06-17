@@ -16,27 +16,27 @@ import java.util.regex.Pattern;
 public class StandardDocumentCreator extends AbstractDocumentCreator {
 
     /**
-     * @documentcreatorparameter
+     * @formatproperty
      */
     public static final String PARAMETER_SHOW_ANNOTATIONS = "showAnnotations";
     /**
-     * @documentcreatorparameter
+     * @formatproperty
      */
     public static final String PARAMETER_SHOW_TYPE_PARAMETERS = "showTypeParameters";
     /**
-     * @documentcreatorparameter
+     * @formatproperty
      */
     public static final String PARAMETER_SHOW_INHERITED_INTERFACES = "showInheritedInterfaces";
     /**
-     * @documentcreatorparameter
+     * @formatproperty
      */
     public static final String PARAMETER_SHOW_FIELDS = "showFields";
     /**
-     * @documentcreatorparameter
+     * @formatproperty
      */
     public static final String PARAMETER_TEXT_ONLY_COMMENTS = "textOnlyComments";
     /**
-     * @documentcreatorparameter
+     * @formatproperty
      */
     public static final String PARAMETER_SHOW_ALL_TAGS = "showAllTags";
 
