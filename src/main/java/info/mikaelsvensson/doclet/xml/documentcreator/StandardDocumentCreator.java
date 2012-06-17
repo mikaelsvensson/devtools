@@ -15,27 +15,25 @@ import java.util.regex.Pattern;
 
 public class StandardDocumentCreator extends AbstractDocumentCreator {
 
-    /**
-     * @formatproperty
-     */
+    /** @formatproperty */
     public static final String PARAMETER_SHOW_ANNOTATIONS = "showAnnotations";
-    /**
-     * @formatproperty
-     */
+    /** @formatproperty */
     public static final String PARAMETER_SHOW_TYPE_PARAMETERS = "showTypeParameters";
-    /**
-     * @formatproperty
-     */
+    /** @formatproperty */
     public static final String PARAMETER_SHOW_INHERITED_INTERFACES = "showInheritedInterfaces";
-    /**
-     * @formatproperty
-     */
+    /** @formatproperty */
     public static final String PARAMETER_SHOW_FIELDS = "showFields";
-    /**
-     * @formatproperty
-     */
+    /** @formatproperty */
     public static final String PARAMETER_TEXT_ONLY_COMMENTS = "textOnlyComments";
     /**
+     * When using
+     * <p/>
+     * {@embed file ../test/java/info/mikaelsvensson/doclet/ClassA.java}
+     * <p/>
+     * the result is this
+     * <p/>
+     * {@embed file ../test/resources/ClassA.StandardDocumentCreator.xml}
+     *
      * @formatproperty
      */
     public static final String PARAMETER_SHOW_ALL_TAGS = "showAllTags";
@@ -43,7 +41,11 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
     private static final String ATTR_NAME = "name";
     private static final String ATTR_Q_NAME = "qualified-name";
 
-    private TagHandler[] tagHandlers = new TagHandler[]{new CodeTagHandler(), new ImageTagHandler(), new LinkTagHandler()};
+    private TagHandler[] tagHandlers = new TagHandler[]{
+            new CodeTagHandler(),
+            new ImageTagHandler(),
+            new LinkTagHandler(),
+            new SourceFileTagHandler()};
     public static final Pattern COMMENT_PARAGRAPH = Pattern.compile("<(p|br)\\s*/\\s*>");
     private boolean showAnnotations;
     private boolean showTypeParameters;
@@ -326,7 +328,11 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         for (Tag tag : inlineTags) {
             for (TagHandler handler : tagHandlers) {
                 if (handler.handles(tag)) {
-                    sb.append(handler.toString(tag));
+                    try {
+                        sb.append(handler.toString(tag));
+                    } catch (TagHandlerException e) {
+                        root.printWarning("Could not print tag '" + tag.name() + "'. " + e.getMessage());
+                    }
                     continue tag;
                 }
             }

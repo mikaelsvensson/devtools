@@ -108,17 +108,18 @@ public class XmlDoclet<A extends XmlDocletAction, O extends XmlDocletOptions<A>>
     }
 
     public static void main(String[] args) {
+/*
         com.sun.tools.javadoc.Main.execute(
                 "javadoc",
                 XmlDoclet.class.getName(),
                 new String[]{
                         XmlDocletOptions.PARAMETER_FORMAT,
                         XmlDocletAction.Format.STANDARD.name(),
-//                        ElementsOnlyDocumentCreator.class.getSimpleName(),
                         XmlDocletOptions.PARAMETER_OUTPUT,
-                        "out.info.mikaelsvensson.doclet.xml",
+                        "out.xml",
                         "D:\\Dokument\\Utveckling\\doclet\\src\\test\\java\\info\\mikaelsvensson\\doclet\\XmlDocletTest.java"
                 });
+*/
         com.sun.tools.javadoc.Main.execute(
                 "javadoc",
                 XmlDoclet.class.getName(),
@@ -131,10 +132,10 @@ public class XmlDoclet<A extends XmlDocletAction, O extends XmlDocletOptions<A>>
                         XmlDocletOptions.PARAMETER_TRANSFORMER,
                         "D:\\Dokument\\Utveckling\\doclet\\src\\test\\resources\\multiple-files.xslt",
                         "-sourcepath",
-                        "D:\\Dokument\\Utveckling\\doclet\\src\\main\\java",
+                        "D:\\Dokument\\Utveckling\\doclet\\src\\test\\java",
+//                        "D:\\Dokument\\Utveckling\\doclet\\src\\main\\java",
                         "-subpackages",
                         "info.mikaelsvensson.doclet"
-//                        "D:\\Dokument\\Utveckling\\doclet\\src\\test\\java\\info\\mikaelsvensson\\doclet\\XmlDocletTest.java"
                 });
     }
 }
