@@ -17,7 +17,7 @@ public class ElementsOnlyDocumentCreator extends AbstractDocumentCreator {
 
         DocumentWrapper documentWrapper = new DocumentWrapper(createDocument("classes"));
         for (ClassDoc classDoc : doc.classes()) {
-            documentWrapper.addChild("class").addChild("name").setText(classDoc.name());
+            documentWrapper.addChild("class").addChild("name").setText(classDoc.qualifiedName());
         }
         return documentWrapper.getDocument();
     }
