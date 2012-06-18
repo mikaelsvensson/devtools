@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet;
+package info.mikaelsvensson.docutil;
 
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;

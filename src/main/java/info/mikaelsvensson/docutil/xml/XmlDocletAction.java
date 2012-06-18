@@ -1,8 +1,8 @@
-package info.mikaelsvensson.doclet.xml;
+package info.mikaelsvensson.docutil.xml;
 
-import info.mikaelsvensson.doclet.shared.DocumentCreator;
-import info.mikaelsvensson.doclet.xml.documentcreator.ElementsOnlyDocumentCreator;
-import info.mikaelsvensson.doclet.xml.documentcreator.StandardDocumentCreator;
+import info.mikaelsvensson.docutil.shared.DocumentCreator;
+import info.mikaelsvensson.docutil.xml.documentcreator.ElementsOnlyDocumentCreator;
+import info.mikaelsvensson.docutil.xml.documentcreator.StandardDocumentCreator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;

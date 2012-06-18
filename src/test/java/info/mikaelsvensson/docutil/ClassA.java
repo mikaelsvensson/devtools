@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet;
+package info.mikaelsvensson.docutil;
 
 public class ClassA {
     private String field1;

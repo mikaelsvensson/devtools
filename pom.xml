@@ -22,7 +22,7 @@
                 <version>2.8.1</version>
                 <configuration>
                     <docfilessubdirs>true</docfilessubdirs>
-                    <doclet>info.mikaelsvensson.doclet.xml.XmlDoclet</doclet>
+                    <doclet>info.mikaelsvensson.docutil.xml.XmlDoclet</doclet>
                     <docletArtifacts>
                         <docletArtifact>
                             <groupId>info.mikaelsvensson.doclet</groupId>

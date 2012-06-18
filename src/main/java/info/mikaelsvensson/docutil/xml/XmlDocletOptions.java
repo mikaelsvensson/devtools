@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.xml;
+package info.mikaelsvensson.docutil.xml;
 
 import java.io.File;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.shared;
+package info.mikaelsvensson.docutil.shared;
 
 import org.w3c.dom.Document;
 

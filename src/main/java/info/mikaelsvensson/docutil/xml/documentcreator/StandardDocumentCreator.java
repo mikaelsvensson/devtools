@@ -1,7 +1,7 @@
-package info.mikaelsvensson.doclet.xml.documentcreator;
+package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import com.sun.javadoc.*;
-import info.mikaelsvensson.doclet.shared.*;
+import info.mikaelsvensson.docutil.shared.*;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 

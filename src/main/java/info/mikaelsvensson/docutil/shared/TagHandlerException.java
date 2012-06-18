@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.shared;
+package info.mikaelsvensson.docutil.shared;
 
 public class TagHandlerException extends Exception {
     public TagHandlerException() {

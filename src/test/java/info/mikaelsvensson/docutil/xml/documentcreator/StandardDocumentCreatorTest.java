@@ -1,7 +1,7 @@
-package info.mikaelsvensson.doclet.xml.documentcreator;
+package info.mikaelsvensson.docutil.xml.documentcreator;
 
-import info.mikaelsvensson.doclet.AbstractDocumentCreatorTest;
-import info.mikaelsvensson.doclet.ClassA;
+import info.mikaelsvensson.docutil.AbstractDocumentCreatorTest;
+import info.mikaelsvensson.docutil.ClassA;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ public class StandardDocumentCreatorTest extends AbstractDocumentCreatorTest {
      * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
      * <p/>
      * Class:
-     * {@embed class info.mikaelsvensson.doclet.ClassA}
+     * {@embed class info.mikaelsvensson.docutil.ClassA}
      *
      * Result:
      * {@embed file resources/ClassA.StandardDocumentCreator.xml}

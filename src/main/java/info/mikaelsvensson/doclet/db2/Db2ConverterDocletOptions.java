@@ -1,6 +1,6 @@
 package info.mikaelsvensson.doclet.db2;
 
-import info.mikaelsvensson.doclet.xml.XmlDocletOptions;
+import info.mikaelsvensson.docutil.xml.XmlDocletOptions;
 
 import java.io.File;
 

@@ -1,9 +1,9 @@
-package info.mikaelsvensson.doclet;
+package info.mikaelsvensson.docutil;
 
-import info.mikaelsvensson.doclet.shared.DocumentCreator;
-import info.mikaelsvensson.doclet.xml.XmlDoclet;
-import info.mikaelsvensson.doclet.xml.XmlDocletAction;
-import info.mikaelsvensson.doclet.xml.XmlDocletOptions;
+import info.mikaelsvensson.docutil.shared.DocumentCreator;
+import info.mikaelsvensson.docutil.xml.XmlDoclet;
+import info.mikaelsvensson.docutil.xml.XmlDocletAction;
+import info.mikaelsvensson.docutil.xml.XmlDocletOptions;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;

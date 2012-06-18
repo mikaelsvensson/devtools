@@ -1,7 +1,7 @@
-package info.mikaelsvensson.doclet.xml;
+package info.mikaelsvensson.docutil.xml;
 
 import com.sun.javadoc.RootDoc;
-import info.mikaelsvensson.doclet.AbstractDoclet;
+import info.mikaelsvensson.docutil.AbstractDoclet;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;

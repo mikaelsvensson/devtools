@@ -6,9 +6,9 @@ import info.mikaelsvensson.doclet.db2.metadata.Column;
 import info.mikaelsvensson.doclet.db2.metadata.Database;
 import info.mikaelsvensson.doclet.db2.metadata.Table;
 import info.mikaelsvensson.doclet.db2.parser.CommandType;
-import info.mikaelsvensson.doclet.shared.DocumentWrapper;
-import info.mikaelsvensson.doclet.shared.ElementWrapper;
-import info.mikaelsvensson.doclet.xml.documentcreator.AbstractDocumentCreator;
+import info.mikaelsvensson.docutil.shared.DocumentWrapper;
+import info.mikaelsvensson.docutil.shared.ElementWrapper;
+import info.mikaelsvensson.docutil.xml.documentcreator.AbstractDocumentCreator;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;

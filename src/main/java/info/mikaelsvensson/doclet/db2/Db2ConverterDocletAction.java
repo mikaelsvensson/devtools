@@ -1,7 +1,7 @@
 package info.mikaelsvensson.doclet.db2;
 
-import info.mikaelsvensson.doclet.shared.DocumentCreator;
-import info.mikaelsvensson.doclet.xml.XmlDocletAction;
+import info.mikaelsvensson.docutil.shared.DocumentCreator;
+import info.mikaelsvensson.docutil.xml.XmlDocletAction;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;

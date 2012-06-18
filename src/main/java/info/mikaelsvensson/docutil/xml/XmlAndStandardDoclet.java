@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.xml;
+package info.mikaelsvensson.docutil.xml;
 
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
