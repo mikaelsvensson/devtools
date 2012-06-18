@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PropertySet {
+    public static final char SEPARATOR = '.';
     private Map<String, PropertySet> childSets = new HashMap<String, PropertySet>();
     private Map<String, String> properties = new HashMap<String, String>();
 
     public void setProperty(String key, String value) throws PropertySetException {
-        int pos = key.indexOf('.');
+        int pos = key.indexOf(SEPARATOR);
         if (pos == -1) {
             if (childSets.containsKey(key)) {
                 throw new PropertySetException(key + " cannot be set to a single value since it is already a property set, " + childSets.get(key));
@@ -29,7 +30,7 @@ public class PropertySet {
     }
 
     public String getProperty(String key) {
-        int pos = key.indexOf('.');
+        int pos = key.indexOf(SEPARATOR);
         if (pos == -1) {
             return properties.get(key);
         } else {
@@ -43,7 +44,7 @@ public class PropertySet {
     }
 
     public Map<String, PropertySet> getCollection(String key) {
-        int pos = key.indexOf('.');
+        int pos = key.indexOf(SEPARATOR);
         if (pos == -1) {
             return childSets.get(key).childSets;
         } else {
