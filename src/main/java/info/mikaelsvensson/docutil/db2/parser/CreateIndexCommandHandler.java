@@ -1,7 +1,7 @@
-package info.mikaelsvensson.doclet.db2.parser;
+package info.mikaelsvensson.docutil.db2.parser;
 
 
-import info.mikaelsvensson.doclet.db2.metadata.Database;
+import info.mikaelsvensson.docutil.db2.metadata.Database;
 
 public class CreateIndexCommandHandler extends AbstractCommandHandler {
     @Override

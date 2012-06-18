@@ -1,11 +1,11 @@
-package info.mikaelsvensson.doclet.db2;
+package info.mikaelsvensson.docutil.db2;
 
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
-import info.mikaelsvensson.doclet.db2.metadata.Column;
-import info.mikaelsvensson.doclet.db2.metadata.Database;
-import info.mikaelsvensson.doclet.db2.metadata.Table;
-import info.mikaelsvensson.doclet.db2.parser.CommandType;
+import info.mikaelsvensson.docutil.db2.metadata.Column;
+import info.mikaelsvensson.docutil.db2.metadata.Database;
+import info.mikaelsvensson.docutil.db2.metadata.Table;
+import info.mikaelsvensson.docutil.db2.parser.CommandType;
 import info.mikaelsvensson.docutil.shared.DocumentWrapper;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 import info.mikaelsvensson.docutil.xml.documentcreator.AbstractDocumentCreator;

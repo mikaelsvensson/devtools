@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.db2;
+package info.mikaelsvensson.docutil.db2;
 
 import info.mikaelsvensson.docutil.shared.DocumentCreator;
 import info.mikaelsvensson.docutil.xml.XmlDocletAction;

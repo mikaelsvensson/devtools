@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.db2.metadata;
+package info.mikaelsvensson.docutil.db2.metadata;
 
 public class DatabaseObject {
     private String name;

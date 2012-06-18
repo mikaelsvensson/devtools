@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.db2;
+package info.mikaelsvensson.docutil.db2;
 
 import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.docutil.xml.XmlDoclet;

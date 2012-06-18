@@ -1,8 +1,8 @@
-package info.mikaelsvensson.doclet.db2.parser;
+package info.mikaelsvensson.docutil.db2.parser;
 
-import info.mikaelsvensson.doclet.db2.metadata.Column;
-import info.mikaelsvensson.doclet.db2.metadata.Database;
-import info.mikaelsvensson.doclet.db2.metadata.Table;
+import info.mikaelsvensson.docutil.db2.metadata.Column;
+import info.mikaelsvensson.docutil.db2.metadata.Database;
+import info.mikaelsvensson.docutil.db2.metadata.Table;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

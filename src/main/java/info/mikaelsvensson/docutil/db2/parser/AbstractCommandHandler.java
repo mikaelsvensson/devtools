@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.db2.parser;
+package info.mikaelsvensson.docutil.db2.parser;
 
 public abstract class AbstractCommandHandler implements CommandHandler {
     protected String getAffectedTableName(String sql) {

@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doclet.db2.metadata;
+package info.mikaelsvensson.docutil.db2.metadata;
 
 import java.util.ArrayList;
 import java.util.List;
