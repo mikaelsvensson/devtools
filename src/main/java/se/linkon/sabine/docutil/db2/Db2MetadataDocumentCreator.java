@@ -3,21 +3,19 @@ package se.linkon.sabine.docutil.db2;
 import com.sun.javadoc.*;
 import org.w3c.dom.Document;
 import se.linkon.sabine.docutil.db2.metadata.*;
-import se.linkon.sabine.docutil.db2.parser.AbstractCommandHandler;
 import se.linkon.sabine.docutil.db2.parser.CommandType;
 import se.linkon.sabine.docutil.shared.DocumentCreatorException;
+import se.linkon.sabine.docutil.shared.DocumentCreatorFactory;
 import se.linkon.sabine.docutil.shared.DocumentWrapper;
 import se.linkon.sabine.docutil.shared.ElementWrapper;
+import se.linkon.sabine.docutil.shared.propertyset.PropertySet;
 import se.linkon.sabine.docutil.xml.documentcreator.AbstractDocumentCreator;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinTable;
 import javax.persistence.Transient;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,24 +24,40 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
+    public static final String NAME = "db2";
+    public static final String DB2_SCHEMA_FILE = "db2schemafile";
+
     private static final String ATTR_PROBABLE_DATABASE_NAME = "probable-database-name";
     private static final String ATTR_NAME = "name";
     private static final String ATTR_QUALIFIED_NAME = "qualified-name";
     private static final String ATTR_TYPE = "type";
     public static final String PROPERTY_DATABASE_NAME = "Database Name";
 
-    private Db2ConverterDocletAction options;
+//    private Db2ConverterDocletAction options;
 
+/*
     public Db2MetadataDocumentCreator(Db2ConverterDocletAction options) throws ParserConfigurationException {
         super();
         this.options = options;
     }
+*/
+
+    public static void register() {
+        DocumentCreatorFactory.registerDocumentCreatorFactory(Db2MetadataDocumentCreator.NAME, Db2MetadataDocumentCreator.class);
+    }
 
     @Override
-    public Document generateDocument(RootDoc doc) throws DocumentCreatorException {
-        DocumentWrapper dw = new DocumentWrapper(createDocument("data"));
+    public Document generateDocument(RootDoc doc, final PropertySet properties) throws DocumentCreatorException {
+        DocumentWrapper dw = null;
+        try {
+            dw = new DocumentWrapper(createDocument("data"));
+        } catch (ParserConfigurationException e) {
+            throw new DocumentCreatorException(e);
+        }
 
-        addDatabaseMetadata(dw);
+        File db2SchemaDDLFile = new File(properties.getProperty(DB2_SCHEMA_FILE));
+
+        addDatabaseMetadata(dw, db2SchemaDDLFile);
 
         addJavadocMetadata(dw, doc);
 
@@ -129,8 +143,8 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
         return null;
     }
 
-    private void addDatabaseMetadata(DocumentWrapper dw) throws DocumentCreatorException {
-        Database db = getDatabaseMetadata();
+    private void addDatabaseMetadata(DocumentWrapper dw, final File db2SchemaDDLFile) throws DocumentCreatorException {
+        Database db = getDatabaseMetadata(db2SchemaDDLFile);
 
         ElementWrapper databaseEl = dw.addChild("database", ATTR_NAME, db.getName());
 
@@ -187,9 +201,9 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
         }
     }
 
-    public Database getDatabaseMetadata() throws DocumentCreatorException {
+    public Database getDatabaseMetadata(final File db2SchemaDDLFile) throws DocumentCreatorException {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(options.getDb2SchemaFile()));
+            BufferedReader reader = new BufferedReader(new FileReader(db2SchemaDDLFile));
             String line;
             StringBuilder sb = new StringBuilder();
             Database db = new Database();

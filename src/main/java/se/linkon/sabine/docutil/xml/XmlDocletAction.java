@@ -1,13 +1,7 @@
 package se.linkon.sabine.docutil.xml;
 
-import se.linkon.sabine.docutil.shared.DocumentCreator;
-import se.linkon.sabine.docutil.shared.DocumentCreatorException;
 import se.linkon.sabine.docutil.shared.propertyset.PropertySet;
-import se.linkon.sabine.docutil.xml.documentcreator.ElementsOnlyDocumentCreator;
-import se.linkon.sabine.docutil.xml.documentcreator.EnumDocumentCreator;
-import se.linkon.sabine.docutil.xml.documentcreator.StandardDocumentCreator;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +26,7 @@ public class XmlDocletAction {
             this.output = outputPath;
         }
 
-        this.parameters = propertySet.getProperties(FORMAT + "." + PROPERTY);
+        this.parameters = propertySet.getCollection(FORMAT).get(PROPERTY);
 
         this.postProcessingParameters = propertySet.getProperties(POSTPROCESSOR + "." + PROPERTY);
 
@@ -44,6 +38,7 @@ public class XmlDocletAction {
         }
     }
 
+/*
     public DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws DocumentCreatorException {
         try {
             if (FORMAT_STANDARD.equalsIgnoreCase(format)) {
@@ -58,6 +53,7 @@ public class XmlDocletAction {
         }
         throw new DocumentCreatorException("Could not find a suitable formatter for the format '" + format + "'.");
     }
+*/
 
     private File output;
     private File transformer;
@@ -68,7 +64,7 @@ public class XmlDocletAction {
     }
 
     //TODO: MISV 20120618 Rename to formatParameters.
-    private Map<String, String> parameters = new HashMap<String, String>();
+    private PropertySet parameters = new PropertySet();
 
     //TODO: MISV 20120618 Rearrange/sort fields and members.
     private String postProcessor;
@@ -87,7 +83,7 @@ public class XmlDocletAction {
 
     private Map<String, String> postProcessingParameters = new HashMap<String, String>();
 
-    public Map<String, String> getParameters() {
+    public PropertySet getParameters() {
         return parameters;
     }
 

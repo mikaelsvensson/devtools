@@ -1,7 +1,6 @@
 package se.linkon.sabine.docutil.xml.documentcreator;
 
 import com.sun.javadoc.RootDoc;
-import com.sun.javadoc.SeeTag;
 import com.sun.javadoc.Tag;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -23,13 +22,8 @@ public abstract class AbstractDocumentCreator implements DocumentCreator {
     protected static final String ATTR_NAME = "name";
     protected static final String ATTR_Q_NAME = "qualified-name";
 
-    private DocumentBuilder documentBuilder;
-
-    protected AbstractDocumentCreator() throws ParserConfigurationException {
-        documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-    }
-
-    protected Document createDocument(final String rootElementName) {
+    protected Document createDocument(final String rootElementName) throws ParserConfigurationException {
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = documentBuilder.newDocument();
         doc.appendChild(doc.createElement(rootElementName));
         return doc;

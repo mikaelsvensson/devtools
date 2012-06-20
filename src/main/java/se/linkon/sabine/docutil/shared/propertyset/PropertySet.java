@@ -147,4 +147,8 @@ public class PropertySet {
             throw new PropertySetException(propertiesFilePath + " could not be loaded. " + e.getMessage());
         }
     }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
 }

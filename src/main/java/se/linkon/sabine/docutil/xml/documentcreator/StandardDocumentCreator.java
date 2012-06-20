@@ -2,19 +2,20 @@ package se.linkon.sabine.docutil.xml.documentcreator;
 
 import com.sun.javadoc.*;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import se.linkon.sabine.docutil.shared.DocumentCreatorException;
 import se.linkon.sabine.docutil.shared.DocumentWrapper;
 import se.linkon.sabine.docutil.shared.ElementWrapper;
+import se.linkon.sabine.docutil.shared.propertyset.PropertySet;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class StandardDocumentCreator extends AbstractDocumentCreator {
+
+    public static final String NAME = "standard";
 
     /** @formatproperty */
     public static final String PARAMETER_SHOW_ANNOTATIONS = "showAnnotations";
@@ -39,26 +40,31 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
      */
     public static final String PARAMETER_SHOW_ALL_TAGS = "showAllTags";
 
-    private boolean showAnnotations;
-    private boolean showTypeParameters;
-    private boolean showInheritedInterfaces;
-    private boolean showFields;
-    private boolean textOnlyComments;
-    private boolean showAllTags;
-
-    public StandardDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
-        super();
-        showAnnotations = isBooleanSet(PARAMETER_SHOW_ANNOTATIONS, parameters);
-        showTypeParameters = isBooleanSet(PARAMETER_SHOW_TYPE_PARAMETERS, parameters);
-        showInheritedInterfaces = isBooleanSet(PARAMETER_SHOW_INHERITED_INTERFACES, parameters);
-        showFields = isBooleanSet(PARAMETER_SHOW_FIELDS, parameters);
-        textOnlyComments = isBooleanSet(PARAMETER_TEXT_ONLY_COMMENTS, parameters);
-        showAllTags = isBooleanSet(PARAMETER_SHOW_ALL_TAGS, parameters);
+    private class Options {
+        private boolean showAnnotations;
+        private boolean showTypeParameters;
+        private boolean showInheritedInterfaces;
+        private boolean showFields;
+        private boolean textOnlyComments;
+        private boolean showAllTags;
     }
 
+/*
+    public StandardDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
+        super();
+    }
+*/
+
     @Override
-    public Document generateDocument(final RootDoc root) {
-        DocumentWrapper dw = new DocumentWrapper(createDocument("packages"));
+    public Document generateDocument(final RootDoc root, final PropertySet properties) throws DocumentCreatorException {
+        Options options = convertProperties(properties);
+
+        DocumentWrapper dw = null;
+        try {
+            dw = new DocumentWrapper(createDocument("packages"));
+        } catch (ParserConfigurationException e) {
+            throw new DocumentCreatorException(e);
+        }
 
         Map<String, ElementWrapper> packageElements = new HashMap<String, ElementWrapper>();
 
@@ -87,30 +93,41 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
                 clsEl.setAttribute("abstract", Boolean.toString(cls.isAbstract()));
                 clsEl.setAttribute("interface", Boolean.toString(cls.isInterface()));
 
-                addMethods(cls, clsEl, root);
+                addMethods(cls, clsEl, root, options);
             }
 
             addComment(clsEl, cls.inlineTags(), root);
 
-            if (showAnnotations) {
+            if (options.showAnnotations) {
                 addAnnotations(clsEl, cls);
             }
 
-            if (showFields) {
-                addFields(cls, clsEl, root);
+            if (options.showFields) {
+                addFields(cls, clsEl, root, options);
             }
 
-            addInterfaces(clsEl, cls);
+            addInterfaces(clsEl, cls, options.showInheritedInterfaces);
 
             addImplementations(clsEl, cls, root);
 
             addReferences(clsEl, cls);
 
-            if (showAllTags) {
+            if (options.showAllTags) {
                 addTags(cls, clsEl);
             }
         }
         return dw.getDocument();
+    }
+
+    private Options convertProperties(final PropertySet properties) {
+        Options options = new Options();
+        options.showAnnotations = isBooleanSet(PARAMETER_SHOW_ANNOTATIONS, properties);
+        options.showTypeParameters = isBooleanSet(PARAMETER_SHOW_TYPE_PARAMETERS, properties);
+        options.showInheritedInterfaces = isBooleanSet(PARAMETER_SHOW_INHERITED_INTERFACES, properties);
+        options.showFields = isBooleanSet(PARAMETER_SHOW_FIELDS, properties);
+        options.textOnlyComments = isBooleanSet(PARAMETER_TEXT_ONLY_COMMENTS, properties);
+        options.showAllTags = isBooleanSet(PARAMETER_SHOW_ALL_TAGS, properties);
+        return options;
     }
 
     private void addTags(final Doc javadocItem, final ElementWrapper el) {
@@ -120,8 +137,8 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         }
     }
 
-    private boolean isBooleanSet(final String key, final Map<String, String> parameters) {
-        return parameters.containsKey(key) && Boolean.valueOf(parameters.get(key));
+    private boolean isBooleanSet(final String key, final PropertySet parameters) {
+        return parameters.getProperty(key) != null && Boolean.valueOf(parameters.getProperty(key));
     }
 
     private ElementWrapper getPackageElement(Map<String, ElementWrapper> packageElements, String packageName, ElementWrapper packagesElement) {
@@ -180,7 +197,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         return implementsInterface;
     }
 
-    private void addMethods(ClassDoc cls, ElementWrapper clsEl, RootDoc root) {
+    private void addMethods(ClassDoc cls, ElementWrapper clsEl, RootDoc root, Options options) {
         ElementWrapper methodsEl = clsEl.addChild("methods");
         for (MethodDoc m : cls.methods()) {
             String methodName = m.name();
@@ -201,11 +218,11 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
 
             addComment(methodEl, m.inlineTags(), root);
 
-            if (showAnnotations) {
+            if (options.showAnnotations) {
                 addAnnotations(methodEl, m);
             }
 
-            if (showAllTags) {
+            if (options.showAllTags) {
                 addTags(m, methodEl);
             }
             addThrownExceptions(methodEl, m, root);
@@ -214,7 +231,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         }
     }
 
-    private void addFields(ClassDoc cls, ElementWrapper clsEl, RootDoc root) {
+    private void addFields(ClassDoc cls, ElementWrapper clsEl, RootDoc root, Options options) {
         ElementWrapper fieldsEl = clsEl.addChild("fields");
         for (FieldDoc f : cls.fields()) {
             String fieldName = f.name();
@@ -234,10 +251,10 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
 
             addComment(fieldEl, f.inlineTags(), root);
 
-            if (showAnnotations) {
+            if (options.showAnnotations) {
                 addAnnotations(fieldEl, f);
             }
-            if (showAllTags) {
+            if (options.showAllTags) {
                 addTags(f, fieldEl);
             }
 
@@ -273,7 +290,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         }
     }
 
-    private void addInterfaces(ElementWrapper clsEl, ClassDoc cls) {
+    private void addInterfaces(ElementWrapper clsEl, ClassDoc cls, boolean showInheritedInterfaces) {
         ElementWrapper implementedInterfacesEl = clsEl.addChild("interfaces");
         do {
             for (ClassDoc implementedInterface : cls.interfaces()) {

@@ -3,12 +3,13 @@ package se.linkon.sabine.docutil.xml;
 import com.sun.javadoc.RootDoc;
 import org.w3c.dom.Document;
 import se.linkon.sabine.docutil.AbstractDoclet;
+import se.linkon.sabine.docutil.shared.DocumentCreator;
 import se.linkon.sabine.docutil.shared.DocumentCreatorException;
+import se.linkon.sabine.docutil.shared.DocumentCreatorFactory;
 import se.linkon.sabine.docutil.shared.FileUtil;
 import se.linkon.sabine.docutil.shared.propertyset.PropertySet;
 import se.linkon.sabine.docutil.shared.propertyset.PropertySetException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -23,11 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class XmlDoclet<A extends XmlDocletAction, O extends XmlDocletOptions<A>> extends AbstractDoclet {
+public class XmlDoclet extends AbstractDoclet {
 
-    private O options;
+    private XmlDocletOptions options;
 
-    protected XmlDoclet(RootDoc root, O options) {
+    protected XmlDoclet(RootDoc root, XmlDocletOptions options) {
         super(root);
         this.options = options;
     }
@@ -37,15 +38,16 @@ public class XmlDoclet<A extends XmlDocletAction, O extends XmlDocletOptions<A>>
     }
 
     public boolean generate() {
-        for (Map.Entry<String, A> entry : options.getActions().entrySet()) {
+        for (Map.Entry<String, XmlDocletAction> entry : options.getActions().entrySet()) {
             try {
-                A action = entry.getValue();
+                XmlDocletAction action = entry.getValue();
 
                 root.printNotice("Building XML document.");
-                Document document = action.createDocumentCreator(action.getParameters()).generateDocument(root);
+                DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(action.format);
+                Document document = documentCreator.generateDocument(root, action.getParameters());
                 root.printNotice("Finished building XML document.");
 
-                generate(document, action.getOutput(), action.getTransformer(), action.getParameters());
+                generate(document, action.getOutput(), action.getTransformer(), action.getParameters().getProperties());
 
                 postProcess(action);
             } catch (IOException e) {

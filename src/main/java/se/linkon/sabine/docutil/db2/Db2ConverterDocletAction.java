@@ -1,14 +1,6 @@
 package se.linkon.sabine.docutil.db2;
 
-import se.linkon.sabine.docutil.shared.DocumentCreator;
-import se.linkon.sabine.docutil.shared.DocumentCreatorException;
-import se.linkon.sabine.docutil.shared.propertyset.PropertySet;
-import se.linkon.sabine.docutil.xml.XmlDocletAction;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.util.Map;
-
+/*
 public class Db2ConverterDocletAction extends XmlDocletAction {
     public static final String FORMAT_DB2 = "db2";
     public static final String DB2_SCHEMA_FILE = "db2schemafile";
@@ -40,3 +32,4 @@ public class Db2ConverterDocletAction extends XmlDocletAction {
 
     }
 }
+*/
