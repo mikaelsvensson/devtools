@@ -26,7 +26,7 @@ public class XmlDocletAction {
             this.output = outputPath;
         }
 
-        this.parameters = propertySet.getCollection(FORMAT).get(PROPERTY);
+        this.parameters = propertySet.getPropertySet(FORMAT + '.' + PROPERTY);
 
         this.postProcessingParameters = propertySet.getProperties(POSTPROCESSOR + "." + PROPERTY);
 

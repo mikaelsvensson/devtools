@@ -55,6 +55,7 @@ public abstract class AbstractDocumentCreator implements DocumentCreator {
             try {
                 StringBuilder sb = new StringBuilder();
                 sb.append("<comment>");
+                // TODO: MISV 20120621 It would be nice if this method could also fix the cause of the '"p" must be terminated by the matching end-tag' issue. The problem stems from invalid HTML code genereated by wsimport/wsgen (?). Solve by counting the number of '</p' between one '<p' and the next (count=0 => prepend '</p>' before the next '<p')?
                 for (String paragraph : COMMENT_PARAGRAPH.split(c)) {
                     sb.append("<p>").append(paragraph).append("</p>");
                 }

@@ -26,7 +26,7 @@ public class PropertySet {
      *
      * @param key
      * @param value
-     * @throws PropertySetException if the {@code key} expression, in one way or another, is invalid/incorrect.
+     * @throws se.linkon.sabine.docutil.shared.propertyset.PropertySetException if the {@code key} expression, in one way or another, is invalid/incorrect.
      */
     public void setProperty(String key, String value) throws PropertySetException {
         int pos = key.indexOf(SEPARATOR);
@@ -69,6 +69,23 @@ public class PropertySet {
             }
         }
     }
+    public PropertySet getPropertySet(String key) {
+        int pos = key.indexOf(SEPARATOR);
+        if (pos == -1) {
+            if (collections.containsKey(key)) {
+                return collections.get(key);
+            } else {
+                return new PropertySet();
+            }
+        } else {
+            PropertySet childSet = collections.get(key.substring(0, pos));
+            if (childSet != null) {
+                return childSet.getPropertySet(key.substring(pos + 1));
+            } else {
+                return null;
+            }
+        }
+    }
 
     /**
      *
@@ -82,14 +99,14 @@ public class PropertySet {
             if (null == propertySet) {
                 //TODO: MISV 20120619 remove STDOUT debugging and document return value in javadoc
                 System.out.println(this.toString() + " does not contain a property set called " + key);
-                return null;
+                return new HashMap<String, PropertySet>();
             }
             return propertySet.collections;
         } else {
             PropertySet childSet = collections.get(key.substring(0, pos));
             if (null == childSet) {
                 //TODO: MISV 20120619 reason for return value in javadoc
-                return null;
+                return new HashMap<String, PropertySet>();
             }
             return childSet.getCollection(key.substring(pos + 1));
         }
@@ -133,7 +150,7 @@ public class PropertySet {
     /**
      *
      * @param propertiesFilePath path to file with properties
-     * @throws PropertySetException thrown if file cannot be read of if one of its property assignments is invalid in some way.
+     * @throws se.linkon.sabine.docutil.shared.propertyset.PropertySetException thrown if file cannot be read of if one of its property assignments is invalid in some way.
      */
     public void loadFromFile(String propertiesFilePath) throws PropertySetException {
         Properties properties = new Properties();

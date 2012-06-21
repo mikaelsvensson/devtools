@@ -1,7 +1,7 @@
 package se.linkon.sabine.docutil.xml.documentcreator;
 
-import info.mikaelsvensson.docutil.ClassA;
 import org.junit.Test;
+import se.linkon.sabine.docutil.ClassA;
 
 public class StandardDocumentCreatorTest extends AbstractDocumentCreatorTest {
     /**
