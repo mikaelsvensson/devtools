@@ -31,7 +31,7 @@ public abstract class AbstractDocumentCreatorTest {
         DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(documentCreatorId);
 
         String testClassFileName = new File(".\\src\\test\\java\\" + testClass.getName().replace('.', File.separatorChar) + ".java").getAbsolutePath();
-        File actualFile = File.createTempFile("xmldoclet-test-" + testClass.getSimpleName() + "-" + documentCreator.getClass().getSimpleName() + "-", ".xml");
+        File actualFile = File.createTempFile("xmldoclet-test-" + testClass.getName() + "-" + documentCreator.getClass().getSimpleName() + "-", ".xml");
         com.sun.tools.javadoc.Main.execute(
                 "javadoc",
                 XmlDoclet.class.getName(),
@@ -48,7 +48,7 @@ public abstract class AbstractDocumentCreatorTest {
                         testClassFileName
                 });
 
-        File expectedFile = new File("target\\test-classes\\" + testClass.getSimpleName() + "." + documentCreator.getClass().getSimpleName() + ".xml");
+        File expectedFile = new File("target\\test-classes\\" + testClass.getName() + "." + documentCreator.getClass().getSimpleName() + ".xml");
         Diff diff = new Diff(new FileReader(expectedFile), new FileReader(actualFile));
 //        actualFile.delete();
 
