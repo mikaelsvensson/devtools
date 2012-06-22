@@ -56,17 +56,25 @@ public class ElementWrapper {
     public ElementWrapper addChildWithText(String name, String text, String... attributeValuePairs) {
         Element child = el.getOwnerDocument().createElement(name);
 
-        for (int i = 1; i < attributeValuePairs.length; i += 2) {
-            String attrName = attributeValuePairs[i - 1];
-            String attrValue = attributeValuePairs[i];
 
-            child.setAttribute(attrName, attrValue);
-        }
         if (null != text && text.length() > 0) {
             child.appendChild(el.getOwnerDocument().createTextNode(text));
         }
         el.appendChild(child);
-        return new ElementWrapper(child);
+        ElementWrapper wrapper = new ElementWrapper(child);
+
+        wrapper.setAttributes(attributeValuePairs);
+
+        return wrapper;
+    }
+
+    public void setAttributes(final String... attributeValuePairs) {
+        for (int i = 1; i < attributeValuePairs.length; i += 2) {
+            String attrName = attributeValuePairs[i - 1];
+            String attrValue = attributeValuePairs[i];
+
+            setAttribute(attrName, attrValue);
+        }
     }
 
     public String getTagName() {

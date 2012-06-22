@@ -2,6 +2,7 @@ package info.mikaelsvensson.docutil.shared;
 
 import info.mikaelsvensson.docutil.xml.documentcreator.ElementsOnlyDocumentCreator;
 import info.mikaelsvensson.docutil.xml.documentcreator.EnumDocumentCreator;
+import info.mikaelsvensson.docutil.xml.documentcreator.ExtensiveDocumentCreator;
 import info.mikaelsvensson.docutil.xml.documentcreator.StandardDocumentCreator;
 
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +16,7 @@ public final class DocumentCreatorFactory {
         DocumentCreatorFactory.registerDocumentCreatorFactory(EnumDocumentCreator.NAME, EnumDocumentCreator.class);
         DocumentCreatorFactory.registerDocumentCreatorFactory(StandardDocumentCreator.NAME, StandardDocumentCreator.class);
         DocumentCreatorFactory.registerDocumentCreatorFactory(ElementsOnlyDocumentCreator.NAME, ElementsOnlyDocumentCreator.class);
+        DocumentCreatorFactory.registerDocumentCreatorFactory(ExtensiveDocumentCreator.NAME, ExtensiveDocumentCreator.class);
     }
 
     private DocumentCreatorFactory() {

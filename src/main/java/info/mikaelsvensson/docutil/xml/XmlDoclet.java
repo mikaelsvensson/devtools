@@ -10,10 +10,7 @@ import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
 import info.mikaelsvensson.docutil.shared.propertyset.PropertySetException;
 import org.w3c.dom.Document;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -128,6 +125,7 @@ public class XmlDoclet extends AbstractDoclet {
     public static void writeFile(Document doc, File file) throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.transform(new DOMSource(doc.getDocumentElement()), new StreamResult(file));
         System.out.println(file.getAbsolutePath());
     }
