@@ -167,7 +167,7 @@ public class XmlDoclet extends AbstractDoclet {
                         "D:\\Dokument\\Utveckling\\doclet\\src\\test\\java",
 //                        "D:\\Dokument\\Utveckling\\doclet\\src\\main\\java",
                         "-subpackages",
-                        "se.linkon.sabine.doclet"
+                        "info.mikaelsvensson.doclet"
                 });
 */
     }

@@ -26,7 +26,7 @@ public class PropertySet {
      *
      * @param key
      * @param value
-     * @throws se.linkon.sabine.docutil.shared.propertyset.PropertySetException if the {@code key} expression, in one way or another, is invalid/incorrect.
+     * @throws PropertySetException if the {@code key} expression, in one way or another, is invalid/incorrect.
      */
     public void setProperty(String key, String value) throws PropertySetException {
         int pos = key.indexOf(SEPARATOR);
