@@ -1,6 +1,8 @@
 package info.mikaelsvensson.docutil.chain;
 
+import com.sun.tools.doclets.standard.Standard;
 import info.mikaelsvensson.docutil.ClassA;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -13,7 +15,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 public class ChainDocletTest {
     @Test
-    public void test1() throws Exception {
+    public void testAliceAndBob() throws Exception {
         performTest(ClassA.class,
                 "-chain:alice:" + TestDocletAlice.class.getName(),
                 "-chain:bob:" + TestDocletBob.class.getName(),
@@ -36,6 +38,20 @@ public class ChainDocletTest {
                 {"-option2-for-bob", "value2-for-bob"},
                 {"-shared"}};
         assertArrayEquals(TestDocletBob.getOptions(), expectedBobOptions);
+    }
+
+    @Test
+    @Ignore
+    public void testAliceAndJavadoc() throws Exception {
+        performTest(ClassA.class,
+                "-chain:alice:" + TestDocletAlice.class.getName(),
+                "-chain:standard:" + Standard.class.getName(),
+                "-alice:option-for-alice");
+
+        String[][] expectedAliceOptions = {
+                {"-doclet", TestDocletAlice.class.getName()},
+                {"-option-for-alice"}};
+        assertArrayEquals("Option to Alice", TestDocletAlice.getOptions(), expectedAliceOptions);
     }
 
     private void performTest(Class testClass, String... options) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
