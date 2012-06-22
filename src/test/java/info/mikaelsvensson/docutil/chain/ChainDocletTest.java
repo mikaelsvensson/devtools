@@ -1,8 +1,8 @@
-package se.linkon.sabine.docutil.chain;
+package info.mikaelsvensson.docutil.chain;
 
+import info.mikaelsvensson.docutil.ClassA;
 import org.junit.Test;
 import org.xml.sax.SAXException;
-import se.linkon.sabine.docutil.ClassA;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;

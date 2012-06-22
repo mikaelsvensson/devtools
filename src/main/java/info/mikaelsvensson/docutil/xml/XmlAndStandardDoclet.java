@@ -2,6 +2,8 @@ package info.mikaelsvensson.docutil.xml;
 
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
+import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
+import info.mikaelsvensson.docutil.shared.propertyset.PropertySetException;
 
 public class XmlAndStandardDoclet extends XmlDoclet {
 
@@ -28,7 +30,11 @@ public class XmlAndStandardDoclet extends XmlDoclet {
         standard.start(root);
 
         root.printNotice("Generating XML based API documentation");
-        new XmlDoclet(root, new XmlDocletOptions(root.options())).generate();
+        try {
+            new XmlDoclet(root, new XmlDocletOptions(new PropertySet(root.options()))).generate();
+        } catch (PropertySetException e) {
+            root.printError(e.getMessage());
+        }
 
         return true;
     }

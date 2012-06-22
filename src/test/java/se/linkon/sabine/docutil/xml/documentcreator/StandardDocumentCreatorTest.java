@@ -11,7 +11,7 @@ public class StandardDocumentCreatorTest extends AbstractDocumentCreatorTest {
      * {@embed class info.mikaelsvensson.docutil.ClassA}
      *
      * Result:
-     * {@embed file resources/ClassA.StandardDocumentCreator.xml}
+     * {@embed file resources/se.linkon.sabine.docutil.ClassA.StandardDocumentCreator.xml}
      */
     @Test
     public void testClassA() throws Exception {

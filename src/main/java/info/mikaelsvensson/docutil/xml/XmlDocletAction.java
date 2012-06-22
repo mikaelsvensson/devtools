@@ -1,72 +1,89 @@
 package info.mikaelsvensson.docutil.xml;
 
-import info.mikaelsvensson.docutil.shared.DocumentCreator;
-import info.mikaelsvensson.docutil.xml.documentcreator.ElementsOnlyDocumentCreator;
-import info.mikaelsvensson.docutil.xml.documentcreator.StandardDocumentCreator;
+import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class XmlDocletAction {
-    public DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
-        return Format.valueOfSimple(format).createDocumentCreator(parameters);
+
+    public static final String FORMAT_STANDARD = "standard";
+    public static final String FORMAT_ENUM = "enum";
+    public static final String FORMAT_ELEMENTS_ONLY = "elementsonly";
+    public static final String FORMAT = "format";
+    public static final String FORMAT_NAME = "name";
+    public static final String OUTPUT = "output";
+    public static final String PROPERTY = "property";
+    public static final String POSTPROCESSOR = "postprocessor";
+    public static final String TRANSFORMER = "transformer";
+
+    public XmlDocletAction(PropertySet propertySet) {
+        this.format = propertySet.getProperty(FORMAT + "." + FORMAT_NAME);
+
+        File outputPath = new File(propertySet.getProperty(OUTPUT));
+        if (outputPath != null) {
+            this.output = outputPath;
+        }
+
+        this.parameters = propertySet.getPropertySet(FORMAT + '.' + PROPERTY);
+
+        this.postProcessingParameters = propertySet.getProperties(POSTPROCESSOR + "." + PROPERTY);
+
+        this.postProcessor = propertySet.getProperty(POSTPROCESSOR + "." + FORMAT_NAME);
+
+        String transformerPath = propertySet.getProperty(TRANSFORMER);
+        if (null != transformerPath) {
+            this.transformer = new File(transformerPath);
+        }
     }
 
-    public enum Format {
-        STANDARD {
-            @Override
-            DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
+/*
+    public DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws DocumentCreatorException {
+        try {
+            if (FORMAT_STANDARD.equalsIgnoreCase(format)) {
                 return new StandardDocumentCreator(parameters);
-            }
-        },
-        ELEMENTS_ONLY {
-            @Override
-            DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
+            } else if (FORMAT_ENUM.equalsIgnoreCase(format)) {
+                return new EnumDocumentCreator(parameters);
+            } else if (FORMAT_ELEMENTS_ONLY.equalsIgnoreCase(format)) {
                 return new ElementsOnlyDocumentCreator();
             }
-        };
-
-        abstract DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException;
-        
-        public String simpleName() {
-            return name().toLowerCase().replace("_", "");
+        } catch (ParserConfigurationException e) {
+            throw new DocumentCreatorException("Could not create formatter for the format '" + format + "'.", e);
         }
-
-        public static Format valueOfSimple(String name) {
-            for (Format format : values()) {
-                if (format.simpleName().equalsIgnoreCase(name)) {
-                    return format;
-                }
-            }
-            return null;
-        }
+        throw new DocumentCreatorException("Could not find a suitable formatter for the format '" + format + "'.");
     }
+*/
 
     private File output;
     private File transformer;
-//    private Format format;
-    private String format;
-
-    public String getFormat() {
-        return format;
-    }
+    protected String format;
 
     public void setFormat(final String format) {
         this.format = format;
     }
 
-/*
-    public DocumentCreator getDocumentCreator() throws ParserConfigurationException {
-        Format f = Format.valueOfSimple(format);
-        return f.createDocumentCreator(parameters);
+    //TODO: MISV 20120618 Rename to formatParameters.
+    private PropertySet parameters = new PropertySet();
+
+    //TODO: MISV 20120618 Rearrange/sort fields and members.
+    private String postProcessor;
+
+    public String getPostProcessor() {
+        return postProcessor;
     }
-*/
 
-    private Map<String, String> parameters = new HashMap<String, String>();
+    public void setPostProcessor(String postProcessor) {
+        this.postProcessor = postProcessor;
+    }
 
-    public Map<String, String> getParameters() {
+    public Map<String, String> getPostProcessingParameters() {
+        return postProcessingParameters;
+    }
+
+    private Map<String, String> postProcessingParameters = new HashMap<String, String>();
+
+    public PropertySet getParameters() {
         return parameters;
     }
 

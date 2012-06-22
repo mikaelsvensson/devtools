@@ -1,4 +1,4 @@
-package se.linkon.sabine.docutil.chain;
+package info.mikaelsvensson.docutil.chain;
 
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.RootDoc;
@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-class DocletInvoker {
+public class DocletInvoker {
     private Class<?> docletClass;
     private Method startMethod;
     private Method optionLengthMethod;

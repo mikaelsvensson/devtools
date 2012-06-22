@@ -1,9 +1,8 @@
-package info.mikaelsvensson.docutil;
+package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import info.mikaelsvensson.docutil.shared.DocumentCreator;
+import info.mikaelsvensson.docutil.shared.DocumentCreatorFactory;
 import info.mikaelsvensson.docutil.xml.XmlDoclet;
-import info.mikaelsvensson.docutil.xml.XmlDocletAction;
-import info.mikaelsvensson.docutil.xml.XmlDocletOptions;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
@@ -27,7 +26,10 @@ public abstract class AbstractDocumentCreatorTest {
         XMLUnit.setIgnoreAttributeOrder(true);
     }
 
-    protected void performTest(Class testClass, DocumentCreator documentCreator) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
+    protected void performTest(Class testClass, String documentCreatorId) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
+
+        DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(documentCreatorId);
+
         String testClassFileName = new File(".\\src\\test\\java\\" + testClass.getName().replace('.', File.separatorChar) + ".java").getAbsolutePath();
         File actualFile = File.createTempFile("xmldoclet-test-" + testClass.getSimpleName() + "-" + documentCreator.getClass().getSimpleName() + "-", ".xml");
         com.sun.tools.javadoc.Main.execute(
@@ -37,16 +39,16 @@ public abstract class AbstractDocumentCreatorTest {
                         "-doclet",
                         XmlDoclet.class.getName(),
                         "-private",
-                        XmlDocletOptions.PARAMETER_FORMAT,
-                        XmlDocletAction.Format.STANDARD.simpleName(),
-                        XmlDocletOptions.PARAMETER_OUTPUT,
+                        "-action.1.format.name",
+                        documentCreatorId,
+                        "-action.1.output",
                         actualFile.getAbsolutePath(),
-                        XmlDocletOptions.PARAMETER_FORMAT_PROPERTY,
-                        "showFields=false",
+                        "-action.1.format.property.showFields",
+                        "false",
                         testClassFileName
                 });
 
-        File expectedFile = new File("target\\test-classes\\" + testClass.getSimpleName() + "." + documentCreator.getClass().getSimpleName() + ".xml");
+        File expectedFile = new File("target\\test-classes\\" + testClass.getName() + "." + documentCreator.getClass().getSimpleName() + ".xml");
         Diff diff = new Diff(new FileReader(expectedFile), new FileReader(actualFile));
 //        actualFile.delete();
 

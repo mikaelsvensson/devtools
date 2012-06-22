@@ -1,24 +1,19 @@
-package se.linkon.sabine.docutil.chain;
+package info.mikaelsvensson.docutil.chain;
 
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.RootDoc;
-import se.linkon.sabine.docutil.AbstractDoclet;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ChainDoclet extends AbstractDoclet {
+public class ChainDoclet {
 
     private static final String CHAIN_OPTION_NAME = "chain";
     private static final String CHAIN_OPTION_SEPARATOR = ":";
 
     public static final Pattern CHAIN_LINK_DEFINITION = Pattern.compile(CHAIN_OPTION_NAME + CHAIN_OPTION_SEPARATOR + "([a-z]+)" + CHAIN_OPTION_SEPARATOR + "([a-zA-Z0-9.]+)");
     private static Map<String, DocletInvoker> docletWrappers = new LinkedHashMap<String, DocletInvoker>();
-
-    protected ChainDoclet(RootDoc root) {
-        super(root);
-    }
 
     public static boolean start(RootDoc root) {
         boolean result = true;
@@ -28,7 +23,7 @@ public class ChainDoclet extends AbstractDoclet {
 
             String[][] options = getDocletOptions(id, invoker, root.options());
 
-//            System.out.println("Invoke doclet '" + id + "'.");
+            root.printNotice("Invoking " + invoker.getDocletClassName() + " (options identified by prefix '" + id + CHAIN_OPTION_SEPARATOR + "')");
             result = result & invoker.start(new CustomOptionsRootDoc(root, options));
         }
         return result;
@@ -107,7 +102,6 @@ public class ChainDoclet extends AbstractDoclet {
 
             String[][] options = getDocletOptions(id, invoker, allOptions);
 
-//            System.out.println("Invoke doclet '" + id + "'.");
             result = result & invoker.validOptions(options, reporter);
         }
         return result;

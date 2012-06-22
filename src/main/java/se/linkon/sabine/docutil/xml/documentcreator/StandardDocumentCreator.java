@@ -34,7 +34,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
      * <p/>
      * the result is this
      * <p/>
-     * {@embed file ../test/resources/ClassA.StandardDocumentCreator.xml}
+     * {@embed file ../test/resources/se.linkon.sabine.docutil.ClassA.StandardDocumentCreator.xml}
      *
      * @formatproperty
      */

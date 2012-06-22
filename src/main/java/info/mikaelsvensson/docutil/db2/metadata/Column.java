@@ -1,11 +1,12 @@
 package info.mikaelsvensson.docutil.db2.metadata;
 
-public class Column extends DatabaseObject{
+public class Column extends DatabaseObject {
     private String definition;
+    private Db2Datatype db2Datatype;
 
     public Column(String name, String definition) {
         super(name);
-        this.definition = definition;
+        setDefinition(definition);
     }
 
     public Column(String name) {
@@ -17,6 +18,20 @@ public class Column extends DatabaseObject{
     }
 
     public void setDefinition(String definition) {
-        this.definition = definition;
+        int posSpace = definition.indexOf(' ');
+        if (posSpace == -1) {
+            posSpace = definition.length();
+        }
+        String datatypeDef = definition.substring(0, posSpace);
+        this.db2Datatype = Db2Datatype.fromColumnDefinition(datatypeDef);
+        if (this.db2Datatype != null) {
+            this.definition = definition.substring(posSpace).trim();
+        } else {
+            this.definition = definition;
+        }
+    }
+
+    public Db2Datatype getDb2Datatype() {
+        return db2Datatype;
     }
 }

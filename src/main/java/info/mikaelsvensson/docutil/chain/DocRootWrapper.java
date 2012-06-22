@@ -1,4 +1,4 @@
-package se.linkon.sabine.docutil.chain;
+package info.mikaelsvensson.docutil.chain;
 
 import com.sun.javadoc.*;
 

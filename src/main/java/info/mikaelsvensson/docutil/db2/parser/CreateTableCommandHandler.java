@@ -1,5 +1,6 @@
 package info.mikaelsvensson.docutil.db2.parser;
 
+
 import info.mikaelsvensson.docutil.db2.metadata.Column;
 import info.mikaelsvensson.docutil.db2.metadata.Database;
 import info.mikaelsvensson.docutil.db2.metadata.Table;
@@ -14,13 +15,16 @@ public class CreateTableCommandHandler extends AbstractCommandHandler {
 
     @Override
     public void execute(Database db, String sql) {
-        Table table = new Table(getAffectedTableName(sql));
+        String name = getAffectedTableName(fixSQL(sql));
 
-        int posLeftParenthesis = sql.indexOf('(');
-        int posRightParenthesis = sql.lastIndexOf(')');
-        String columnsSql = sql.substring(posLeftParenthesis + 1, posRightParenthesis);
+        Table table = new Table(name);
+
+        table.addSqlCommand(sql);
+
+        int posLeftParenthesis = fixSQL(sql).indexOf('(');
+        int posRightParenthesis = fixSQL(sql).lastIndexOf(')');
+        String columnsSql = fixSQL(sql).substring(posLeftParenthesis + 1, posRightParenthesis);
         for (String columnSql : columnsSql.split(",")) {
-            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% " + columnSql);
             Matcher matcher = COLUMN_DEFINITION_PATTERN.matcher(columnSql);
             if (matcher.matches()) {
                 String columnName = matcher.group(1);

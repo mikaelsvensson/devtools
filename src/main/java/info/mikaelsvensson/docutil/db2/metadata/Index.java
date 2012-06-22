@@ -3,28 +3,31 @@ package info.mikaelsvensson.docutil.db2.metadata;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Index extends DatabaseObject{
-    
-    private List<Column> columns = new ArrayList<Column>();
+public class Index extends DatabaseObject {
 
-    public List<Column> getColumns() {
+    private List<String> columns = new ArrayList<String>();
+
+    private boolean unique;
+
+    public Index(String name, boolean unique, List<String> columns) {
+        super(name);
+        setColumns(columns);
+        this.unique = unique;
+    }
+
+    public List<String> getColumns() {
         return columns;
     }
 
-    public Index(String name, List<Column> columns) {
-        super(name);
+    public boolean isUnique() {
+        return unique;
+    }
+
+    public void setColumns(List<String> columns) {
         this.columns = columns;
     }
 
-    public Index(String name) {
-        super(name);
-    }
-
-    public void setColumns(List<Column> columns) {
-        this.columns = columns;
-    }
-
-    public void addColumn(Column column) {
+    public void addColumn(String column) {
         this.columns.add(column);
     }
 }

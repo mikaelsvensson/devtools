@@ -1,94 +1,47 @@
 package info.mikaelsvensson.docutil.xml;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+
+import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
+import info.mikaelsvensson.docutil.shared.propertyset.PropertySetException;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
-public class XmlDocletOptions<T extends XmlDocletAction> {
-    public static final String PARAMETER_FORMAT = "-format";
-    public static final String PARAMETER_FORMAT_PROPERTY = "-formatproperty";
-    public static final String PARAMETER_FORMAT_PROPERTIES_FILE = "-formatproperties";
-    public static final String PARAMETER_OUTPUT = "-output";
-    public static final String PARAMETER_TRANSFORMER = "-transformer";
+public class XmlDocletOptions {
+    public static final String ACTION = "action";
+    public static final String PROPERTIES_FILE = "propertiesfile";
 
-    private Map<String, T> actions = new HashMap<String, T>();
+    private Map<String, XmlDocletAction> actions = new HashMap<String, XmlDocletAction>();
 
-    public Map<String, T> getActions() {
+    protected PropertySet propertySet;
+
+    public Map<String, XmlDocletAction> getActions() {
         return actions;
     }
 
-    public XmlDocletOptions(String[][] args) {
-        init(args);
-    }
+    public XmlDocletOptions(PropertySet propertySet) throws PropertySetException {
+//        System.out.println(propertySet);
+        String propertiesfile = propertySet.getProperty(PROPERTIES_FILE);
+        if (null != propertiesfile) {
+            propertySet.loadFromFile(propertiesfile);
 
-    public T getAction(String key) {
-        if (!actions.containsKey(key)) {
-            actions.put(key, createAction());
         }
-        return actions.get(key);
+        for (Map.Entry<String, PropertySet> entry : propertySet.getCollection(ACTION).entrySet()) {
+            actions.put(entry.getKey(), new XmlDocletAction(entry.getValue()));
+        }
     }
 
-    protected T createAction() {
-        return (T) new XmlDocletAction();
+/*
+    protected T createAction(PropertySet propertySet) {
+        return (T)
     }
+*/
 
     public static int optionLength(String option) {
-        if (option.startsWith(PARAMETER_FORMAT) || option.startsWith(PARAMETER_OUTPUT) || option.startsWith(PARAMETER_TRANSFORMER) || option.startsWith(PARAMETER_FORMAT_PROPERTIES_FILE) || option.startsWith(PARAMETER_FORMAT_PROPERTY)) {
+        if (option.startsWith("-" + ACTION)) {
             return 2;
         }
         return 0;
     }
 
-    private void init(String[][] args) {
-        actions = new HashMap<String, T>();
-        for (String[] arg : args) {
-            initOption(arg);
-        }
-    }
-
-    protected void initOption(String[] arg) {
-        String argName = arg[0];
-        if (argName.startsWith(PARAMETER_OUTPUT)) {
-            String key = argName.substring(PARAMETER_OUTPUT.length());
-            getAction(key).setOutput(new File(arg[1]));
-        } else if (argName.startsWith(PARAMETER_TRANSFORMER)) {
-            String key = argName.substring(PARAMETER_TRANSFORMER.length());
-            getAction(key).setTransformer(new File(arg[1]));
-        } else if (argName.startsWith(PARAMETER_FORMAT_PROPERTY)) {
-            String key = argName.substring(PARAMETER_FORMAT_PROPERTY.length());
-            int pos = arg[1].indexOf('=');
-            getAction(key).getParameters().put(arg[1].substring(0, pos), arg[1].substring(pos + 1));
-        } else if (argName.startsWith(PARAMETER_FORMAT_PROPERTIES_FILE)) {
-            String key = argName.substring(PARAMETER_FORMAT_PROPERTIES_FILE.length());
-            Properties properties = new Properties();
-            try {
-                properties.load(new FileReader(arg[1]));
-                for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-                    getAction(key).getParameters().put(entry.getKey().toString(), entry.getValue().toString());
-                }
-            } catch (IOException e) {
-                throw new IllegalArgumentException(arg[1] + " could not be loaded. " + e.getMessage());
-            }
-        } else if (argName.startsWith(PARAMETER_FORMAT)) {
-            String key = argName.substring(PARAMETER_FORMAT.length());
-            getAction(key).setFormat(arg[1]);
-        }
-    }
-
-/*
-    protected DocumentCreator createDocumentCreator(String name) {
-        XmlDocletAction.Format format = XmlDocletAction.Format.valueOfSimple(name);
-        if (null != format) {
-            try {
-                return format.createDocumentCreator(action.getParameters());
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-        }
-        return null;
-    }
-*/
 }

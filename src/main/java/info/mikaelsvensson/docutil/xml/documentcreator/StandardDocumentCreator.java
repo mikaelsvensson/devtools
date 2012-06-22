@@ -1,19 +1,21 @@
 package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import com.sun.javadoc.*;
-import info.mikaelsvensson.docutil.shared.*;
+import info.mikaelsvensson.docutil.shared.DocumentCreatorException;
+import info.mikaelsvensson.docutil.shared.DocumentWrapper;
+import info.mikaelsvensson.docutil.shared.ElementWrapper;
+import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class StandardDocumentCreator extends AbstractDocumentCreator {
+
+    public static final String NAME = "standard";
 
     /** @formatproperty */
     public static final String PARAMETER_SHOW_ANNOTATIONS = "showAnnotations";
@@ -26,47 +28,35 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
     /** @formatproperty */
     public static final String PARAMETER_TEXT_ONLY_COMMENTS = "textOnlyComments";
     /**
-     * When using
-     * <p/>
-     * {@embed file ../test/java/info/mikaelsvensson/doclet/ClassA.java}
-     * <p/>
-     * the result is this
-     * <p/>
-     * {@embed file ../test/resources/ClassA.StandardDocumentCreator.xml}
-     *
      * @formatproperty
      */
     public static final String PARAMETER_SHOW_ALL_TAGS = "showAllTags";
 
-    private static final String ATTR_NAME = "name";
-    private static final String ATTR_Q_NAME = "qualified-name";
-
-    private TagHandler[] tagHandlers = new TagHandler[]{
-            new CodeTagHandler(),
-            new ImageTagHandler(),
-            new LinkTagHandler(),
-            new SourceFileTagHandler()};
-    public static final Pattern COMMENT_PARAGRAPH = Pattern.compile("<(p|br)\\s*/\\s*>");
-    private boolean showAnnotations;
-    private boolean showTypeParameters;
-    private boolean showInheritedInterfaces;
-    private boolean showFields;
-    private boolean textOnlyComments;
-    private boolean showAllTags;
-
-    public StandardDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
-        super();
-        showAnnotations = isBooleanSet(PARAMETER_SHOW_ANNOTATIONS, parameters);
-        showTypeParameters = isBooleanSet(PARAMETER_SHOW_TYPE_PARAMETERS, parameters);
-        showInheritedInterfaces = isBooleanSet(PARAMETER_SHOW_INHERITED_INTERFACES, parameters);
-        showFields = isBooleanSet(PARAMETER_SHOW_FIELDS, parameters);
-        textOnlyComments = isBooleanSet(PARAMETER_TEXT_ONLY_COMMENTS, parameters);
-        showAllTags = isBooleanSet(PARAMETER_SHOW_ALL_TAGS, parameters);
+    private class Options {
+        private boolean showAnnotations;
+        private boolean showTypeParameters;
+        private boolean showInheritedInterfaces;
+        private boolean showFields;
+        private boolean textOnlyComments;
+        private boolean showAllTags;
     }
 
+/*
+    public StandardDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
+        super();
+    }
+*/
+
     @Override
-    public Document generateDocument(final RootDoc root) {
-        DocumentWrapper dw = new DocumentWrapper(createDocument("packages"));
+    public Document generateDocument(final RootDoc root, final PropertySet properties) throws DocumentCreatorException {
+        Options options = convertProperties(properties);
+
+        DocumentWrapper dw = null;
+        try {
+            dw = new DocumentWrapper(createDocument("packages"));
+        } catch (ParserConfigurationException e) {
+            throw new DocumentCreatorException(e);
+        }
 
         Map<String, ElementWrapper> packageElements = new HashMap<String, ElementWrapper>();
 
@@ -95,30 +85,41 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
                 clsEl.setAttribute("abstract", Boolean.toString(cls.isAbstract()));
                 clsEl.setAttribute("interface", Boolean.toString(cls.isInterface()));
 
-                addMethods(cls, clsEl, root);
+                addMethods(cls, clsEl, root, options);
             }
 
             addComment(clsEl, cls.inlineTags(), root);
 
-            if (showAnnotations) {
+            if (options.showAnnotations) {
                 addAnnotations(clsEl, cls);
             }
 
-            if (showFields) {
-                addFields(cls, clsEl, root);
+            if (options.showFields) {
+                addFields(cls, clsEl, root, options);
             }
 
-            addInterfaces(clsEl, cls);
+            addInterfaces(clsEl, cls, options.showInheritedInterfaces);
 
             addImplementations(clsEl, cls, root);
 
             addReferences(clsEl, cls);
 
-            if (showAllTags) {
+            if (options.showAllTags) {
                 addTags(cls, clsEl);
             }
         }
         return dw.getDocument();
+    }
+
+    private Options convertProperties(final PropertySet properties) {
+        Options options = new Options();
+        options.showAnnotations = isBooleanSet(PARAMETER_SHOW_ANNOTATIONS, properties);
+        options.showTypeParameters = isBooleanSet(PARAMETER_SHOW_TYPE_PARAMETERS, properties);
+        options.showInheritedInterfaces = isBooleanSet(PARAMETER_SHOW_INHERITED_INTERFACES, properties);
+        options.showFields = isBooleanSet(PARAMETER_SHOW_FIELDS, properties);
+        options.textOnlyComments = isBooleanSet(PARAMETER_TEXT_ONLY_COMMENTS, properties);
+        options.showAllTags = isBooleanSet(PARAMETER_SHOW_ALL_TAGS, properties);
+        return options;
     }
 
     private void addTags(final Doc javadocItem, final ElementWrapper el) {
@@ -128,8 +129,8 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         }
     }
 
-    private boolean isBooleanSet(final String key, final Map<String, String> parameters) {
-        return parameters.containsKey(key) && Boolean.valueOf(parameters.get(key));
+    private boolean isBooleanSet(final String key, final PropertySet parameters) {
+        return parameters.getProperty(key) != null && Boolean.valueOf(parameters.getProperty(key));
     }
 
     private ElementWrapper getPackageElement(Map<String, ElementWrapper> packageElements, String packageName, ElementWrapper packagesElement) {
@@ -188,7 +189,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         return implementsInterface;
     }
 
-    private void addMethods(ClassDoc cls, ElementWrapper clsEl, RootDoc root) {
+    private void addMethods(ClassDoc cls, ElementWrapper clsEl, RootDoc root, Options options) {
         ElementWrapper methodsEl = clsEl.addChild("methods");
         for (MethodDoc m : cls.methods()) {
             String methodName = m.name();
@@ -209,11 +210,11 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
 
             addComment(methodEl, m.inlineTags(), root);
 
-            if (showAnnotations) {
+            if (options.showAnnotations) {
                 addAnnotations(methodEl, m);
             }
 
-            if (showAllTags) {
+            if (options.showAllTags) {
                 addTags(m, methodEl);
             }
             addThrownExceptions(methodEl, m, root);
@@ -222,7 +223,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         }
     }
 
-    private void addFields(ClassDoc cls, ElementWrapper clsEl, RootDoc root) {
+    private void addFields(ClassDoc cls, ElementWrapper clsEl, RootDoc root, Options options) {
         ElementWrapper fieldsEl = clsEl.addChild("fields");
         for (FieldDoc f : cls.fields()) {
             String fieldName = f.name();
@@ -242,10 +243,10 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
 
             addComment(fieldEl, f.inlineTags(), root);
 
-            if (showAnnotations) {
+            if (options.showAnnotations) {
                 addAnnotations(fieldEl, f);
             }
-            if (showAllTags) {
+            if (options.showAllTags) {
                 addTags(f, fieldEl);
             }
 
@@ -281,7 +282,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         }
     }
 
-    private void addInterfaces(ElementWrapper clsEl, ClassDoc cls) {
+    private void addInterfaces(ElementWrapper clsEl, ClassDoc cls, boolean showInheritedInterfaces) {
         ElementWrapper implementedInterfacesEl = clsEl.addChild("interfaces");
         do {
             for (ClassDoc implementedInterface : cls.interfaces()) {
@@ -318,65 +319,6 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         ElementWrapper paramsEl = parentEl.addChild("parameters");
         for (Parameter parameter : javadocItem.parameters()) {
             addTypeInformation(paramsEl, parameter.type(), "parameter");
-        }
-    }
-
-    private void addComment(ElementWrapper parentEl, Tag[] inlineTags, RootDoc root) {
-        StringBuilder sb = new StringBuilder();
-
-        tag:
-        for (Tag tag : inlineTags) {
-            for (TagHandler handler : tagHandlers) {
-                if (handler.handles(tag)) {
-                    try {
-                        sb.append(handler.toString(tag));
-                    } catch (TagHandlerException e) {
-                        root.printWarning("Could not print tag '" + tag.name() + "'. " + e.getMessage());
-                    }
-                    continue tag;
-                }
-            }
-            sb.append(tag.text());
-/*
-            if (tag instanceof SeeTag) {
-                SeeTag seeTag = (SeeTag) tag;
-                String refClass = seeTag.referencedClass() != null ? seeTag.referencedClass().qualifiedName() : null;
-                String refMember = seeTag.referencedMember() != null ? seeTag.referencedMember().name() : null;
-                if (refClass != null) {
-                    sb.append("<link class=\"").append(refClass).append('"');
-                    if (refMember != null) {
-                        sb.append(" member=\"").append(refMember).append('"');
-                    }
-                    sb.append(" />");
-                }
-            } else if ("@code".equals(tag.kind())) {
-                sb.append("<code>").append(tag.text()).append("</code>");
-            } else {
-                sb.append(tag.text());
-            }
-*/
-        }
-        addComment(parentEl, sb.toString(), root);
-    }
-
-    private void addComment(ElementWrapper parentEl, String comment, RootDoc root) {
-        String c = comment != null && comment.length() > 0 ? comment.replace("\n", "") : "";
-        if (c.length() > 0) {
-            try {
-                StringBuilder sb = new StringBuilder();
-                sb.append("<comment>");
-                for (String paragraph : COMMENT_PARAGRAPH.split(c)) {
-                    sb.append("<p>").append(paragraph).append("</p>");
-                }
-                sb.append("</comment>");
-                parentEl.addChildFromSource(sb.toString());
-            } catch (IOException e) {
-                root.printWarning("Could not parse comment for " + parentEl.getTagName() + " " + parentEl.getAttribute(ATTR_NAME) + ". " + e.getMessage());
-                parentEl.addChildWithText("comment", comment);
-            } catch (SAXException e) {
-                root.printWarning("Could not parse comment for " + parentEl.getTagName() + " " + parentEl.getAttribute(ATTR_NAME) + ". " + e.getMessage());
-                parentEl.addChildWithText("comment", comment);
-            }
         }
     }
 
