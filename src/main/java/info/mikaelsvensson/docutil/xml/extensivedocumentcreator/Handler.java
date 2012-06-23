@@ -5,17 +5,27 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 abstract class Handler<T> {
 // ------------------------------ FIELDS ------------------------------
 
-    private Dispatcher dispatcher;
-
     protected static final ObjectHandlerFilter ACCEPT_ALL_FILTER = new ObjectHandlerFilter() {
         @Override
         public boolean accept(final Object object) {
             return true;
         }
     };
+    private Dispatcher dispatcher;
     private Class<T> handledClass;
 
-// -------------------------- STATIC METHODS --------------------------
+// --------------------------- CONSTRUCTORS ---------------------------
+
+    Handler(final Class<T> handledClass, final Dispatcher dispatcher) {
+        this.handledClass = handledClass;
+        this.dispatcher = dispatcher;
+    }
+
+// -------------------------- OTHER METHODS --------------------------
+
+    protected String getProperty(final String property) {
+        return dispatcher.getProperty(property);
+    }
 
     boolean handle(final ElementWrapper el, final Object javadocObject) throws JavadocItemHandlerException {
         if (handledClass.isAssignableFrom(javadocObject.getClass())) {
@@ -29,15 +39,6 @@ abstract class Handler<T> {
     void handleImpl(final ElementWrapper el, T doc) throws JavadocItemHandlerException {
     }
 
-// --------------------------- CONSTRUCTORS ---------------------------
-
-    Handler(final Class<T> handledClass, final Dispatcher dispatcher) {
-        this.handledClass = handledClass;
-        this.dispatcher = dispatcher;
-    }
-
-// -------------------------- OTHER METHODS --------------------------
-
     protected ElementWrapper handleDocImpl(final ElementWrapper el, final Object javadocObject, final String elName) throws JavadocItemHandlerException {
         if (null != javadocObject) {
             return handleDocImpl(el, elName, javadocObject);
@@ -45,8 +46,16 @@ abstract class Handler<T> {
         return null;
     }
 
+    protected <X> ElementWrapper handleDocImpl(final ElementWrapper el, final String elName, final X javadocObject) throws JavadocItemHandlerException {
+        return dispatcher.dispatch(el, elName, javadocObject);
+    }
+
     protected void handleDocImpl(final ElementWrapper el, final Object[] javadocObjects, final String listElName, final String elName) throws JavadocItemHandlerException {
         handleDocImpl(el, javadocObjects, ACCEPT_ALL_FILTER, listElName, elName);
+    }
+
+    protected <X> ElementWrapper handleDocImpl(final ElementWrapper el, final String elName, final X javadocObject, final boolean includeClassHandler) throws JavadocItemHandlerException {
+        return dispatcher.dispatch(el, elName, javadocObject, includeClassHandler);
     }
 
     protected void handleDocImpl(final ElementWrapper el, final Object[] javadocObjects, final String listElName, final String elName, final boolean includeClassHandler) throws JavadocItemHandlerException {
@@ -67,16 +76,4 @@ abstract class Handler<T> {
             }
         }
     }
-
-    protected <X> ElementWrapper handleDocImpl(final ElementWrapper el, final String elName, final X javadocObject) throws JavadocItemHandlerException {
-        return dispatcher.dispatch(el, elName, javadocObject);
-    }
-
-    protected <X> ElementWrapper handleDocImpl(final ElementWrapper el, final String elName, final X javadocObject, final boolean includeClassHandler) throws JavadocItemHandlerException {
-        return dispatcher.dispatch(el, elName, javadocObject, includeClassHandler);
-    }
-    protected String getProperty(final String property) {
-        return dispatcher.getProperty(property);
-    }
-
 }

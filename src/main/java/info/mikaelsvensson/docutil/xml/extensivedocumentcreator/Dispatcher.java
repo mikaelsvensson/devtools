@@ -10,6 +10,8 @@ public class Dispatcher {
 
     private Handler[] handlers;
 
+// --------------------------- CONSTRUCTORS ---------------------------
+
     public Dispatcher(final PropertySet propertySet) {
         this.propertySet = propertySet;
         handlers = new Handler[] {
@@ -41,9 +43,7 @@ public class Dispatcher {
         };
     }
 
-    public String getProperty(final String key) {
-        return propertySet.getProperty(key);
-    }
+// -------------------------- OTHER METHODS --------------------------
 
     public ElementWrapper dispatch(final ElementWrapper el, String elementName, final Object javadocObject) throws JavadocItemHandlerException {
         return dispatch(el, elementName, javadocObject, false);
@@ -64,5 +64,9 @@ public class Dispatcher {
             return child;
         }
         return null;
+    }
+
+    public String getProperty(final String key) {
+        return propertySet.getProperty(key);
     }
 }

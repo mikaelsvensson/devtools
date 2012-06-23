@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 class RootDocHandler extends DocHandler<RootDoc> {
-// ------------------------------ FIELDS ------------------------------
-
 // --------------------------- CONSTRUCTORS ---------------------------
 
     RootDocHandler(final Dispatcher dispatcher) {
@@ -34,5 +32,4 @@ class RootDocHandler extends DocHandler<RootDoc> {
 
         handleDocImpl(el, packages.toArray(new PackageDoc[]{}), "packages", "package");
     }
-
 }
