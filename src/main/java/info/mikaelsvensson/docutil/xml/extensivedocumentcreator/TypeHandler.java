@@ -6,12 +6,12 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class TypeHandler<T extends Type> extends Handler<T> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    TypeHandler() {
-        super((Class<T>) Type.class);
+    TypeHandler(final Dispatcher dispatcher) {
+        super((Class<T>) Type.class, dispatcher);
     }
 
-    public TypeHandler(final Class<T> docClass) {
-        super(docClass);
+    public TypeHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+        super(docClass, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

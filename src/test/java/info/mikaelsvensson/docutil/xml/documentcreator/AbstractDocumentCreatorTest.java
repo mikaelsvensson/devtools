@@ -44,6 +44,8 @@ public abstract class AbstractDocumentCreatorTest {
                         actualFile.getAbsolutePath(),
                         "-action.1.format.property.showFields",
                         "false",
+                        "-action.1.format.property.msg",
+                        "rainy days",
                         testClassFileName
                 });
 

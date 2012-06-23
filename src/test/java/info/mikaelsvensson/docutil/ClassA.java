@@ -3,6 +3,9 @@ package info.mikaelsvensson.docutil;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class comment
+ */
 public class ClassA {
 
     public static final String A_CONSTANT = "value";

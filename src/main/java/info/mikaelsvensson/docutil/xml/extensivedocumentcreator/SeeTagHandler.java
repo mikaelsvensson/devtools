@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class SeeTagHandler extends TagHandler<SeeTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    SeeTagHandler() {
-        super(SeeTag.class);
+    SeeTagHandler(final Dispatcher dispatcher) {
+        super(SeeTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

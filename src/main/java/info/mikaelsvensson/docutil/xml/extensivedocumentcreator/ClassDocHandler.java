@@ -6,12 +6,12 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ClassDocHandler() {
-        super((Class<T>) ClassDoc.class);
+    ClassDocHandler(final Dispatcher dispatcher) {
+        super((Class<T>) ClassDoc.class, dispatcher);
     }
 
-    protected ClassDocHandler(final Class<T> cls) {
-        super(cls);
+    protected ClassDocHandler(final Class<T> cls, final Dispatcher dispatcher) {
+        super(cls, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

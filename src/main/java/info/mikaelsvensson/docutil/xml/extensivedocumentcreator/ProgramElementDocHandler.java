@@ -15,16 +15,16 @@ class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ProgramElementDocHandler() {
-        super((Class<T>) ProgramElementDoc.class);
+    ProgramElementDocHandler(final Dispatcher dispatcher) {
+        super((Class<T>) ProgramElementDoc.class, dispatcher);
     }
 
-    public ProgramElementDocHandler(final Class<T> cls) {
-        super(cls);
+    public ProgramElementDocHandler(final Class<T> cls, final Dispatcher dispatcher) {
+        super(cls, dispatcher);
     }
 
-    public ProgramElementDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
-        super(docClass, tagFilter);
+    public ProgramElementDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
+        super(docClass, tagFilter, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

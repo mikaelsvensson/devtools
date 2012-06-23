@@ -12,12 +12,12 @@ class MethodDocHandler<T extends MethodDoc> extends ExecutableMemberDocHandler<T
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    MethodDocHandler() {
-        this((Class<T>) MethodDoc.class);
+    MethodDocHandler(final Dispatcher dispatcher) {
+        this((Class<T>) MethodDoc.class, dispatcher);
     }
 
-    public MethodDocHandler(final Class<T> docClass) {
-        super(docClass, IGNORE_RETURN_AND_PARAM_AND_THROWS_TAGS);
+    public MethodDocHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+        super(docClass, IGNORE_RETURN_AND_PARAM_AND_THROWS_TAGS, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

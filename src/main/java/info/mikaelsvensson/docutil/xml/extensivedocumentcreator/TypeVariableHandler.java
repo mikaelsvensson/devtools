@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class TypeVariableHandler extends TypeHandler<TypeVariable> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    TypeVariableHandler() {
-        super(TypeVariable.class);
+    TypeVariableHandler(final Dispatcher dispatcher) {
+        super(TypeVariable.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

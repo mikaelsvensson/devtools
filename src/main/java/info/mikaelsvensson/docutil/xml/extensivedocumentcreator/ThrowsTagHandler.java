@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ThrowsTagHandler extends TagHandler<ThrowsTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ThrowsTagHandler() {
-        super(ThrowsTag.class);
+    ThrowsTagHandler(final Dispatcher dispatcher) {
+        super(ThrowsTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

@@ -7,16 +7,16 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class MemberDocHandler<T extends MemberDoc> extends ProgramElementDocHandler<T> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    MemberDocHandler() {
-        super((Class<T>) MemberDoc.class);
+    MemberDocHandler(final Dispatcher dispatcher) {
+        super((Class<T>) MemberDoc.class, dispatcher);
     }
 
-    public MemberDocHandler(final Class<T> docClass) {
-        super(docClass);
+    public MemberDocHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+        super(docClass, dispatcher);
     }
 
-    public MemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
-        super(docClass, tagFilter);
+    public MemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
+        super(docClass, tagFilter, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

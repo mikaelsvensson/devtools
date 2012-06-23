@@ -5,32 +5,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 abstract class Handler<T> {
 // ------------------------------ FIELDS ------------------------------
 
-    private final static Handler[] HANDLERS = {
-            /**/ new AnnotationTypeElementDocHandler(),
-            /*  */ new MethodDocHandler(),
-            /*  */ new ConstructorDocHandler(),
-            /*    */ new ExecutableMemberDocHandler(),
-            /*    */ new FieldDocHandler(),
-            /*      */ new MemberDocHandler(),
-            /*      */ new ClassDocHandler(),
-            /*        */ new ProgramElementDocHandler(),
-            /*        */ new PackageDocHandler(),
-            /*          */ new DocHandler(),
+    private Dispatcher dispatcher;
 
-            /**/ new ParameterHandler(),
-
-            /**/ new ParamTagHandler(),
-            /**/ new SeeTagHandler(),
-            /**/ new ThrowsTagHandler(),
-            /**/ new SerialFieldTagHandler(),
-            /*  */ new TagHandler(),
-
-            /**/ new AnnotationTypeDocHandler(),
-            /**/ new ParameterizedTypeHandler(),
-            /**/ new TypeVariableHandler(),
-            /**/ new WildcardTypeHandler(),
-            /*  */ new TypeHandler()
-    };
     protected static final ObjectHandlerFilter ACCEPT_ALL_FILTER = new ObjectHandlerFilter() {
         @Override
         public boolean accept(final Object object) {
@@ -40,17 +16,6 @@ abstract class Handler<T> {
     private Class<T> handledClass;
 
 // -------------------------- STATIC METHODS --------------------------
-
-    public static void processRootObject(final ElementWrapper el, String elementName, final Object javadocObject) throws JavadocItemHandlerException {
-        if (javadocObject != null) {
-            ElementWrapper child = el.addChild(elementName);
-            for (Handler handler : HANDLERS) {
-                if (handler.handle(child, javadocObject)) {
-                    break;
-                }
-            }
-        }
-    }
 
     boolean handle(final ElementWrapper el, final Object javadocObject) throws JavadocItemHandlerException {
         if (handledClass.isAssignableFrom(javadocObject.getClass())) {
@@ -66,8 +31,9 @@ abstract class Handler<T> {
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    Handler(final Class<T> handledClass) {
+    Handler(final Class<T> handledClass, final Dispatcher dispatcher) {
         this.handledClass = handledClass;
+        this.dispatcher = dispatcher;
     }
 
 // -------------------------- OTHER METHODS --------------------------
@@ -83,57 +49,34 @@ abstract class Handler<T> {
         handleDocImpl(el, javadocObjects, ACCEPT_ALL_FILTER, listElName, elName);
     }
 
+    protected void handleDocImpl(final ElementWrapper el, final Object[] javadocObjects, final String listElName, final String elName, final boolean includeClassHandler) throws JavadocItemHandlerException {
+        handleDocImpl(el, javadocObjects, ACCEPT_ALL_FILTER, listElName, elName, includeClassHandler);
+    }
+
     protected <X> void handleDocImpl(final ElementWrapper el, final X[] javadocObjects, final ObjectHandlerFilter<X> filter, final String listElName, final String elName) throws JavadocItemHandlerException {
+        handleDocImpl(el, javadocObjects, filter, listElName, elName, false);
+    }
+
+    protected <X> void handleDocImpl(final ElementWrapper el, final X[] javadocObjects, final ObjectHandlerFilter<X> filter, final String listElName, final String elName, final boolean includeClassHandler) throws JavadocItemHandlerException {
         if (null != javadocObjects && javadocObjects.length > 0) {
             ElementWrapper listEl = el.addChild(listElName);
             for (X javadocObject : javadocObjects) {
                 if (filter.accept(javadocObject)) {
-                    handleDocImpl(listEl, elName, javadocObject);
+                    handleDocImpl(listEl, elName, javadocObject, includeClassHandler);
                 }
             }
         }
     }
+
     protected <X> ElementWrapper handleDocImpl(final ElementWrapper el, final String elName, final X javadocObject) throws JavadocItemHandlerException {
-        return Handler.process(el, elName, javadocObject);
+        return dispatcher.dispatch(el, elName, javadocObject);
     }
 
-    /*
-
-            public static void process(final ElementWrapper el, final AnnotationDesc annotationDesc) {
-    //            throw new NotImplementedException();
-            }
-
-            public static void process(final ElementWrapper el, final AnnotationDesc.ElementValuePair elementValuePair) {
-    //            throw new NotImplementedException();
-            }
-
-            public static void process(final ElementWrapper el, final AnnotationValue annotationValue) {
-    //            throw new NotImplementedException();
-            }
-
-            public static void process(final ElementWrapper el, final Parameter parameter) {
-    //            throw new NotImplementedException();
-            }
-
-            public static void process(final ElementWrapper el, final Tag tag) {
-    //            throw new NotImplementedException();
-            }
-
-    */
-    public static ElementWrapper process(final ElementWrapper el, String elementName, final Object javadocObject) throws JavadocItemHandlerException {
-        if (javadocObject != null) {
-            ElementWrapper child = el.addChild(elementName);
-
-            for (Handler handler : HANDLERS) {
-                if (!(handler instanceof ClassDocHandler)) {
-                    if (handler.handle(child, javadocObject)) {
-                        break;
-                    }
-                }
-            }
-
-            return child;
-        }
-        return null;
+    protected <X> ElementWrapper handleDocImpl(final ElementWrapper el, final String elName, final X javadocObject, final boolean includeClassHandler) throws JavadocItemHandlerException {
+        return dispatcher.dispatch(el, elName, javadocObject, includeClassHandler);
     }
+    protected String getProperty(final String property) {
+        return dispatcher.getProperty(property);
+    }
+
 }

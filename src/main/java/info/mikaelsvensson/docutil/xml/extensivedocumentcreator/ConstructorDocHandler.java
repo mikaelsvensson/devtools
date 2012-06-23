@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ConstructorDocHandler extends ExecutableMemberDocHandler<ConstructorDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ConstructorDocHandler() {
-        super(ConstructorDoc.class);
+    ConstructorDocHandler(final Dispatcher dispatcher) {
+        super(ConstructorDoc.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

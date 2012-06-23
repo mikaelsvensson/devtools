@@ -13,16 +13,16 @@ public class DocHandler<T extends Doc> extends Handler<T> {
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    public DocHandler() {
-        super((Class<T>) Doc.class);
+    public DocHandler(final Dispatcher dispatcher) {
+        super((Class<T>) Doc.class, dispatcher);
     }
 
-    DocHandler(final Class<T> handledClass) {
-        super(handledClass);
+    DocHandler(final Class<T> handledClass, final Dispatcher dispatcher) {
+        super(handledClass, dispatcher);
     }
 
-    public DocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
-        super(docClass);
+    public DocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
+        super(docClass, dispatcher);
         this.tagsFilter = tagFilter;
     }
 

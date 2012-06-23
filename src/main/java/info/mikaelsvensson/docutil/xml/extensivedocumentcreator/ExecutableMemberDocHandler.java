@@ -11,16 +11,16 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ExecutableMemberDocHandler() {
-        this((Class<T>) ExecutableMemberDoc.class);
+    ExecutableMemberDocHandler(final Dispatcher dispatcher) {
+        this((Class<T>) ExecutableMemberDoc.class, dispatcher);
     }
 
-    public ExecutableMemberDocHandler(final Class<T> docClass) {
-        this(docClass, IGNORE_PARAM_AND_THROWS_TAGS);
+    public ExecutableMemberDocHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+        this(docClass, IGNORE_PARAM_AND_THROWS_TAGS, dispatcher);
     }
 
-    public ExecutableMemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
-        super(docClass, tagFilter);
+    public ExecutableMemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
+        super(docClass, tagFilter, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

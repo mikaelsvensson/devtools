@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ParameterHandler extends Handler<Parameter> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ParameterHandler() {
-        super(Parameter.class);
+    ParameterHandler(final Dispatcher dispatcher) {
+        super(Parameter.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

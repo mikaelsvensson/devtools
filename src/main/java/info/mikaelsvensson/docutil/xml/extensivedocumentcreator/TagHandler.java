@@ -6,12 +6,12 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class TagHandler<T extends Tag> extends Handler<T> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    TagHandler() {
-        super((Class<T>) Tag.class);
+    TagHandler(final Dispatcher dispatcher) {
+        super((Class<T>) Tag.class, dispatcher);
     }
 
-    public TagHandler(final Class<T> docClass) {
-        super(docClass);
+    public TagHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+        super(docClass, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

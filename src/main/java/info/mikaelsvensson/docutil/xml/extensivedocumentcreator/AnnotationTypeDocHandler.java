@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class AnnotationTypeDocHandler extends ClassDocHandler<AnnotationTypeDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    AnnotationTypeDocHandler() {
-        super(AnnotationTypeDoc.class);
+    AnnotationTypeDocHandler(final Dispatcher dispatcher) {
+        super(AnnotationTypeDoc.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

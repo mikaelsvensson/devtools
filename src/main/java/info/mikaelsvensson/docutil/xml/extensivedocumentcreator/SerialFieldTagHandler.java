@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class SerialFieldTagHandler extends TagHandler<SerialFieldTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    SerialFieldTagHandler() {
-        super(SerialFieldTag.class);
+    SerialFieldTagHandler(final Dispatcher dispatcher) {
+        super(SerialFieldTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

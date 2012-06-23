@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ParameterizedTypeHandler extends TypeHandler<ParameterizedType> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ParameterizedTypeHandler() {
-        super(ParameterizedType.class);
+    ParameterizedTypeHandler(final Dispatcher dispatcher) {
+        super(ParameterizedType.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

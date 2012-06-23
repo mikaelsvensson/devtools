@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class FieldDocHandler extends MemberDocHandler<FieldDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    FieldDocHandler() {
-        super(FieldDoc.class);
+    FieldDocHandler(final Dispatcher dispatcher) {
+        super(FieldDoc.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

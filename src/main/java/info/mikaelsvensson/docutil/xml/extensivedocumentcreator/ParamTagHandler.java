@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ParamTagHandler extends TagHandler<ParamTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ParamTagHandler() {
-        super(ParamTag.class);
+    ParamTagHandler(final Dispatcher dispatcher) {
+        super(ParamTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------

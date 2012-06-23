@@ -6,8 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class WildcardTypeHandler extends TypeHandler<WildcardType> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    WildcardTypeHandler() {
-        super(WildcardType.class);
+    WildcardTypeHandler(final Dispatcher dispatcher) {
+        super(WildcardType.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
