@@ -20,6 +20,6 @@ class ThrowsTagHandler extends TagHandler<ThrowsTag> {
 
         el.setAttributes("exception-comment", doc.exceptionComment());
 
-        Handler.process(el, "exception-type", doc.exceptionType());
+        handleDocImpl(el, "exception-type", doc.exceptionType());
     }
 }

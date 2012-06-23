@@ -25,7 +25,7 @@ class FieldDocHandler extends MemberDocHandler<FieldDoc> {
             el.setAttribute("constant-value", doc.constantValue().toString());
         }
 
-        Handler.process(el, "type", doc.type());
+        handleDocImpl(el, "type", doc.type());
 
         handleDocImpl(el, doc.serialFieldTags(), "serial-field-tags", "serial-field-tag");
     }

@@ -18,6 +18,6 @@ class ParameterHandler extends Handler<Parameter> {
 
         el.setAttributes("name", doc.name());
 
-        Handler.process(el, "type", doc.type());
+        handleDocImpl(el, "type", doc.type());
     }
 }

@@ -74,7 +74,7 @@ abstract class Handler<T> {
 
     protected ElementWrapper handleDocImpl(final ElementWrapper el, final Object javadocObject, final String elName) throws JavadocItemHandlerException {
         if (null != javadocObject) {
-            return Handler.process(el, elName, javadocObject);
+            return handleDocImpl(el, elName, javadocObject);
         }
         return null;
     }
@@ -88,10 +88,13 @@ abstract class Handler<T> {
             ElementWrapper listEl = el.addChild(listElName);
             for (X javadocObject : javadocObjects) {
                 if (filter.accept(javadocObject)) {
-                    Handler.process(listEl, elName, javadocObject);
+                    handleDocImpl(listEl, elName, javadocObject);
                 }
             }
         }
+    }
+    protected <X> ElementWrapper handleDocImpl(final ElementWrapper el, final String elName, final X javadocObject) throws JavadocItemHandlerException {
+        return Handler.process(el, elName, javadocObject);
     }
 
     /*

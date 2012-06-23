@@ -30,7 +30,7 @@ class MethodDocHandler<T extends MethodDoc> extends ExecutableMemberDocHandler<T
 
         handleReturn(el, doc.returnType(), doc.tags("@return"));
 
-        Handler.process(el, "overrides", doc.overriddenType());
+        handleDocImpl(el, "overrides", doc.overriddenType());
     }
 
     private void handleReturn(final ElementWrapper el, final Type returnType, final Tag[] paramTags) throws JavadocItemHandlerException {

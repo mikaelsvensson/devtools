@@ -25,7 +25,7 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
                 "externalizable", Boolean.toString(doc.isExternalizable()),
                 "serializable", Boolean.toString(doc.isSerializable()));
 
-        Handler.process(el, "superclass", doc.superclassType());
+        handleDocImpl(el, "superclass", doc.superclassType());
 
         handleDocImpl(el, doc.constructors(), "constructors", "constructor");
 

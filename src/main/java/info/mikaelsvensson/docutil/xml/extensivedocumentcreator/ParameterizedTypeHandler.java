@@ -16,7 +16,7 @@ class ParameterizedTypeHandler extends TypeHandler<ParameterizedType> {
     void handleImpl(final ElementWrapper el, final ParameterizedType doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        Handler.process(el, "superclass-type", doc.superclassType());
+        handleDocImpl(el, "superclass-type", doc.superclassType());
 
         handleDocImpl(el, doc.typeArguments(), "type-arguments", "type-argument");
 
