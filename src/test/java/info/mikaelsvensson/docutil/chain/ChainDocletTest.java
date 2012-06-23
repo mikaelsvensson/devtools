@@ -30,14 +30,14 @@ public class ChainDocletTest {
                 {"-doclet", TestDocletAlice.class.getName()},
                 {"-option-for-alice"},
                 {"-shared"}};
-        assertArrayEquals("Option to Alice", TestDocletAlice.getOptions(), expectedAliceOptions);
+        assertArrayEquals("Options to Alice", expectedAliceOptions, TestDocletAlice.getOptions());
 
         String[][] expectedBobOptions = {
                 {"-doclet", TestDocletBob.class.getName()},
                 {"-option1-for-bob", "value1-for-bob"},
                 {"-option2-for-bob", "value2-for-bob"},
                 {"-shared"}};
-        assertArrayEquals(TestDocletBob.getOptions(), expectedBobOptions);
+        assertArrayEquals("Options to Bob", expectedBobOptions, TestDocletBob.getOptions());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ChainDocletTest {
 
     private void performTest(Class testClass, String... options) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
 
-        String testClassFileName = new File(".\\src\\test\\java\\" + testClass.getName().replace('.', File.separatorChar) + ".java").getAbsolutePath();
+        String testClassFileName = new File(".\\src\\test\\resources\\" + testClass.getName().replace('.', File.separatorChar) + ".java").getAbsolutePath();
 
         String[] args = new String[2 + options.length + 1];
         args[0] = "-doclet";

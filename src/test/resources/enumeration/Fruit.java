@@ -15,7 +15,7 @@ public enum Fruit {
 
     private Color color;
 
-    public Color getColor() {
+    public Color color() {
         return color;
     }
 }
