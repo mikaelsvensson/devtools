@@ -3,7 +3,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.PackageDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class PackageDocHandler extends Handler<PackageDoc> {
+class PackageDocHandler extends DocHandler<PackageDoc> {
 
     PackageDocHandler() {
         super(PackageDoc.class);

@@ -14,7 +14,7 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final ExecutableMemberDoc doc) {
+    void handleImpl(final ElementWrapper el, final T doc) {
         super.handleImpl(el, doc);
 
         el.setAttributes(

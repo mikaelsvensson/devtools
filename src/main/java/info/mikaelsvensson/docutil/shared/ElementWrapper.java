@@ -1,5 +1,7 @@
 package info.mikaelsvensson.docutil.shared;
 
+import com.sun.javadoc.RootDoc;
+import com.sun.javadoc.Tag;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -10,8 +12,16 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.regex.Pattern;
 
 public class ElementWrapper {
+    private TagHandler[] tagHandlers = new TagHandler[]{
+            new CodeTagHandler(),
+            new ImageTagHandler(),
+            new LinkTagHandler(),
+            new SourceFileTagHandler()};
+    public static final Pattern COMMENT_PARAGRAPH = Pattern.compile("<(p|br)\\s*/\\s*>");
+
     protected Element el;
     private static DocumentBuilder docBuilder;
 
@@ -46,6 +56,47 @@ public class ElementWrapper {
         Element element = (Element) el.getOwnerDocument().importNode(tempDoc.getDocumentElement(), true);
         el.appendChild(element);
         return new ElementWrapper(element);
+    }
+
+    public ElementWrapper addCommentChild(Tag[] inlineTags, RootDoc root) {
+        StringBuilder sb = new StringBuilder();
+
+        tag:
+        for (Tag tag : inlineTags) {
+            for (TagHandler handler : tagHandlers) {
+                if (handler.handles(tag)) {
+                    try {
+                        sb.append(handler.toString(tag));
+                    } catch (TagHandlerException e) {
+                        root.printWarning("Could not print tag '" + tag.name() + "'. " + e.getMessage());
+                    }
+                    continue tag;
+                }
+            }
+            sb.append(tag.text());
+        }
+        return addCommentChild(sb.toString());
+    }
+
+    public ElementWrapper addCommentChild(String comment) {
+        String c = comment != null && comment.length() > 0 ? comment.replace("\n", "") : "";
+        if (c.length() > 0) {
+            try {
+                StringBuilder sb = new StringBuilder();
+                sb.append("<comment>");
+                // TODO: MISV 20120621 It would be nice if this method could also fix the cause of the '"p" must be terminated by the matching end-tag' issue. The problem stems from invalid HTML code genereated by wsimport/wsgen (?). Solve by counting the number of '</p' between one '<p' and the next (count=0 => prepend '</p>' before the next '<p')?
+                for (String paragraph : COMMENT_PARAGRAPH.split(c)) {
+                    sb.append("<p>").append(paragraph).append("</p>");
+                }
+                sb.append("</comment>");
+                addChildFromSource(sb.toString());
+            } catch (IOException e) {
+                addChildWithText("comment", comment);
+            } catch (SAXException e) {
+                addChildWithText("comment", comment);
+            }
+        }
+        return this;
     }
 
     public ElementWrapper setText(final String text) {

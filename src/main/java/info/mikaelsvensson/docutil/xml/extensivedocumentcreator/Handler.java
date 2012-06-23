@@ -31,6 +31,7 @@ abstract class Handler<T> {
             /*      */ new ClassDocHandler(),
             /*        */ new ProgramElementDocHandler(),
             /*        */ new PackageDocHandler(),
+            /*          */ new DocHandler(),
 
             /**/ new ParameterHandler(),
 
