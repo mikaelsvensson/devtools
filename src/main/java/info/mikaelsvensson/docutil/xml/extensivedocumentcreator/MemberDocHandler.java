@@ -5,6 +5,7 @@ import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class MemberDocHandler<T extends MemberDoc> extends ProgramElementDocHandler<T> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     MemberDocHandler() {
         super((Class<T>) MemberDoc.class);
@@ -17,6 +18,8 @@ class MemberDocHandler<T extends MemberDoc> extends ProgramElementDocHandler<T> 
     public MemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
         super(docClass, tagFilter);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {

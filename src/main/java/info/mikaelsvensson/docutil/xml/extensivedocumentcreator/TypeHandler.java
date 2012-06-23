@@ -4,6 +4,7 @@ import com.sun.javadoc.Type;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class TypeHandler<T extends Type> extends Handler<T> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     TypeHandler() {
         super((Class<T>) Type.class);
@@ -12,6 +13,8 @@ class TypeHandler<T extends Type> extends Handler<T> {
     public TypeHandler(final Class<T> docClass) {
         super(docClass);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {

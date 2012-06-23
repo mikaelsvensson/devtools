@@ -4,10 +4,13 @@ import com.sun.javadoc.TypeVariable;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class TypeVariableHandler extends TypeHandler<TypeVariable> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     TypeVariableHandler() {
         super(TypeVariable.class);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final TypeVariable doc) throws JavadocItemHandlerException {

@@ -1,6 +1,8 @@
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 public class JavadocItemHandlerException extends Exception {
+// --------------------------- CONSTRUCTORS ---------------------------
+
     public JavadocItemHandlerException() {
     }
 

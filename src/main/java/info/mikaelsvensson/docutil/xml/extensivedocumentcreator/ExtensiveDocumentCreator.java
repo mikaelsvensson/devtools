@@ -12,8 +12,14 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
+// ------------------------------ FIELDS ------------------------------
 
     public static final String NAME = "extensive";
+
+// ------------------------ INTERFACE METHODS ------------------------
+
+
+// --------------------- Interface DocumentCreator ---------------------
 
     @Override
     public Document generateDocument(final RootDoc doc, final PropertySet properties) throws DocumentCreatorException {
@@ -34,5 +40,4 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
 
         return dw.getDocument();
     }
-
 }

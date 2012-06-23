@@ -5,12 +5,15 @@ import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T> {
+// ------------------------------ FIELDS ------------------------------
 
     protected static final String QUALIFIED_NAME = "qualified-name";
 //    protected static final String NAME = "name";
     protected static final String FINAL = "final";
     protected static final String ACCESS = "access";
     protected static final String STATIC = "static";
+
+// --------------------------- CONSTRUCTORS ---------------------------
 
     ProgramElementDocHandler() {
         super((Class<T>) ProgramElementDoc.class);
@@ -23,6 +26,8 @@ class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T
     public ProgramElementDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
         super(docClass, tagFilter);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {

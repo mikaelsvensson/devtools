@@ -4,10 +4,13 @@ import com.sun.javadoc.ParamTag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ParamTagHandler extends TagHandler<ParamTag> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     ParamTagHandler() {
         super(ParamTag.class);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final ParamTag doc) throws JavadocItemHandlerException {

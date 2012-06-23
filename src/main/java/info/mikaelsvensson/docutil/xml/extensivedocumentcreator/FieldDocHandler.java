@@ -4,10 +4,13 @@ import com.sun.javadoc.FieldDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class FieldDocHandler extends MemberDocHandler<FieldDoc> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     FieldDocHandler() {
         super(FieldDoc.class);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final FieldDoc doc) throws JavadocItemHandlerException {

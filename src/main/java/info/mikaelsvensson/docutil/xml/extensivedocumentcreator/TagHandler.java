@@ -4,6 +4,7 @@ import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class TagHandler<T extends Tag> extends Handler<T> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     TagHandler() {
         super((Class<T>) Tag.class);
@@ -12,6 +13,8 @@ class TagHandler<T extends Tag> extends Handler<T> {
     public TagHandler(final Class<T> docClass) {
         super(docClass);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {

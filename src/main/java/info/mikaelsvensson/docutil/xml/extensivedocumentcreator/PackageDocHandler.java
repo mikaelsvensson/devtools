@@ -4,14 +4,16 @@ import com.sun.javadoc.PackageDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class PackageDocHandler extends DocHandler<PackageDoc> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     PackageDocHandler() {
         super(PackageDoc.class);
     }
 
+// -------------------------- OTHER METHODS --------------------------
+
     @Override
     void handleImpl(final ElementWrapper el, final PackageDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
     }
-
 }

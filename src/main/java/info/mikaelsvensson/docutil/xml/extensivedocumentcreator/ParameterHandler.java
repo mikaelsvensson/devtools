@@ -4,10 +4,13 @@ import com.sun.javadoc.Parameter;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ParameterHandler extends Handler<Parameter> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     ParameterHandler() {
         super(Parameter.class);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final Parameter doc) throws JavadocItemHandlerException {

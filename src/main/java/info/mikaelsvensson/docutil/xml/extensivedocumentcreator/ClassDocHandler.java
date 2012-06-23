@@ -4,6 +4,7 @@ import com.sun.javadoc.ClassDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     ClassDocHandler() {
         super((Class<T>) ClassDoc.class);
@@ -12,6 +13,8 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
     protected ClassDocHandler(final Class<T> cls) {
         super(cls);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {

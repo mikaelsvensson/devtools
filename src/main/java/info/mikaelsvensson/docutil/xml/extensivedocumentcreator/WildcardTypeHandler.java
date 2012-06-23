@@ -4,10 +4,13 @@ import com.sun.javadoc.WildcardType;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class WildcardTypeHandler extends TypeHandler<WildcardType> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
     WildcardTypeHandler() {
         super(WildcardType.class);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
     void handleImpl(final ElementWrapper el, final WildcardType doc) throws JavadocItemHandlerException {

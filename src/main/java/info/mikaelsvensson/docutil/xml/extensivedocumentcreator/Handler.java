@@ -3,29 +3,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 abstract class Handler<T> {
-    protected static final ObjectHandlerFilter ACCEPT_ALL_FILTER = new ObjectHandlerFilter() {
-        @Override
-        public boolean accept(final Object object) {
-            return true;
-        }
-    };
-    private Class<T> handledClass;
-
-    Handler(final Class<T> handledClass) {
-        this.handledClass = handledClass;
-    }
-
-    boolean handle(final ElementWrapper el, final Object javadocObject) throws JavadocItemHandlerException {
-        if (handledClass.isAssignableFrom(javadocObject.getClass())) {
-            handleImpl(el, (T) javadocObject);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    void handleImpl(final ElementWrapper el, T doc) throws JavadocItemHandlerException {
-    }
+// ------------------------------ FIELDS ------------------------------
 
     private final static Handler[] HANDLERS = {
             /**/ new AnnotationTypeElementDocHandler(),
@@ -53,6 +31,15 @@ abstract class Handler<T> {
             /**/ new WildcardTypeHandler(),
             /*  */ new TypeHandler()
     };
+    protected static final ObjectHandlerFilter ACCEPT_ALL_FILTER = new ObjectHandlerFilter() {
+        @Override
+        public boolean accept(final Object object) {
+            return true;
+        }
+    };
+    private Class<T> handledClass;
+
+// -------------------------- STATIC METHODS --------------------------
 
     public static void processRootObject(final ElementWrapper el, String elementName, final Object javadocObject) throws JavadocItemHandlerException {
         if (javadocObject != null) {
@@ -60,6 +47,48 @@ abstract class Handler<T> {
             for (Handler handler : HANDLERS) {
                 if (handler.handle(child, javadocObject)) {
                     break;
+                }
+            }
+        }
+    }
+
+    boolean handle(final ElementWrapper el, final Object javadocObject) throws JavadocItemHandlerException {
+        if (handledClass.isAssignableFrom(javadocObject.getClass())) {
+            handleImpl(el, (T) javadocObject);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    void handleImpl(final ElementWrapper el, T doc) throws JavadocItemHandlerException {
+    }
+
+// --------------------------- CONSTRUCTORS ---------------------------
+
+    Handler(final Class<T> handledClass) {
+        this.handledClass = handledClass;
+    }
+
+// -------------------------- OTHER METHODS --------------------------
+
+    protected ElementWrapper handleDocImpl(final ElementWrapper el, final Object javadocObject, final String elName) throws JavadocItemHandlerException {
+        if (null != javadocObject) {
+            return Handler.process(el, elName, javadocObject);
+        }
+        return null;
+    }
+
+    protected void handleDocImpl(final ElementWrapper el, final Object[] javadocObjects, final String listElName, final String elName) throws JavadocItemHandlerException {
+        handleDocImpl(el, javadocObjects, ACCEPT_ALL_FILTER, listElName, elName);
+    }
+
+    protected <X> void handleDocImpl(final ElementWrapper el, final X[] javadocObjects, final ObjectHandlerFilter<X> filter, final String listElName, final String elName) throws JavadocItemHandlerException {
+        if (null != javadocObjects && javadocObjects.length > 0) {
+            ElementWrapper listEl = el.addChild(listElName);
+            for (X javadocObject : javadocObjects) {
+                if (filter.accept(javadocObject)) {
+                    Handler.process(listEl, elName, javadocObject);
                 }
             }
         }
@@ -104,27 +133,4 @@ abstract class Handler<T> {
         }
         return null;
     }
-
-    protected void handleDocImpl(final ElementWrapper el, final Object[] javadocObjects, final String listElName, final String elName) throws JavadocItemHandlerException {
-        handleDocImpl(el, javadocObjects, ACCEPT_ALL_FILTER, listElName, elName);
-    }
-
-    protected <X> void handleDocImpl(final ElementWrapper el, final X[] javadocObjects, final ObjectHandlerFilter<X> filter, final String listElName, final String elName) throws JavadocItemHandlerException {
-        if (null != javadocObjects && javadocObjects.length > 0) {
-            ElementWrapper listEl = el.addChild(listElName);
-            for (X javadocObject : javadocObjects) {
-                if (filter.accept(javadocObject)) {
-                    Handler.process(listEl, elName, javadocObject);
-                }
-            }
-        }
-    }
-
-    protected ElementWrapper handleDocImpl(final ElementWrapper el, final Object javadocObject, final String elName) throws JavadocItemHandlerException {
-        if (null != javadocObject) {
-            return Handler.process(el, elName, javadocObject);
-        }
-        return null;
-    }
-
 }
