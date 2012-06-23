@@ -10,7 +10,7 @@ class ThrowsTagHandler extends TagHandler<ThrowsTag> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final ThrowsTag doc) {
+    void handleImpl(final ElementWrapper el, final ThrowsTag doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         el.remoteAttributes("name", "text");

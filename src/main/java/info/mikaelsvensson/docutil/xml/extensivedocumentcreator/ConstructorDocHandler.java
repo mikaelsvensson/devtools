@@ -10,7 +10,7 @@ class ConstructorDocHandler extends ExecutableMemberDocHandler<ConstructorDoc> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final ConstructorDoc doc) {
+    void handleImpl(final ElementWrapper el, final ConstructorDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
     }
 }

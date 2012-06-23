@@ -10,7 +10,7 @@ class ParameterHandler extends Handler<Parameter> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final Parameter doc) {
+    void handleImpl(final ElementWrapper el, final Parameter doc) throws JavadocItemHandlerException {
         el.setAttributes("name", doc.name());
 
         Handler.process(el, "type", doc.type());

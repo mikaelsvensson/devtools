@@ -10,7 +10,7 @@ class ParamTagHandler extends TagHandler<ParamTag> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final ParamTag doc) {
+    void handleImpl(final ElementWrapper el, final ParamTag doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         el.remoteAttributes("name", "text");

@@ -14,7 +14,7 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final T doc) {
+    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         el.setAttributes(
@@ -41,7 +41,7 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
 //        handleDocImpl(el, doc.typeParamTags(), "type-parameter-tags", "type-parameter-tag");
     }
 
-    private void handleParameters(final ElementWrapper el, final Parameter[] parameters, final ParamTag[] paramTags) {
+    private void handleParameters(final ElementWrapper el, final Parameter[] parameters, final ParamTag[] paramTags) throws JavadocItemHandlerException {
         if (parameters.length > 0) {
             ElementWrapper parametersEl = el.addChild("parameters");
             for (Parameter parameter : parameters) {
@@ -55,7 +55,7 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
             }
         }
     }
-    private void handleThrows(final ElementWrapper el, final Type[] parameters, final ThrowsTag[] paramTags) {
+    private void handleThrows(final ElementWrapper el, final Type[] parameters, final ThrowsTag[] paramTags) throws JavadocItemHandlerException {
         if (parameters.length > 0) {
             ElementWrapper parametersEl = el.addChild("throws-list");
             for (Type parameter : parameters) {
@@ -69,7 +69,7 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
             }
         }
     }
-    private void handleTypeParameters(final ElementWrapper el, final Type[] parameters, final ParamTag[] paramTags) {
+    private void handleTypeParameters(final ElementWrapper el, final Type[] parameters, final ParamTag[] paramTags) throws JavadocItemHandlerException {
         if (parameters.length > 0) {
             ElementWrapper parametersEl = el.addChild("throws-list");
             for (Type parameter : parameters) {

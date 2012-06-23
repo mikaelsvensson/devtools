@@ -19,7 +19,5 @@ class TagHandler<T extends Tag> extends Handler<T> {
                 "name", doc.name(),
                 "kind", doc.kind(),
                 "text", doc.text());
-
-//            handleDocImpl(el, doc.inlineTags(), "inline-tags", "inline-tag");
     }
 }

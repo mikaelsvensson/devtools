@@ -10,7 +10,7 @@ class WildcardTypeHandler extends TypeHandler<WildcardType> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final WildcardType doc) {
+    void handleImpl(final ElementWrapper el, final WildcardType doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         handleDocImpl(el, doc.extendsBounds(), "extends-bounds", "extends-bound");

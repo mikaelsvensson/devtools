@@ -10,7 +10,7 @@ class AnnotationTypeDocHandler extends ClassDocHandler<AnnotationTypeDoc> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final AnnotationTypeDoc doc) {
+    void handleImpl(final ElementWrapper el, final AnnotationTypeDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         handleDocImpl(el, doc.elements(), "elements", "element");

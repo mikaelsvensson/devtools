@@ -10,7 +10,7 @@ class FieldDocHandler extends MemberDocHandler<FieldDoc> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final FieldDoc doc) {
+    void handleImpl(final ElementWrapper el, final FieldDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         el.setAttributes(

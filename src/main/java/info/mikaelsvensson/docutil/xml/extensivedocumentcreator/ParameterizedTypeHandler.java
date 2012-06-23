@@ -10,7 +10,7 @@ class ParameterizedTypeHandler extends TypeHandler<ParameterizedType> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final ParameterizedType doc) {
+    void handleImpl(final ElementWrapper el, final ParameterizedType doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         Handler.process(el, "superclass-type", doc.superclassType());

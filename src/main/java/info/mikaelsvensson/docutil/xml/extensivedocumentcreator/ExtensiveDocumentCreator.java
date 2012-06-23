@@ -5,6 +5,7 @@ import com.sun.javadoc.Doc;
 import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.docutil.shared.DocumentCreatorException;
 import info.mikaelsvensson.docutil.shared.DocumentWrapper;
+import info.mikaelsvensson.docutil.shared.TagHandlerException;
 import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
 import info.mikaelsvensson.docutil.xml.documentcreator.AbstractDocumentCreator;
 import org.w3c.dom.Document;
@@ -25,7 +26,11 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
         }
 
         for (ClassDoc classDoc : doc.classes()) {
-            Handler.processRootObject(dw, "class", (Doc) classDoc);
+            try {
+                Handler.processRootObject(dw, "class", (Doc) classDoc);
+            } catch (TagHandlerException e) {
+                throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags. ", e);
+            }
         }
 
         return dw.getDocument();

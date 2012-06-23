@@ -14,7 +14,7 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final T doc) {
+    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         el.setAttributes(

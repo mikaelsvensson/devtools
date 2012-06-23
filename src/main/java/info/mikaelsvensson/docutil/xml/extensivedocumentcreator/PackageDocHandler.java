@@ -10,7 +10,7 @@ class PackageDocHandler extends DocHandler<PackageDoc> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final PackageDoc doc) {
+    void handleImpl(final ElementWrapper el, final PackageDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
     }
 

@@ -9,7 +9,7 @@ abstract class Handler<T> {
         this.handledClass = handledClass;
     }
 
-    boolean handle(final ElementWrapper el, final Object javadocObject) {
+    boolean handle(final ElementWrapper el, final Object javadocObject) throws JavadocItemHandlerException {
         if (handledClass.isAssignableFrom(javadocObject.getClass())) {
             handleImpl(el, (T) javadocObject);
             return true;
@@ -18,7 +18,7 @@ abstract class Handler<T> {
         }
     }
 
-    void handleImpl(final ElementWrapper el, T doc) {
+    void handleImpl(final ElementWrapper el, T doc) throws JavadocItemHandlerException {
     }
 
     private final static Handler[] HANDLERS = {
@@ -48,7 +48,7 @@ abstract class Handler<T> {
             /*  */ new TypeHandler()
     };
 
-    public static void processRootObject(final ElementWrapper el, String elementName, final Object javadocObject) {
+    public static void processRootObject(final ElementWrapper el, String elementName, final Object javadocObject) throws JavadocItemHandlerException {
         if (javadocObject != null) {
             ElementWrapper child = el.addChild(elementName);
             for (Handler handler : HANDLERS) {
@@ -82,7 +82,7 @@ abstract class Handler<T> {
             }
 
     */
-    public static ElementWrapper process(final ElementWrapper el, String elementName, final Object javadocObject) {
+    public static ElementWrapper process(final ElementWrapper el, String elementName, final Object javadocObject) throws JavadocItemHandlerException {
         if (javadocObject != null) {
             ElementWrapper child = el.addChild(elementName);
 
@@ -99,7 +99,7 @@ abstract class Handler<T> {
         return null;
     }
 
-    protected void handleDocImpl(final ElementWrapper el, final Object[] javadocObjects, final String listElName, final String elName) {
+    protected void handleDocImpl(final ElementWrapper el, final Object[] javadocObjects, final String listElName, final String elName) throws JavadocItemHandlerException {
         if (null != javadocObjects && javadocObjects.length > 0) {
             ElementWrapper listEl = el.addChild(listElName);
             for (Object javadocObject : javadocObjects) {
@@ -108,7 +108,7 @@ abstract class Handler<T> {
         }
     }
 
-    protected ElementWrapper handleDocImpl(final ElementWrapper el, final Object javadocObject, final String elName) {
+    protected ElementWrapper handleDocImpl(final ElementWrapper el, final Object javadocObject, final String elName) throws JavadocItemHandlerException {
         if (null != javadocObject) {
             return Handler.process(el, elName, javadocObject);
         }

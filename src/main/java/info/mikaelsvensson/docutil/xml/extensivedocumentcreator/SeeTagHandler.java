@@ -10,7 +10,7 @@ class SeeTagHandler extends TagHandler<SeeTag> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final SeeTag doc) {
+    void handleImpl(final ElementWrapper el, final SeeTag doc) throws JavadocItemHandlerException{
         super.handleImpl(el, doc);
 
         el.setAttributes(

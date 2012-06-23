@@ -10,7 +10,7 @@ class TypeVariableHandler extends TypeHandler<TypeVariable> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final TypeVariable doc) {
+    void handleImpl(final ElementWrapper el, final TypeVariable doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         handleDocImpl(el, doc.bounds(), "bounds", "bound");

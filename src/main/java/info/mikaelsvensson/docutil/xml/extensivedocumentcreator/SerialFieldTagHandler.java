@@ -10,7 +10,7 @@ class SerialFieldTagHandler extends TagHandler<SerialFieldTag> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final SerialFieldTag doc) {
+    void handleImpl(final ElementWrapper el, final SerialFieldTag doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
     }
 }

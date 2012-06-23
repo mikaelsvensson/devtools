@@ -14,7 +14,7 @@ class MethodDocHandler<T extends MethodDoc> extends ExecutableMemberDocHandler<T
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final T doc) {
+    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         el.setAttributes("abstract", Boolean.toString(doc.isAbstract()));
