@@ -4,7 +4,7 @@
         <packages>
             <package name="info.mikaelsvensson.docutil">
                 <classes>
-                    <class abstract="false" access="public" externalizable="false" final="false" name="ClassA" qualified-name="info.mikaelsvensson.docutil.ClassA" serializable="false" static="false">
+                    <class abstract="false" access="public" externalizable="false" final="false" name="ClassA" qualified-name="info.mikaelsvensson.docutil.ClassA" serializable="false" static="false" type="class">
                         <comment format="html">
                             <p>Class comment</p>
                         </comment>

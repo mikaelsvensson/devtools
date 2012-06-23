@@ -31,7 +31,24 @@ import com.sun.javadoc.ClassDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
-// --------------------------- CONSTRUCTORS ---------------------------
+
+    enum ClassType {
+        ENUM,
+        INTERFACE,
+        CLASS;
+
+        static ClassType valueOf(ClassDoc doc) {
+            if (doc.isEnum()) {
+                return ENUM;
+            } else if (doc.isInterface()) {
+                return INTERFACE;
+            } else {
+                return CLASS;
+            }
+        }
+    }
+
+    // --------------------------- CONSTRUCTORS ---------------------------
 
     ClassDocHandler(final Dispatcher dispatcher) {
         super((Class<T>) ClassDoc.class, dispatcher);
@@ -52,22 +69,51 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
                 "externalizable", Boolean.toString(doc.isExternalizable()),
                 "serializable", Boolean.toString(doc.isSerializable()));
 
-        handleDocImpl(el, "superclass", doc.superclassType());
+        String classMemberTypeFilter = null;
+        ClassType classType = ClassType.valueOf(doc);
+        switch (classType) {
+            case ENUM:
+                classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.ENUM_MEMBER_TYPE_FILTER, "efnim");
+                break;
+            case INTERFACE:
+                classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.INTERFACE_MEMBER_TYPE_FILTER, "sfnimtp");
+                break;
+            default:
+                classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.CLASS_MEMBER_TYPE_FILTER, "scfnimtp");
+                break;
+        }
+        el.setAttribute("type", classType.name().toLowerCase());
 
-        handleDocImpl(el, doc.constructors(), "constructors", "constructor");
-
-        handleDocImpl(el, doc.enumConstants(), "enum-constants", "enum-constant");
-
-        handleDocImpl(el, doc.fields(), "fields", "field");
-
-        handleDocImpl(el, doc.innerClasses(), "inner-classes", "inner-class");
-
-        handleDocImpl(el, doc.interfaceTypes(), "interfaces", "interface");
-
-        handleDocImpl(el, doc.methods(), "methods", "method");
-
-        handleDocImpl(el, doc.typeParameters(), "type-parameters", "type-parameter");
-
-        handleDocImpl(el, doc.typeParamTags(), "type-parameter-tags", "type-parameter-tag");
+        for (char c : classMemberTypeFilter.toCharArray()) {
+            switch (c) {
+                case 's':
+                    handleDocImpl(el, "superclass", doc.superclassType());
+                    break;
+                case 'c':
+                    handleDocImpl(el, doc.constructors(), "constructors", "constructor");
+                    break;
+                case 'e':
+                    handleDocImpl(el, doc.enumConstants(), "enum-constants", "enum-constant");
+                    break;
+                case 'f':
+                    handleDocImpl(el, doc.fields(), "fields", "field");
+                    break;
+                case 'n':
+                    handleDocImpl(el, doc.innerClasses(), "inner-classes", "inner-class");
+                    break;
+                case 'i':
+                    handleDocImpl(el, doc.interfaceTypes(), "interfaces", "interface");
+                    break;
+                case 'm':
+                    handleDocImpl(el, doc.methods(), "methods", "method");
+                    break;
+                case 't':
+                    handleDocImpl(el, doc.typeParameters(), "type-parameters", "type-parameter");
+                    break;
+                case 'p':
+                    handleDocImpl(el, doc.typeParamTags(), "type-parameter-tags", "type-parameter-tag");
+                    break;
+            }
+        }
     }
 }

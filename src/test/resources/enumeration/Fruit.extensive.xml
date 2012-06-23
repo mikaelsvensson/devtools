@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documentation>
+    <java message-from-developer="">
+        <packages>
+            <package name="enumeration">
+                <classes>
+                    <class abstract="false" access="public" externalizable="false" final="true" name="Fruit" qualified-name="enumeration.Fruit" serializable="true" static="false" type="enum">
+                        <enum-constants>
+                            <enum-constant access="public" final="true" name="APPLE" static="true" synthetic="false" transient="false" volatile="false">
+                                <type access="public" final="true" name="Fruit" qualified-name="enumeration.Fruit" static="false"/>
+                            </enum-constant>
+                            <enum-constant access="public" final="true" name="ORANGE" static="true" synthetic="false" transient="false" volatile="false">
+                                <type access="public" final="true" name="Fruit" qualified-name="enumeration.Fruit" static="false"/>
+                            </enum-constant>
+                            <enum-constant access="public" final="true" name="BANANA" static="true" synthetic="false" transient="false" volatile="false">
+                                <type access="public" final="true" name="Fruit" qualified-name="enumeration.Fruit" static="false"/>
+                            </enum-constant>
+                            <enum-constant access="public" final="true" name="PEAR" static="true" synthetic="false" transient="false" volatile="false">
+                                <type access="public" final="true" name="Fruit" qualified-name="enumeration.Fruit" static="false"/>
+                            </enum-constant>
+                        </enum-constants>
+                        <fields>
+                            <field access="private" final="false" name="color" static="false" synthetic="false" transient="false" volatile="false">
+                                <type access="public" final="false" name="Color" qualified-name="java.awt.Color" static="false"/>
+                            </field>
+                        </fields>
+                        <methods>
+                            <method abstract="false" access="public" final="false" name="values" native="false" static="true" synchronized="false" synthetic="false" varargs="false">
+                                <returns dimension="1" primitive="false" qualified-name="enumeration.Fruit"/>
+                            </method>
+                            <method abstract="false" access="public" final="false" name="valueOf" native="false" static="true" synchronized="false" synthetic="false" varargs="false">
+                                <parameters>
+                                    <parameter name="name">
+                                        <type access="public" final="true" name="String" qualified-name="java.lang.String" static="false"/>
+                                    </parameter>
+                                </parameters>
+                                <returns access="public" final="true" name="Fruit" qualified-name="enumeration.Fruit" static="false"/>
+                            </method>
+                            <method abstract="false" access="public" final="false" name="color" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
+                                <returns access="public" final="false" name="Color" qualified-name="java.awt.Color" static="false"/>
+                            </method>
+                        </methods>
+                    </class>
+                </classes>
+            </package>
+        </packages>
+    </java>
+</documentation>

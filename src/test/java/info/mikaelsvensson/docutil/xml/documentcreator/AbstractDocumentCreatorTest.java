@@ -57,7 +57,7 @@ public abstract class AbstractDocumentCreatorTest {
         File expectedFile = new File("target\\test-classes\\" + testClass.getName().replace('.', File.separatorChar) + "." + documentCreatorId + ".xml");
         Diff diff = new Diff(new FileReader(expectedFile), new FileReader(actualFile));
 
-        actualFile.delete();
+//        actualFile.delete();
 
         assertTrue(diff.identical());
     }

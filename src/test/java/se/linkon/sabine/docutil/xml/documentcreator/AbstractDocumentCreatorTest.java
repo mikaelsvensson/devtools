@@ -48,7 +48,7 @@ public abstract class AbstractDocumentCreatorTest {
                         testClassFileName
                 });
 
-        File expectedFile = new File("target\\test-classes\\" + testClass.getName() + "." + documentCreator.getClass().getSimpleName() + ".xml");
+        File expectedFile = new File("target\\test-classes\\" + testClass.getName().replace('.', File.separatorChar) + "." + documentCreatorId + ".xml");
         Diff diff = new Diff(new FileReader(expectedFile), new FileReader(actualFile));
 //        actualFile.delete();
 

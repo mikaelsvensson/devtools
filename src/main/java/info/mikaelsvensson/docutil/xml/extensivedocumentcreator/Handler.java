@@ -51,7 +51,12 @@ abstract class Handler<T> {
 // -------------------------- OTHER METHODS --------------------------
 
     protected String getProperty(final String property) {
-        return dispatcher.getProperty(property);
+        return getProperty(property, null);
+    }
+
+    protected String getProperty(final String property, final String defaultValue) {
+        String value = dispatcher.getProperty(property);
+        return value != null ? value : defaultValue;
     }
 
     boolean handle(final ElementWrapper el, final Object javadocObject) throws JavadocItemHandlerException {

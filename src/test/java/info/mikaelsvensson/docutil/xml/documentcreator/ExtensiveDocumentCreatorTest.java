@@ -1,5 +1,6 @@
 package info.mikaelsvensson.docutil.xml.documentcreator;
 
+import enumeration.Fruit;
 import info.mikaelsvensson.docutil.ClassA;
 import info.mikaelsvensson.docutil.xml.extensivedocumentcreator.ExtensiveDocumentCreator;
 import org.junit.Test;
@@ -14,8 +15,12 @@ public class ExtensiveDocumentCreatorTest extends AbstractDocumentCreatorTest {
     public void testClassA() throws Exception {
         performTest(ClassA.class);
     }
+    @Test
+    public void testFruit() throws Exception {
+        performTest(Fruit.class);
+    }
 
-    private void performTest(final Class<?> testClass) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(testClass, ExtensiveDocumentCreator.NAME);
+    private void performTest(final Class<?> testClass, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
+        performTest(testClass, ExtensiveDocumentCreator.NAME, documentCreatorArgs);
     }
 }

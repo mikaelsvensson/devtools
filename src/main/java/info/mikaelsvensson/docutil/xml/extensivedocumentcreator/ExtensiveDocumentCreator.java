@@ -37,8 +37,12 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
-// ------------------------------ FIELDS ------------------------------
 
+    public static final String CLASS_MEMBER_TYPE_FILTER = "classMemberTypeFilter";
+    public static final String INTERFACE_MEMBER_TYPE_FILTER = "interfaceMemberTypeFilter";
+    public static final String ENUM_MEMBER_TYPE_FILTER = "enumMemberTypeFilter";
+
+// ------------------------------ FIELDS ------------------------------
     public static final String NAME = "extensive";
 
 // ------------------------ INTERFACE METHODS ------------------------
