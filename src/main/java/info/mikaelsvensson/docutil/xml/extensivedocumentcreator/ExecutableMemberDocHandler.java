@@ -2,15 +2,24 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.*;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
+import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
 
 class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDocHandler<T> {
 
+    private static final ObjectHandlerFilter<Tag> IGNORE_PARAM_AND_THROWS_TAGS = new ObjectHandlerFilter<Tag>() {
+        @Override
+        public boolean accept(final Tag object) {
+            return !(object instanceof ParamTag || object instanceof ThrowsTag);
+        }
+    };
+
     ExecutableMemberDocHandler() {
-        super((Class<T>) ExecutableMemberDoc.class);
+        this((Class<T>) ExecutableMemberDoc.class);
     }
 
     public ExecutableMemberDocHandler(final Class<T> docClass) {
         super(docClass);
+        tagsFilter = IGNORE_PARAM_AND_THROWS_TAGS;
     }
 
     @Override
@@ -48,13 +57,19 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
                 ElementWrapper parameterEl = handleDocImpl(parametersEl, parameter, "parameter");
                 for (ParamTag paramTag : paramTags) {
                     if (paramTag.parameterName().equals(parameter.name())) {
-                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
-                        paramTagEl.remoteAttributes("kind", "parameter-name");
+                        try {
+                            parameterEl.addCommentChild(paramTag);
+                        } catch (InlineTagHandlerException e) {
+                            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
+                        }
+//                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
+//                        paramTagEl.remoteAttributes("kind", "parameter-name");
                     }
                 }
             }
         }
     }
+
     private void handleThrows(final ElementWrapper el, final Type[] parameters, final ThrowsTag[] paramTags) throws JavadocItemHandlerException {
         if (parameters.length > 0) {
             ElementWrapper parametersEl = el.addChild("throws-list");
@@ -62,13 +77,19 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
                 ElementWrapper parameterEl = handleDocImpl(parametersEl, parameter, "throws");
                 for (ThrowsTag paramTag : paramTags) {
                     if (paramTag.exceptionType().qualifiedTypeName().equals(parameter.qualifiedTypeName())) {
-                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
-                        paramTagEl.remoteAttributes("kind");
+                        try {
+                            parameterEl.addCommentChild(paramTag);
+                        } catch (InlineTagHandlerException e) {
+                            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
+                        }
+//                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
+//                        paramTagEl.remoteAttributes("kind");
                     }
                 }
             }
         }
     }
+
     private void handleTypeParameters(final ElementWrapper el, final Type[] parameters, final ParamTag[] paramTags) throws JavadocItemHandlerException {
         if (parameters.length > 0) {
             ElementWrapper parametersEl = el.addChild("throws-list");
@@ -76,8 +97,13 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
                 ElementWrapper parameterEl = handleDocImpl(parametersEl, parameter, "throws");
                 for (ParamTag paramTag : paramTags) {
                     if (paramTag.parameterName().equals(parameter.qualifiedTypeName())) {
-                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
-                        paramTagEl.remoteAttributes("kind");
+                        try {
+                            parameterEl.addCommentChild(paramTag);
+                        } catch (InlineTagHandlerException e) {
+                            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
+                        }
+//                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
+//                        paramTagEl.remoteAttributes("kind");
                     }
                 }
             }

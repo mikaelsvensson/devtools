@@ -4,6 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 public class ClassA {
+
+    public static final String A_CONSTANT = "value";
+
+    /**
+     * this is a private integer constant used for... nothing.
+     */
+    private static final int PRIVATE_INTEGER = 1;
+
     private String field1;
     public String field2;
 

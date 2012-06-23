@@ -1,10 +1,13 @@
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.Doc;
+import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
 
 public class DocHandler<T extends Doc> extends Handler<T> {
+    protected ObjectHandlerFilter<Tag> tagsFilter = ACCEPT_ALL_FILTER;
+
     DocHandler(final Class<T> handledClass) {
         super(handledClass);
     }
@@ -27,6 +30,6 @@ public class DocHandler<T extends Doc> extends Handler<T> {
         }
         el.setAttribute("name", doc.name());
 
-        handleDocImpl(el, doc.tags(), "tags", "tag");
+        handleDocImpl(el, doc.tags(), tagsFilter, "tags", "tag");
     }
 }
