@@ -1,4 +1,4 @@
-package info.mikaelsvensson.docutil.shared;
+package info.mikaelsvensson.docutil.shared.commenttext;
 
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.PackageDoc;
@@ -67,7 +67,7 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
     }
 
     @Override
-    public String toString(final Tag tag) throws TagHandlerException {
+    public String toString(final Tag tag) throws InlineTagHandlerException {
         String text = tag.text();
         try {
             File sourceFolder = null;
@@ -77,7 +77,7 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
             } else if (holder instanceof ProgramElementDoc) {
                 sourceFolder = getSourceFolder(((ProgramElementDoc) holder).containingPackage(), tag.position().file());
             } else {
-                throw new TagHandlerException("Cannot use source tag in documentation for " + tag.holder().name() + ".");
+                throw new InlineTagHandlerException("Cannot use source tag in documentation for " + tag.holder().name() + ".");
             }
             int pos = text.indexOf(' ');
             if (pos > -1) {
@@ -85,12 +85,12 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
                 String expr = text.substring(pos + 1).trim();
                 return FileType.valueOf(type.toUpperCase()).getFile(sourceFolder, expr);
             } else {
-                throw new TagHandlerException(TAG_NAME + " must have two parameters, resource type and a resource specifier.");
+                throw new InlineTagHandlerException(TAG_NAME + " must have two parameters, resource type and a resource specifier.");
             }
         } catch (IOException e) {
-            throw new TagHandlerException(e);
+            throw new InlineTagHandlerException(e);
         } catch (IllegalArgumentException e) {
-            throw new TagHandlerException(e);
+            throw new InlineTagHandlerException(e);
         }
     }
 

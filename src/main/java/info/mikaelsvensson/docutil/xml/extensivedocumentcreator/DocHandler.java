@@ -2,7 +2,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.Doc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
-import info.mikaelsvensson.docutil.shared.TagHandlerException;
+import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
 
 public class DocHandler<T extends Doc> extends Handler<T> {
     DocHandler(final Class<T> handledClass) {
@@ -21,7 +21,7 @@ public class DocHandler<T extends Doc> extends Handler<T> {
         if (null != text && text.length() > 0) {
             try {
                 el.addCommentChild(doc);
-            } catch (TagHandlerException e) {
+            } catch (InlineTagHandlerException e) {
                 throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
             }
         }

@@ -1,4 +1,4 @@
-package info.mikaelsvensson.docutil.shared;
+package info.mikaelsvensson.docutil.shared.commenttext;
 
 import com.sun.javadoc.Tag;
 
@@ -15,7 +15,7 @@ public class GenericInlineTagHandler implements InlineTagHandler {
         if ("text".equalsIgnoreCase(tag.name())) {
             return tag.text();
         } else {
-            return "<custom-tag name=\"" + tag.name() + "\">" + tag.text() + "</custom-tag>";
+            return "<span class=\"tag-" + tag.name().substring(1) + "\">" + tag.text() + "</span>";
         }
     }
 

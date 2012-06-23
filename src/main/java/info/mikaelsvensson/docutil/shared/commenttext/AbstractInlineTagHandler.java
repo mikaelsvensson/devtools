@@ -1,4 +1,4 @@
-package info.mikaelsvensson.docutil.shared;
+package info.mikaelsvensson.docutil.shared.commenttext;
 
 import com.sun.javadoc.Tag;
 

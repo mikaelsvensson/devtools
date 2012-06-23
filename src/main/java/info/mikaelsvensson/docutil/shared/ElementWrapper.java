@@ -2,6 +2,7 @@ package info.mikaelsvensson.docutil.shared;
 
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
+import info.mikaelsvensson.docutil.shared.commenttext.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -59,15 +60,15 @@ public class ElementWrapper {
         return new ElementWrapper(element);
     }
 
-    public ElementWrapper addCommentChild(Doc doc) throws TagHandlerException {
+    public ElementWrapper addCommentChild(Doc doc) throws InlineTagHandlerException {
         return addCommentChild(doc.inlineTags());
     }
 
-    public ElementWrapper addCommentChild(Tag doc) throws TagHandlerException {
+    public ElementWrapper addCommentChild(Tag doc) throws InlineTagHandlerException {
         return addCommentChild(doc.inlineTags());
     }
 
-    private ElementWrapper addCommentChild(Tag[] inlineTags) throws TagHandlerException {
+    private ElementWrapper addCommentChild(Tag[] inlineTags) throws InlineTagHandlerException {
         StringBuilder sb = new StringBuilder();
 
         tag:
@@ -88,7 +89,7 @@ public class ElementWrapper {
         if (c.length() > 0) {
             try {
                 StringBuilder sb = new StringBuilder();
-                sb.append("<comment>");
+                sb.append("<comment format=\"html\">");
                 // TODO: MISV 20120621 It would be nice if this method could also fix the cause of the '"p" must be terminated by the matching end-tag' issue. The problem stems from invalid HTML code genereated by wsimport/wsgen (?). Solve by counting the number of '</p' between one '<p' and the next (count=0 => prepend '</p>' before the next '<p')?
                 for (String paragraph : COMMENT_PARAGRAPH.split(c)) {
                     sb.append("<p>").append(paragraph).append("</p>");
@@ -96,9 +97,9 @@ public class ElementWrapper {
                 sb.append("</comment>");
                 addChildFromSource(sb.toString());
             } catch (IOException e) {
-                addChildWithText("comment", comment);
+                addChildWithText("comment", comment, "format", "text");
             } catch (SAXException e) {
-                addChildWithText("comment", comment);
+                addChildWithText("comment", comment, "format", "text");
             }
         }
         return this;
