@@ -28,7 +28,14 @@ public class ClassA {
         return null;
     }
 
-    Map<String, List<String>> getGroupedStrings() {
+    /**
+     * This is a comment with both <code>HTML</code> style and {@code Javadoc} style tags.
+     *
+     * @return a grouped list
+     * @throws Exception
+     *         when something does wrong.
+     */
+    Map<String, List<String>> getGroupedStrings() throws Exception {
         return null;
     }
 

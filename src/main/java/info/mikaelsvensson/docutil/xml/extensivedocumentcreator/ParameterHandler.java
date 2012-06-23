@@ -3,7 +3,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.Parameter;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class ParameterHandler extends DocHandler<Parameter> {
+class ParameterHandler extends Handler<Parameter> {
 
     ParameterHandler() {
         super(Parameter.class);
@@ -13,6 +13,6 @@ class ParameterHandler extends DocHandler<Parameter> {
     void handleImpl(final ElementWrapper el, final Parameter doc) {
         el.setAttributes("name", doc.name());
 
-        DocHandler.process(el, "type", doc.type());
+        Handler.process(el, "type", doc.type());
     }
 }

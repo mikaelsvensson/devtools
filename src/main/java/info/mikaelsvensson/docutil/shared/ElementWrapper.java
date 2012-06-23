@@ -84,4 +84,10 @@ public class ElementWrapper {
     public String getAttribute(String name) {
         return el.getAttribute(name);
     }
+
+    public void remoteAttributes(final String... attributesNames) {
+        for (String name : attributesNames) {
+            el.removeAttribute(name);
+        }
+    }
 }

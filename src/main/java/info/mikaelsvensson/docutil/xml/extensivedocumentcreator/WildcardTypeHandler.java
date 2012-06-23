@@ -3,7 +3,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.WildcardType;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class WildcardTypeHandler extends DocHandler<WildcardType> {
+class WildcardTypeHandler extends TypeHandler<WildcardType> {
 
     WildcardTypeHandler() {
         super(WildcardType.class);
@@ -11,6 +11,8 @@ class WildcardTypeHandler extends DocHandler<WildcardType> {
 
     @Override
     void handleImpl(final ElementWrapper el, final WildcardType doc) {
+        super.handleImpl(el, doc);
+
         handleDocImpl(el, doc.extendsBounds(), "extends-bounds", "extends-bound");
 
         handleDocImpl(el, doc.superBounds(), "super-bounds", "super-bound");

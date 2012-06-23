@@ -3,18 +3,24 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.MethodDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class MethodDocHandler extends DocHandler<MethodDoc> {
+class MethodDocHandler<T extends MethodDoc> extends ExecutableMemberDocHandler<T> {
 
     MethodDocHandler() {
-        super(MethodDoc.class);
+        super((Class<T>) MethodDoc.class);
+    }
+
+    public MethodDocHandler(final Class<T> docClass) {
+        super(docClass);
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final MethodDoc doc) {
+    void handleImpl(final ElementWrapper el, final T doc) {
+        super.handleImpl(el, doc);
+
         el.setAttributes("abstract", Boolean.toString(doc.isAbstract()));
 
-        DocHandler.process(el, "returns", doc.returnType());
+        Handler.process(el, "returns", doc.returnType());
 
-        DocHandler.process(el, "overrides", doc.overriddenType());
+        Handler.process(el, "overrides", doc.overriddenType());
     }
 }

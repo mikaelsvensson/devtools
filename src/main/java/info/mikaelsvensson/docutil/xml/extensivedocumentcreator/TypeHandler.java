@@ -3,10 +3,14 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.Type;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class TypeHandler extends DocHandler<Type> {
+class TypeHandler<T extends Type> extends Handler<T> {
 
     TypeHandler() {
-        super(Type.class);
+        super((Class<T>) Type.class);
+    }
+
+    public TypeHandler(final Class<T> docClass) {
+        super(docClass);
     }
 
     @Override

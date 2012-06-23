@@ -1,26 +1,28 @@
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.Type;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class ClassDocHandler extends DocHandler<ClassDoc> {
+class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
 
     ClassDocHandler() {
-        super(ClassDoc.class);
+        super((Class<T>) ClassDoc.class);
+    }
+
+    protected ClassDocHandler(final Class<T> cls) {
+        super(cls);
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final ClassDoc doc) {
-        if (doc.getClass().getName().equals(Type.class.getName())) {
-            return;
-        }
+    void handleImpl(final ElementWrapper el, final T doc) {
+        super.handleImpl(el, doc);
+
         el.setAttributes(
                 "abstract", Boolean.toString(doc.isAbstract()),
                 "externalizable", Boolean.toString(doc.isExternalizable()),
                 "serializable", Boolean.toString(doc.isSerializable()));
 
-        DocHandler.process(el, "superclass", doc.superclassType());
+        Handler.process(el, "superclass", doc.superclassType());
 
         handleDocImpl(el, doc.constructors(), "constructors", "constructor");
 

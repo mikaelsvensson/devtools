@@ -3,7 +3,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.TypeVariable;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class TypeVariableHandler extends DocHandler<TypeVariable> {
+class TypeVariableHandler extends TypeHandler<TypeVariable> {
 
     TypeVariableHandler() {
         super(TypeVariable.class);
@@ -11,6 +11,8 @@ class TypeVariableHandler extends DocHandler<TypeVariable> {
 
     @Override
     void handleImpl(final ElementWrapper el, final TypeVariable doc) {
+        super.handleImpl(el, doc);
+
         handleDocImpl(el, doc.bounds(), "bounds", "bound");
     }
 }

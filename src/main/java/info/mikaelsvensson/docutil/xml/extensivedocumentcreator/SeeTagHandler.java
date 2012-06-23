@@ -3,7 +3,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.SeeTag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class SeeTagHandler extends DocHandler<SeeTag> {
+class SeeTagHandler extends TagHandler<SeeTag> {
 
     SeeTagHandler() {
         super(SeeTag.class);
@@ -11,6 +11,8 @@ class SeeTagHandler extends DocHandler<SeeTag> {
 
     @Override
     void handleImpl(final ElementWrapper el, final SeeTag doc) {
+        super.handleImpl(el, doc);
+
         el.setAttributes(
                 "label", doc.label(),
                 "referenced-class", doc.referencedClassName(),

@@ -3,7 +3,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.ConstructorDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class ConstructorDocHandler extends DocHandler<ConstructorDoc> {
+class ConstructorDocHandler extends ExecutableMemberDocHandler<ConstructorDoc> {
 
     ConstructorDocHandler() {
         super(ConstructorDoc.class);
@@ -11,5 +11,6 @@ class ConstructorDocHandler extends DocHandler<ConstructorDoc> {
 
     @Override
     void handleImpl(final ElementWrapper el, final ConstructorDoc doc) {
+        super.handleImpl(el, doc);
     }
 }

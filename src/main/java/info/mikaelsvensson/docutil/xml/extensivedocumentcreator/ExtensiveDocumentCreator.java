@@ -25,7 +25,7 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
         }
 
         for (ClassDoc classDoc : doc.classes()) {
-            DocHandler.processRootObject(dw, "class", (Doc) classDoc);
+            Handler.processRootObject(dw, "class", (Doc) classDoc);
         }
 
         return dw.getDocument();

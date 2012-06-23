@@ -3,7 +3,7 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.ThrowsTag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class ThrowsTagHandler extends DocHandler<ThrowsTag> {
+class ThrowsTagHandler extends TagHandler<ThrowsTag> {
 
     ThrowsTagHandler() {
         super(ThrowsTag.class);
@@ -11,8 +11,12 @@ class ThrowsTagHandler extends DocHandler<ThrowsTag> {
 
     @Override
     void handleImpl(final ElementWrapper el, final ThrowsTag doc) {
+        super.handleImpl(el, doc);
+
+        el.remoteAttributes("name", "text");
+
         el.setAttributes("exception-comment", doc.exceptionComment());
 
-        DocHandler.process(el, "exception-type", doc.exceptionType());
+        Handler.process(el, "exception-type", doc.exceptionType());
     }
 }

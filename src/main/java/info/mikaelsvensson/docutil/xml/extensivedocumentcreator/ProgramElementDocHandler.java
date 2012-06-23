@@ -3,10 +3,14 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.ProgramElementDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class ProgramElementDocHandler extends DocHandler<ProgramElementDoc> {
+class ProgramElementDocHandler<T extends ProgramElementDoc> extends Handler<T> {
 
     ProgramElementDocHandler() {
-        super(ProgramElementDoc.class);
+        super((Class<T>) ProgramElementDoc.class);
+    }
+
+    public ProgramElementDocHandler(final Class<T> cls) {
+        super(cls);
     }
 
     @Override
