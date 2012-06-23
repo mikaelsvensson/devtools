@@ -1,9 +1,16 @@
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.ProgramElementDoc;
+import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T> {
+
+    protected static final String QUALIFIED_NAME = "qualified-name";
+//    protected static final String NAME = "name";
+    protected static final String FINAL = "final";
+    protected static final String ACCESS = "access";
+    protected static final String STATIC = "static";
 
     ProgramElementDocHandler() {
         super((Class<T>) ProgramElementDoc.class);
@@ -13,16 +20,20 @@ class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T
         super(cls);
     }
 
+    public ProgramElementDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
+        super(docClass, tagFilter);
+    }
+
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         el.setAttributes(
-//                    "qualified-name", doc.qualifiedName(),
-                "name", doc.name(),
-                "final", Boolean.toString(doc.isFinal()),
-                "access", getAccess(doc),
-                "static", Boolean.toString(doc.isStatic()));
+                QUALIFIED_NAME, doc.qualifiedName(),
+//                NAME, doc.name(),
+                FINAL, Boolean.toString(doc.isFinal()),
+                ACCESS, getAccess(doc),
+                STATIC, Boolean.toString(doc.isStatic()));
 
         handleDocImpl(el, doc.annotations(), "annotations", "annotation");
     }

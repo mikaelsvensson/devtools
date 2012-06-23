@@ -13,7 +13,7 @@ class ParamTagHandler extends TagHandler<ParamTag> {
     void handleImpl(final ElementWrapper el, final ParamTag doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.remoteAttributes("name", "text");
+        el.removeAttributes("name", "text");
 
         el.setAttributes(
                 "type-parameter", Boolean.toString(doc.isTypeParameter()),

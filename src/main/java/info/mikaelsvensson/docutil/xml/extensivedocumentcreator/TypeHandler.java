@@ -14,7 +14,9 @@ class TypeHandler<T extends Type> extends Handler<T> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final Type doc) {
+    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
+        super.handleImpl(el, doc);
+
         el.setAttributes(
                 "dimension", Integer.toString(getDimensionCount(doc.dimension())),
                 "primitive", Boolean.toString(doc.isPrimitive()),

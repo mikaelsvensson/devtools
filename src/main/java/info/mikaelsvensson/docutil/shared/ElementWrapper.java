@@ -142,7 +142,7 @@ public class ElementWrapper {
         return el.getAttribute(name);
     }
 
-    public void remoteAttributes(final String... attributesNames) {
+    public void removeAttributes(final String... attributesNames) {
         for (String name : attributesNames) {
             el.removeAttribute(name);
         }

@@ -17,6 +17,6 @@ class ParameterizedTypeHandler extends TypeHandler<ParameterizedType> {
 
         handleDocImpl(el, doc.typeArguments(), "type-arguments", "type-argument");
 
-        handleDocImpl(el, doc.interfaceTypes(), "interfaces", "interface");
+//        handleDocImpl(el, doc.interfaceTypes(), "interfaces", "interface");
     }
 }

@@ -31,6 +31,7 @@ public class ClassA {
      * @param <T>
      *         a comment
      * @return something
+     * @customtag
      */
     protected <T extends Number> T numberMethod(T numberParameter) {
         return null;

@@ -14,7 +14,9 @@ class TagHandler<T extends Tag> extends Handler<T> {
     }
 
     @Override
-    void handleImpl(final ElementWrapper el, final Tag doc) {
+    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
+        super.handleImpl(el, doc);
+
         el.setAttributes(
                 "name", doc.name(),
                 "kind", doc.kind(),

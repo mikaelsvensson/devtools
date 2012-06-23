@@ -6,7 +6,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
 
 public class DocHandler<T extends Doc> extends Handler<T> {
-    protected ObjectHandlerFilter<Tag> tagsFilter = ACCEPT_ALL_FILTER;
+    protected static final String NAME = "name";
+    private ObjectHandlerFilter<Tag> tagsFilter = ACCEPT_ALL_FILTER;
 
     DocHandler(final Class<T> handledClass) {
         super(handledClass);
@@ -14,6 +15,11 @@ public class DocHandler<T extends Doc> extends Handler<T> {
 
     public DocHandler() {
         super((Class<T>) Doc.class);
+    }
+
+    public DocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
+        super(docClass);
+        this.tagsFilter = tagFilter;
     }
 
     @Override
@@ -28,7 +34,7 @@ public class DocHandler<T extends Doc> extends Handler<T> {
                 throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
             }
         }
-        el.setAttribute("name", doc.name());
+        el.setAttribute(NAME, doc.name());
 
         handleDocImpl(el, doc.tags(), tagsFilter, "tags", "tag");
     }

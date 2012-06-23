@@ -1,16 +1,27 @@
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.MethodDoc;
+import com.sun.javadoc.Tag;
+import com.sun.javadoc.Type;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class MethodDocHandler<T extends MethodDoc> extends ExecutableMemberDocHandler<T> {
 
+    private static final ObjectHandlerFilter<Tag> IGNORE_RETURN_AND_PARAM_AND_THROWS_TAGS = new NoReturnTag();
+
+    private static class NoReturnTag extends NoParamAndThrowsTags {
+        @Override
+        public boolean accept(final Tag object) {
+            return !(object.name().equals("@return")) && super.accept(object);
+        }
+    }
+
     MethodDocHandler() {
-        super((Class<T>) MethodDoc.class);
+        this((Class<T>) MethodDoc.class);
     }
 
     public MethodDocHandler(final Class<T> docClass) {
-        super(docClass);
+        super(docClass, IGNORE_RETURN_AND_PARAM_AND_THROWS_TAGS);
     }
 
     @Override
@@ -19,8 +30,15 @@ class MethodDocHandler<T extends MethodDoc> extends ExecutableMemberDocHandler<T
 
         el.setAttributes("abstract", Boolean.toString(doc.isAbstract()));
 
-        Handler.process(el, "returns", doc.returnType());
+        handleReturn(el, doc.returnType(), doc.tags("@return"));
 
         Handler.process(el, "overrides", doc.overriddenType());
+    }
+
+    private void handleReturn(final ElementWrapper el, final Type returnType, final Tag[] paramTags) throws JavadocItemHandlerException {
+        ElementWrapper parameterEl = handleDocImpl(el, returnType, "returns");
+        for (Tag paramTag : paramTags) {
+            addComment(parameterEl, paramTag);
+        }
     }
 }

@@ -6,20 +6,18 @@ import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
 
 class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDocHandler<T> {
 
-    private static final ObjectHandlerFilter<Tag> IGNORE_PARAM_AND_THROWS_TAGS = new ObjectHandlerFilter<Tag>() {
-        @Override
-        public boolean accept(final Tag object) {
-            return !(object instanceof ParamTag || object instanceof ThrowsTag);
-        }
-    };
+    private static final ObjectHandlerFilter<Tag> IGNORE_PARAM_AND_THROWS_TAGS = new NoParamAndThrowsTags();
 
     ExecutableMemberDocHandler() {
         this((Class<T>) ExecutableMemberDoc.class);
     }
 
     public ExecutableMemberDocHandler(final Class<T> docClass) {
-        super(docClass);
-        tagsFilter = IGNORE_PARAM_AND_THROWS_TAGS;
+        this(docClass, IGNORE_PARAM_AND_THROWS_TAGS);
+    }
+
+    public ExecutableMemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter) {
+        super(docClass, tagFilter);
     }
 
     @Override
@@ -33,21 +31,9 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
 
         handleParameters(el, doc.parameters(), doc.paramTags());
 
-//        handleDocImpl(el, parameters, "parameters", "parameter");
-
-//        handleDocImpl(el, paramTags, "parameter-tags", "parameter-tag");
-
         handleThrows(el, doc.thrownExceptionTypes(), doc.throwsTags());
 
-//        handleDocImpl(el, doc.thrownExceptionTypes(), "thrown-exceptions", "thrown-exception");
-
-//        handleDocImpl(el, doc.throwsTags(), "throws-tags", "throws-tags");
-
         handleTypeParameters(el, doc.typeParameters(), doc.typeParamTags());
-
-//        handleDocImpl(el, doc.typeParameters(), "type-parameters", "type-parameter");
-
-//        handleDocImpl(el, doc.typeParamTags(), "type-parameter-tags", "type-parameter-tag");
     }
 
     private void handleParameters(final ElementWrapper el, final Parameter[] parameters, final ParamTag[] paramTags) throws JavadocItemHandlerException {
@@ -57,56 +43,53 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
                 ElementWrapper parameterEl = handleDocImpl(parametersEl, parameter, "parameter");
                 for (ParamTag paramTag : paramTags) {
                     if (paramTag.parameterName().equals(parameter.name())) {
-                        try {
-                            parameterEl.addCommentChild(paramTag);
-                        } catch (InlineTagHandlerException e) {
-                            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
-                        }
-//                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
-//                        paramTagEl.remoteAttributes("kind", "parameter-name");
+                        addComment(parameterEl, paramTag);
                     }
                 }
             }
         }
     }
 
-    private void handleThrows(final ElementWrapper el, final Type[] parameters, final ThrowsTag[] paramTags) throws JavadocItemHandlerException {
-        if (parameters.length > 0) {
-            ElementWrapper parametersEl = el.addChild("throws-list");
-            for (Type parameter : parameters) {
-                ElementWrapper parameterEl = handleDocImpl(parametersEl, parameter, "throws");
-                for (ThrowsTag paramTag : paramTags) {
-                    if (paramTag.exceptionType().qualifiedTypeName().equals(parameter.qualifiedTypeName())) {
-                        try {
-                            parameterEl.addCommentChild(paramTag);
-                        } catch (InlineTagHandlerException e) {
-                            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
-                        }
-//                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
-//                        paramTagEl.remoteAttributes("kind");
+    private void handleThrows(final ElementWrapper el, final Type[] exceptionTypes, final ThrowsTag[] throwsTags) throws JavadocItemHandlerException {
+        if (exceptionTypes.length > 0) {
+            ElementWrapper throwsListEl = el.addChild("throws-list");
+            for (Type exceptionType : exceptionTypes) {
+                ElementWrapper throwsEl = handleDocImpl(throwsListEl, exceptionType, "throws");
+                for (ThrowsTag throwsTag : throwsTags) {
+                    if (throwsTag.exceptionType().qualifiedTypeName().equals(exceptionType.qualifiedTypeName())) {
+                        addComment(throwsEl, throwsTag);
                     }
                 }
             }
         }
     }
 
-    private void handleTypeParameters(final ElementWrapper el, final Type[] parameters, final ParamTag[] paramTags) throws JavadocItemHandlerException {
-        if (parameters.length > 0) {
-            ElementWrapper parametersEl = el.addChild("throws-list");
-            for (Type parameter : parameters) {
-                ElementWrapper parameterEl = handleDocImpl(parametersEl, parameter, "throws");
-                for (ParamTag paramTag : paramTags) {
-                    if (paramTag.parameterName().equals(parameter.qualifiedTypeName())) {
-                        try {
-                            parameterEl.addCommentChild(paramTag);
-                        } catch (InlineTagHandlerException e) {
-                            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
-                        }
-//                        ElementWrapper paramTagEl = handleDocImpl(parameterEl, paramTag, "tag");
-//                        paramTagEl.remoteAttributes("kind");
+    private void handleTypeParameters(final ElementWrapper el, final Type[] typeParameters, final ParamTag[] typeParamTags) throws JavadocItemHandlerException {
+        if (typeParameters.length > 0) {
+            ElementWrapper parametersEl = el.addChild("type-parameters");
+            for (Type typeParameter : typeParameters) {
+                ElementWrapper typeParameterEl = handleDocImpl(parametersEl, typeParameter, "type-parameter");
+                for (ParamTag typeParamTag : typeParamTags) {
+                    if (typeParamTag.parameterName().equals(typeParameter.qualifiedTypeName())) {
+                        addComment(typeParameterEl, typeParamTag);
                     }
                 }
             }
+        }
+    }
+
+    protected void addComment(final ElementWrapper parameterEl, final Tag paramTag) throws JavadocItemHandlerException {
+        try {
+            parameterEl.addCommentChild(paramTag);
+        } catch (InlineTagHandlerException e) {
+            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
+        }
+    }
+
+    protected static class NoParamAndThrowsTags implements ObjectHandlerFilter<Tag> {
+        @Override
+        public boolean accept(final Tag object) {
+            return !(object instanceof ParamTag || object instanceof ThrowsTag);
         }
     }
 }
