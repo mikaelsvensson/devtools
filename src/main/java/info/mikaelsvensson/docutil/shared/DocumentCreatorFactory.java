@@ -2,8 +2,8 @@ package info.mikaelsvensson.docutil.shared;
 
 import info.mikaelsvensson.docutil.xml.documentcreator.ElementsOnlyDocumentCreator;
 import info.mikaelsvensson.docutil.xml.documentcreator.EnumDocumentCreator;
-import info.mikaelsvensson.docutil.xml.documentcreator.ExtensiveDocumentCreator;
 import info.mikaelsvensson.docutil.xml.documentcreator.StandardDocumentCreator;
+import info.mikaelsvensson.docutil.xml.extensivedocumentcreator.ExtensiveDocumentCreator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
