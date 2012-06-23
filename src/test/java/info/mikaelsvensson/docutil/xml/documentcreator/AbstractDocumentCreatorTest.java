@@ -26,7 +26,7 @@ public abstract class AbstractDocumentCreatorTest {
         XMLUnit.setIgnoreAttributeOrder(true);
     }
 
-    protected void performTest(Class testClass, String documentCreatorId, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
+    protected void performTest(String documentCreatorId, Class testClass, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
 
         DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(documentCreatorId);
 

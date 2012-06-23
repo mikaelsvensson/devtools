@@ -16,6 +16,6 @@ public class StandardDocumentCreatorTest extends AbstractDocumentCreatorTest {
      */
     @Test
     public void testClassA() throws Exception {
-        performTest(ClassA.class, StandardDocumentCreator.NAME);
+        performTest(StandardDocumentCreator.NAME, ClassA.class);
     }
 }

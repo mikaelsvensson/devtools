@@ -25,33 +25,37 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.docutil.xml.documentcreator;
+package info.mikaelsvensson.docutil;
 
-import enumeration.Fruit;
-import org.junit.Test;
-import org.xml.sax.SAXException;
+public class Vehicle {
+}
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+interface Motorized {
+}
 
+class Car extends Vehicle {
+}
 
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
-    /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
-     * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.docutil.ClassA}
-     *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
-     */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
-    }
+class Truck extends Vehicle implements Motorized, HasItems<Trailer> {
+}
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-action.1.format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
-    }
+class Trailer extends Pullable {
+}
+
+class TrainCar extends Pullable {
+}
+
+interface HasItems<Pullable> {
+}
+
+class Pullable extends Vehicle {
+}
+
+class Bicycle extends Vehicle implements Motorized {
+}
+
+class Train extends Vehicle implements Motorized, HasItems<TrainCar> {
+}
+
+class Metro extends Train {
 }
