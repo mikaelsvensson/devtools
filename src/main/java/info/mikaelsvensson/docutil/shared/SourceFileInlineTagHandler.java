@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-public class SourceFileTagHandler extends AbstractTagHandler {
+public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
 
     public static final String TAG_NAME = "embed";
 
@@ -62,7 +62,7 @@ public class SourceFileTagHandler extends AbstractTagHandler {
         }
     }
 
-    public SourceFileTagHandler() {
+    public SourceFileInlineTagHandler() {
         super(TAG_NAME);
     }
 

@@ -2,10 +2,10 @@ package info.mikaelsvensson.docutil.shared;
 
 import com.sun.javadoc.Tag;
 
-public abstract class AbstractTagHandler implements TagHandler {
+public abstract class AbstractInlineTagHandler implements InlineTagHandler {
     private String name;
 
-    public AbstractTagHandler(final String name) {
+    public AbstractInlineTagHandler(final String name) {
         this.name = name;
     }
 

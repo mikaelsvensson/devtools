@@ -1,6 +1,6 @@
 package info.mikaelsvensson.docutil.shared;
 
-import com.sun.javadoc.RootDoc;
+import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,11 +15,12 @@ import java.io.StringReader;
 import java.util.regex.Pattern;
 
 public class ElementWrapper {
-    private TagHandler[] tagHandlers = new TagHandler[]{
-            new CodeTagHandler(),
-            new ImageTagHandler(),
-            new LinkTagHandler(),
-            new SourceFileTagHandler()};
+    private InlineTagHandler[] inlineTagHandlers = new InlineTagHandler[]{
+            new CodeInlineTagHandler(),
+            new ImageInlineTagHandler(),
+            new LinkInlineTagHandler(),
+            new SourceFileInlineTagHandler(),
+            new GenericInlineTagHandler()};
     public static final Pattern COMMENT_PARAGRAPH = Pattern.compile("<(p|br)\\s*/\\s*>");
 
     protected Element el;
@@ -58,18 +59,22 @@ public class ElementWrapper {
         return new ElementWrapper(element);
     }
 
-    public ElementWrapper addCommentChild(Tag[] inlineTags, RootDoc root) {
+    public ElementWrapper addCommentChild(Doc doc) throws TagHandlerException {
+        return addCommentChild(doc.inlineTags());
+    }
+
+    public ElementWrapper addCommentChild(Tag doc) throws TagHandlerException {
+        return addCommentChild(doc.inlineTags());
+    }
+
+    private ElementWrapper addCommentChild(Tag[] inlineTags) throws TagHandlerException {
         StringBuilder sb = new StringBuilder();
 
         tag:
         for (Tag tag : inlineTags) {
-            for (TagHandler handler : tagHandlers) {
+            for (InlineTagHandler handler : inlineTagHandlers) {
                 if (handler.handles(tag)) {
-                    try {
-                        sb.append(handler.toString(tag));
-                    } catch (TagHandlerException e) {
-                        root.printWarning("Could not print tag '" + tag.name() + "'. " + e.getMessage());
-                    }
+                    sb.append(handler.toString(tag));
                     continue tag;
                 }
             }
@@ -78,7 +83,7 @@ public class ElementWrapper {
         return addCommentChild(sb.toString());
     }
 
-    public ElementWrapper addCommentChild(String comment) {
+    private ElementWrapper addCommentChild(String comment) {
         String c = comment != null && comment.length() > 0 ? comment.replace("\n", "") : "";
         if (c.length() > 0) {
             try {

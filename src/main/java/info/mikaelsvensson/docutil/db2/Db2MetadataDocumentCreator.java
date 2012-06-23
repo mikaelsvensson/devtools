@@ -65,7 +65,7 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
         return dw.getDocument();
     }
 
-    private void addJavadocMetadata(DocumentWrapper dw, RootDoc doc) {
+    private void addJavadocMetadata(DocumentWrapper dw, RootDoc doc) throws DocumentCreatorException {
         ElementWrapper classesEl = dw.addChild("classes");
         for (ClassDoc classDoc : doc.classes()) {
             String probablyTableName = getTranslatedName(classDoc);
@@ -76,8 +76,8 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
                     "entity", Boolean.toString(isAnnotated(classDoc, Entity.class)));
             ClassDoc fieldsClass = classDoc;
 
-            addComment(clsEl, classDoc.inlineTags(), doc);
-            
+            addComment(clsEl, classDoc);
+
             do {
                 for (FieldDoc field : fieldsClass.fields(false)) {
                     if (!isAnnotated(field, Transient.class) && !field.isStatic()) {
@@ -85,7 +85,7 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
                                 ATTR_NAME, field.name(),
                                 ATTR_PROBABLE_DATABASE_NAME, getTranslatedName(field),
                                 ATTR_TYPE, field.type().qualifiedTypeName());
-                        addComment(fieldEl, field.inlineTags(), doc);
+                        addComment(fieldEl, field);
                         ParameterizedType parameterizedType = field.type().asParameterizedType();
 
                         boolean isList = field.type().simpleTypeName().equals(List.class.getSimpleName());
@@ -165,7 +165,7 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
 //                System.out.println(sqlCommand);
                 sqlCmdsEl.addChild("sql-command").setText(sqlCommand);
             }
-            
+
             for (Column column : table.getColumns()) {
                 ElementWrapper columnEl = tableEl.addChild("column", ATTR_NAME, column.getName()).setText(column.getDefinition());
                 if (null != column.getDb2Datatype()) {

@@ -79,7 +79,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
                 for (FieldDoc enumConstant : cls.enumConstants()) {
                     ElementWrapper enumConstantEl = clsEl.addChild("value", ATTR_NAME, enumConstant.name());
 
-                    addComment(enumConstantEl, enumConstant.inlineTags(), root);
+                    addComment(enumConstantEl, enumConstant);
                 }
             } else {
                 clsEl.setAttribute("abstract", Boolean.toString(cls.isAbstract()));
@@ -88,7 +88,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
                 addMethods(cls, clsEl, root, options);
             }
 
-            addComment(clsEl, cls.inlineTags(), root);
+            addComment(clsEl, cls);
 
             if (options.showAnnotations) {
                 addAnnotations(clsEl, cls);
@@ -189,7 +189,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         return implementsInterface;
     }
 
-    private void addMethods(ClassDoc cls, ElementWrapper clsEl, RootDoc root, Options options) {
+    private void addMethods(ClassDoc cls, ElementWrapper clsEl, RootDoc root, Options options) throws DocumentCreatorException {
         ElementWrapper methodsEl = clsEl.addChild("methods");
         for (MethodDoc m : cls.methods()) {
             String methodName = m.name();
@@ -208,7 +208,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
 
             addTypeInformation(methodEl, returnType, "returns");
 
-            addComment(methodEl, m.inlineTags(), root);
+            addComment(methodEl, m);
 
             if (options.showAnnotations) {
                 addAnnotations(methodEl, m);
@@ -217,13 +217,13 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
             if (options.showAllTags) {
                 addTags(m, methodEl);
             }
-            addThrownExceptions(methodEl, m, root);
+            addThrownExceptions(methodEl, m);
 
             addReferences(methodEl, m);
         }
     }
 
-    private void addFields(ClassDoc cls, ElementWrapper clsEl, RootDoc root, Options options) {
+    private void addFields(ClassDoc cls, ElementWrapper clsEl, RootDoc root, Options options) throws DocumentCreatorException {
         ElementWrapper fieldsEl = clsEl.addChild("fields");
         for (FieldDoc f : cls.fields()) {
             String fieldName = f.name();
@@ -241,7 +241,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
 
             addTypeInformation(fieldEl, f.type(), "type");
 
-            addComment(fieldEl, f.inlineTags(), root);
+            addComment(fieldEl, f);
 
             if (options.showAnnotations) {
                 addAnnotations(fieldEl, f);
@@ -291,13 +291,13 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         } while (showInheritedInterfaces && (cls = cls.superclass()) != null);
     }
 
-    private void addThrownExceptions(ElementWrapper methodsEl, MethodDoc m, RootDoc root) {
+    private void addThrownExceptions(ElementWrapper methodsEl, MethodDoc m) throws DocumentCreatorException {
         ElementWrapper thrownExceptionsEl = methodsEl.addChild("exceptions");
         for (ClassDoc thrownException : m.thrownExceptions()) {
             ElementWrapper thrownExceptionEl = thrownExceptionsEl.addChild("exception", ATTR_Q_NAME, thrownException.qualifiedName());
             for (ThrowsTag throwsTag : m.throwsTags()) {
                 if (throwsTag.exception().qualifiedName().equals(thrownException.qualifiedName())) {
-                    addComment(thrownExceptionEl, throwsTag.inlineTags(), root);
+                    addComment(thrownExceptionEl, throwsTag);
                     break;
                 }
             }

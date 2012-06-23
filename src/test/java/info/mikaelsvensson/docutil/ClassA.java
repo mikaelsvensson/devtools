@@ -16,7 +16,7 @@ public class ClassA {
     }
 
     /**
-     * This method handles numbers.
+     * This method handles numbers. Unfortunately this comment contains a {@unrecognized weird} inline <code>tag</code>.
      *
      * @param numberParameter
      *         parameter comment
@@ -38,5 +38,4 @@ public class ClassA {
     Map<String, List<String>> getGroupedStrings() throws Exception {
         return null;
     }
-
 }

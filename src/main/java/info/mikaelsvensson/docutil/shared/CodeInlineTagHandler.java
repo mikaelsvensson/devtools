@@ -5,9 +5,9 @@ import com.sun.javadoc.Tag;
 /**
  * @taghandler
  */
-public class CodeTagHandler extends AbstractTagHandler {
+public class CodeInlineTagHandler extends AbstractInlineTagHandler {
 
-    public CodeTagHandler() {
+    public CodeInlineTagHandler() {
         super("code");
     }
 

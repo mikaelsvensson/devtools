@@ -7,9 +7,9 @@ import java.text.MessageFormat;
 /**
  * @taghandler
  */
-public class ImageTagHandler extends AbstractTagHandler {
+public class ImageInlineTagHandler extends AbstractInlineTagHandler {
 
-    public ImageTagHandler() {
+    public ImageInlineTagHandler() {
         super("image");
     }
 

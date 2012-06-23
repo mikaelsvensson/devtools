@@ -1,22 +1,18 @@
 package info.mikaelsvensson.docutil.xml.documentcreator;
 
-import com.sun.javadoc.RootDoc;
+import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
-import info.mikaelsvensson.docutil.shared.*;
+import info.mikaelsvensson.docutil.shared.DocumentCreator;
+import info.mikaelsvensson.docutil.shared.DocumentCreatorException;
+import info.mikaelsvensson.docutil.shared.ElementWrapper;
+import info.mikaelsvensson.docutil.shared.TagHandlerException;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.util.regex.Pattern;
 
 public abstract class AbstractDocumentCreator implements DocumentCreator {
-    private TagHandler[] tagHandlers = new TagHandler[]{
-            new CodeTagHandler(),
-            new ImageTagHandler(),
-            new LinkTagHandler(),
-            new SourceFileTagHandler()};
-    public static final Pattern COMMENT_PARAGRAPH = Pattern.compile("<(p|br)\\s*/\\s*>");
     protected static final String ATTR_NAME = "name";
     protected static final String ATTR_Q_NAME = "qualified-name";
 
@@ -27,11 +23,18 @@ public abstract class AbstractDocumentCreator implements DocumentCreator {
         return doc;
     }
 
-    protected void addComment(ElementWrapper parentEl, Tag[] inlineTags, RootDoc root) {
-        parentEl.addCommentChild(inlineTags, root);
+    protected void addComment(ElementWrapper parentEl, Doc doc) throws DocumentCreatorException {
+        try {
+            parentEl.addCommentChild(doc);
+        } catch (TagHandlerException e) {
+            throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags. ", e);
+        }
     }
-
-    private static void addComment(ElementWrapper parentEl, String comment, RootDoc root) {
-        parentEl.addCommentChild(comment);
+    protected void addComment(ElementWrapper parentEl, Tag doc) throws DocumentCreatorException {
+        try {
+            parentEl.addCommentChild(doc);
+        } catch (TagHandlerException e) {
+            throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags. ", e);
+        }
     }
 }

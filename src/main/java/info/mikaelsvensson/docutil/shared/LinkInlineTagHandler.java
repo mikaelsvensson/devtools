@@ -6,7 +6,7 @@ import com.sun.javadoc.Tag;
 /**
  * @taghandler
  */
-public class LinkTagHandler implements TagHandler {
+public class LinkInlineTagHandler implements InlineTagHandler {
 
     @Override
     public boolean handles(final Tag tag) {
