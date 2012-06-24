@@ -43,8 +43,9 @@ class AnnotationTypeDocHandler extends ClassDocHandler<AnnotationTypeDoc> {
     void handleImpl(final ElementWrapper el, final AnnotationTypeDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        if (el.getTagName().equals("class")) {
+        if (isClassElement(el)) {
             handleDocImpl(el, doc.elements(), "elements", "element");
         }
     }
+
 }

@@ -35,7 +35,7 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 import java.util.HashSet;
 import java.util.Set;
 
-class RootDocHandler extends DocHandler<RootDoc> /*implements ClassDocHandler.Callback*/ {
+class RootDocHandler extends DocHandler<RootDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
     RootDocHandler(final Dispatcher dispatcher) {
@@ -50,13 +50,6 @@ class RootDocHandler extends DocHandler<RootDoc> /*implements ClassDocHandler.Ca
 
         el.removeAttributes(NAME);
 
-//        el.addChild("packages");
-//        for (ClassDoc classDoc : doc.classes()) {
-//            ElementWrapper pkgEl = getElementForPackage(el, classDoc.containingPackage());
-//            handleDocImpl(pkgEl, classDoc, "class");
-//        }
-
-
         Set<PackageDoc> packages = new HashSet<PackageDoc>();
         for (ClassDoc classDoc : doc.classes()) {
             packages.add(classDoc.containingPackage());
@@ -64,46 +57,4 @@ class RootDocHandler extends DocHandler<RootDoc> /*implements ClassDocHandler.Ca
         handleDocImpl(el, packages.toArray(new PackageDoc[]{}), "packages", "package");
     }
 
-//    private Set<String> processedClasses = new HashSet<String>();
-
-//    private Map<PackageDoc, ElementWrapper> packageMap = new HashMap<PackageDoc, ElementWrapper>();
-//    private Map<ClassDoc, ElementWrapper> classMap = new HashMap<ClassDoc, ElementWrapper>();
-
-/*
-    @Override
-    public void onTrigger(final ClassDoc doc) {
-        if (!processedClasses.contains(doc.qualifiedName())) {
-            processedClasses.add(doc.qualifiedName());
-            detailedClassDocHandler.handle()
-        }
-    }
-*/
-
-/*
-    public static ElementWrapper getElementForClass(final ElementWrapper rootElement, final ClassDoc doc) {
-        ElementWrapper packageEl = getElementForPackage(rootElement, doc.containingPackage());
-        for (ElementWrapper cls : packageEl.getChildren("class")) {
-            if (cls.getAttribute(ProgramElementDocHandler.QUALIFIED_NAME).equals(doc.qualifiedName())) {
-                return cls;
-            }
-        }
-        return packageEl.addChild("class");
-    }
-*/
-
-/*
-    private static ElementWrapper getElementForPackage(final ElementWrapper elementWrapper, final PackageDoc packageDoc) {
-        ElementWrapper packageEl = null;
-        ElementWrapper packagesEl = elementWrapper.getChildren("packages")[0];
-        for (ElementWrapper pkg : packagesEl.getChildren("package")) {
-            if (pkg.getAttribute("name").equals(packageDoc.name())) {
-                return pkg;
-            }
-        }
-//        if (null == packageEl) {
-            return packagesEl.addChild("package", "name", packageDoc.name());
-//        }
-//        return packageEl;
-    }
-*/
 }

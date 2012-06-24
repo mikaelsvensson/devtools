@@ -44,17 +44,5 @@ class AnnotationValueHandler extends Handler<AnnotationValue> {
         super.handleImpl(el, doc);
 
         handleValue(el, doc);
-
-//        Object value = doc.value();
-//        if (value instanceof Type ||
-//                value instanceof FieldDoc ||
-//                value instanceof AnnotationDesc) {
-//            handleDocImpl(el, value, "value");
-//        } else if (value instanceof AnnotationValue[]) {
-//            handleDocImpl(el, (AnnotationValue[]) value, "values", "value");
-//        } else {
-//            el.setText(value.toString());
-//        }
-//        el.setAttribute("class-name", value.getClass().getSimpleName());
     }
 }

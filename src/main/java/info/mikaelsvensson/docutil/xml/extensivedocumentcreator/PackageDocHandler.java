@@ -43,6 +43,6 @@ class PackageDocHandler extends DocHandler<PackageDoc> {
     void handleImpl(final ElementWrapper el, final PackageDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        handleDocImpl(el, doc.allClasses(), "classes", "class", true);
+        handleDocImpl(el, doc.allClasses(), "classes", ClassDocHandler.CLASS, true);
     }
 }

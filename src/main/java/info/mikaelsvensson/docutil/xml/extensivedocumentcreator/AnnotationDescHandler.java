@@ -43,28 +43,8 @@ class AnnotationDescHandler extends Handler<AnnotationDesc> {
     void handleImpl(final ElementWrapper el, final AnnotationDesc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-//        el.setAttribute("type", doc.annotationType().qualifiedName());
         handleDocImpl(el, doc.annotationType(), "type");
 
         handleDocImpl(el, doc.elementValues(), "element-values", "element-value");
-//        ElementWrapper valuesEl = el.addChild("element-values");
-//        for (AnnotationDesc.ElementValuePair pair : doc.elementValues()) {
-//
-//            valuesEl.setAttribute("element-name", pair.element().name());
-//
-//            Object value = pair.value().value();
-//            if (value instanceof Type) {
-//                handleDocImpl(valuesEl, value, "class-reference");
-//            } else if (value instanceof FieldDoc) {
-//                handleDocImpl(valuesEl, value, "field");
-//            } else if (value instanceof AnnotationDesc) {
-//                handleDocImpl(valuesEl, value, "value");
-//            } else if (value instanceof AnnotationValue[]) {
-//                handleDocImpl(valuesEl, (AnnotationValue[]) value, "values", "value");
-//            } else {
-//                valuesEl.setText(value.toString());
-//            }
-//            valuesEl.setAttribute("class-name", value.getClass().getSimpleName());
-//        }
     }
 }

@@ -151,7 +151,6 @@ abstract class Handler<T> {
             for (AnnotationValue v : (AnnotationValue[])value) {
                 handleValue(el.addChild("value"), v);
             }
-//            handleDocImpl(el, (AnnotationValue[]) value, "values", "value");
         } else {
             el.setAttribute("type", "single-object");
             el.setText(value.toString());

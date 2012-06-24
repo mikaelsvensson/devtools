@@ -36,7 +36,6 @@ class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T
 // ------------------------------ FIELDS ------------------------------
 
     public static final String QUALIFIED_NAME = "qualified-name";
-//    protected static final String NAME = "name";
     protected static final String FINAL = "final";
     protected static final String ACCESS = "access";
     protected static final String STATIC = "static";
@@ -63,7 +62,6 @@ class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T
 
         el.setAttributes(
                 QUALIFIED_NAME, doc.qualifiedName(),
-//                NAME, doc.name(),
                 FINAL, Boolean.toString(doc.isFinal()),
                 ACCESS, getAccess(doc),
                 STATIC, Boolean.toString(doc.isStatic()));

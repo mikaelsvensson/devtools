@@ -72,7 +72,7 @@ public class PropertySet {
             }
             PropertySet childSet = collections.get(childKey);
             if (null == childSet) {
-                throw new PropertySetException("Could not find collection " + childKey + " in this list of collections: " + collections.keySet().toString());
+                throw new PropertySetException("Could not find collection '" + childKey + "' in this list of collections: " + collections.keySet().toString());
             }
             childSet.setProperty(key.substring(pos + 1), value);
         }
@@ -167,7 +167,7 @@ public class PropertySet {
             PropertySet childSet = collections.get(collectionName);
             if (null == childSet) {
                 //TODO: MISV 20120619 remove STDOUT debugging and document return value in javadoc
-                System.out.println("Could not find collection " + collectionName + " amongst " + collections.keySet().toString());
+                System.out.println("Could not find collection '" + collectionName + "' amongst " + collections.keySet().toString());
                 return new HashMap<String, String>();
             }
             return childSet.getProperties(key.substring(pos + 1));

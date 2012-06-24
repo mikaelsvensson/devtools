@@ -2,8 +2,6 @@ package info.mikaelsvensson.doclet.shared.propertyset;
 
 import org.junit.Test;
 
-import java.util.Map;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -29,10 +27,5 @@ public class PropertySetTest {
 
         assertThat(ps.getCollection("familyMember").size(), is(3));
         assertThat(ps.getCollection("familyMember").get("alice").getProperty("nickName"), is("alice"));
-        for (Map.Entry<String, PropertySet> entry : ps.getCollection("familyMember").entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-
-        System.out.println(ps);
     }
 }

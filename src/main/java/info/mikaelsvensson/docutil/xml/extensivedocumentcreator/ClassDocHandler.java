@@ -33,6 +33,11 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
 
     static final String ABSTRACT = "abstract";
+    static final String CLASS = "class";
+
+    protected boolean isClassElement(final ElementWrapper el) {
+        return el.getTagName().equals(CLASS);
+    }
 
 /*
     interface Callback {
@@ -83,24 +88,9 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
 
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
-//        boolean isExcluded = getProperty(ExtensiveDocumentCreator.EXCLUDE_PACKAGE) != null && doc.qualifiedName().startsWith(getProperty(ExtensiveDocumentCreator.EXCLUDE_PACKAGE));
-//        ElementWrapper attrEl = el;
-//        String attrNamePrefix = "";
-//        if (getBooleanProperty(ExtensiveDocumentCreator.SIMPLE_TYPE_DATA, false)) {
-//            attrEl = el.getParent();
-//            attrNamePrefix = el.getTagName() + "-";
-//            el.remove();
-//        }
-
-//        referenceOnlyOutput = !el.getTagName().equals("class");
-
-        if (!el.getTagName().equals("class")) {
+        if (!isClassElement(el)) {
             setTypeAttributes(el, doc);
             el.setAttribute(QUALIFIED_NAME, doc.qualifiedName());
-//        } else if (isExcluded) {
-//            setTypeAttributes(el, doc);
-//            el.setAttribute(QUALIFIED_NAME, doc.qualifiedName());
-//            el.setAttribute("excluded", Boolean.TRUE.toString());
         } else {
             super.handleImpl(el, doc);
 
