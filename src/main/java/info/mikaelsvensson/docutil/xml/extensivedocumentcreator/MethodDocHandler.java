@@ -61,7 +61,7 @@ class MethodDocHandler<T extends MethodDoc> extends ExecutableMemberDocHandler<T
     }
 
     private void handleReturn(final ElementWrapper el, final Type returnType, final Tag[] paramTags) throws JavadocItemHandlerException {
-        ElementWrapper parameterEl = handleDocImpl(el, returnType, "returns");
+        ElementWrapper parameterEl = handleDocImpl(el, returnType, "return-type");
         for (Tag paramTag : paramTags) {
             addComment(parameterEl, paramTag);
         }

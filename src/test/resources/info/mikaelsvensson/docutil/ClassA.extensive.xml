@@ -94,7 +94,7 @@
                                         <type dimension="1" primitive="false" qualified-name="java.lang.String"/>
                                     </parameter>
                                 </parameters>
-                                <returns dimension="0" primitive="true" qualified-name="void"/>
+                                <return-type dimension="0" primitive="true" qualified-name="void"/>
                             </method>
                             <method abstract="false" access="private" final="false" name="intMethod" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
                                 <parameters>
@@ -102,7 +102,7 @@
                                         <type dimension="2" primitive="true" qualified-name="int"/>
                                     </parameter>
                                 </parameters>
-                                <returns dimension="0" primitive="true" qualified-name="int"/>
+                                <return-type dimension="0" primitive="true" qualified-name="int"/>
                             </method>
                             <method abstract="false" access="package" final="false" name="numberMethod" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
                                 <comment format="html">
@@ -133,14 +133,14 @@
                                         </comment>
                                     </type-parameter>
                                 </type-parameters>
-                                <returns dimension="0" primitive="false" qualified-name="T">
+                                <return-type dimension="0" primitive="false" qualified-name="T">
                                     <bounds>
                                         <bound access="public" final="false" name="Number" qualified-name="java.lang.Number" static="false"/>
                                     </bounds>
                                     <comment format="html">
                                         <p>something</p>
                                     </comment>
-                                </returns>
+                                </return-type>
                             </method>
                             <method abstract="false" access="default" final="false" name="getGroupedStrings" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
                                 <comment format="html">
@@ -154,7 +154,7 @@
                                         </comment>
                                     </throws>
                                 </throws-list>
-                                <returns dimension="0" primitive="false" qualified-name="java.util.Map">
+                                <return-type dimension="0" primitive="false" qualified-name="java.util.Map">
                                     <type-arguments>
                                         <type-argument access="public" final="true" name="String" qualified-name="java.lang.String" static="false"/>
                                         <type-argument dimension="0" primitive="false" qualified-name="java.util.List">
@@ -166,7 +166,7 @@
                                     <comment format="html">
                                         <p>a grouped list</p>
                                     </comment>
-                                </returns>
+                                </return-type>
                             </method>
                         </methods>
                     </class>

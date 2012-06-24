@@ -26,7 +26,7 @@
                         </fields>
                         <methods>
                             <method abstract="false" access="public" final="false" name="values" native="false" static="true" synchronized="false" synthetic="false" varargs="false">
-                                <returns dimension="1" primitive="false" qualified-name="enumeration.Fruit"/>
+                                <return-type dimension="1" primitive="false" qualified-name="enumeration.Fruit"/>
                             </method>
                             <method abstract="false" access="public" final="false" name="valueOf" native="false" static="true" synchronized="false" synthetic="false" varargs="false">
                                 <parameters>
@@ -34,10 +34,10 @@
                                         <type access="public" final="true" name="String" qualified-name="java.lang.String" static="false"/>
                                     </parameter>
                                 </parameters>
-                                <returns access="public" final="true" name="Fruit" qualified-name="enumeration.Fruit" static="false"/>
+                                <return-type access="public" final="true" name="Fruit" qualified-name="enumeration.Fruit" static="false"/>
                             </method>
                             <method abstract="false" access="public" final="false" name="color" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
-                                <returns access="public" final="false" name="Color" qualified-name="java.awt.Color" static="false"/>
+                                <return-type access="public" final="false" name="Color" qualified-name="java.awt.Color" static="false"/>
                             </method>
                         </methods>
                     </class>
