@@ -32,6 +32,7 @@ import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.commenttext.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -173,5 +174,19 @@ public class ElementWrapper {
         for (String name : attributesNames) {
             el.removeAttribute(name);
         }
+    }
+
+    public void remove() {
+        if (el.getParentNode() != null) {
+            el.getParentNode().removeChild(el);
+        }
+    }
+
+    public ElementWrapper getParent() {
+        Node parentNode = el.getParentNode();
+        if (null != parentNode && parentNode.getNodeType() == Node.ELEMENT_NODE) {
+            return new ElementWrapper((Element) parentNode);
+        }
+        return null;
     }
 }
