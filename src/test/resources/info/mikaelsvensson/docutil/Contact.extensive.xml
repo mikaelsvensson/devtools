@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <documentation>
     <java>
         <packages>
@@ -58,9 +59,6 @@
                                 </element-values>
                             </annotation>
                         </annotations>
-                        <interfaces>
-                            <interface dimension="0" primitive="false" qualified-name="java.lang.annotation.Annotation"/>
-                        </interfaces>
                         <elements>
                             <element abstract="false" access="public" final="false" name="value" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
                                 <return-type dimension="1" primitive="false" qualified-name="info.mikaelsvensson.docutil.Text"/>
@@ -108,9 +106,6 @@
                                 </element-values>
                             </annotation>
                         </annotations>
-                        <interfaces>
-                            <interface dimension="0" primitive="false" qualified-name="java.lang.annotation.Annotation"/>
-                        </interfaces>
                         <elements>
                             <element abstract="false" access="public" final="false" name="condition" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
                                 <return-type dimension="0" primitive="false" qualified-name="java.lang.String"/>
@@ -125,11 +120,7 @@
                             </element>
                         </elements>
                     </class>
-                    <class abstract="true" access="default" externalizable="false" final="false" name="Required" qualified-name="info.mikaelsvensson.docutil.Required" serializable="false" static="false" type="annotation">
-                        <interfaces>
-                            <interface dimension="0" primitive="false" qualified-name="java.lang.annotation.Annotation"/>
-                        </interfaces>
-                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="Required" qualified-name="info.mikaelsvensson.docutil.Required" serializable="false" static="false" type="annotation"/>
                     <class abstract="false" access="default" externalizable="false" final="false" name="Pullable" qualified-name="info.mikaelsvensson.docutil.Pullable" serializable="false" static="false" type="class">
                         <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
                         <constructors>
@@ -151,9 +142,6 @@
                                 </element-values>
                             </annotation>
                         </annotations>
-                        <interfaces>
-                            <interface dimension="0" primitive="false" qualified-name="java.lang.annotation.Annotation"/>
-                        </interfaces>
                         <elements>
                             <element abstract="false" access="public" final="false" name="name" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
                                 <return-type dimension="0" primitive="false" qualified-name="java.lang.String"/>
@@ -175,9 +163,6 @@
                                 </element-values>
                             </annotation>
                         </annotations>
-                        <interfaces>
-                            <interface dimension="0" primitive="false" qualified-name="java.lang.annotation.Annotation"/>
-                        </interfaces>
                         <elements>
                             <element abstract="false" access="public" final="false" name="min" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
                                 <return-type dimension="0" primitive="true" qualified-name="long"/>

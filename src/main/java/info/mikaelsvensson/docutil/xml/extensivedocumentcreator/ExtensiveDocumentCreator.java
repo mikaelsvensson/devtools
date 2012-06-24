@@ -43,6 +43,7 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
     public static final String ENUM_MEMBER_TYPE_FILTER = "enumMemberTypeFilter";
     public static final String EXCLUDE_PACKAGE = "excludePackage";
     public static final String INTERFACE_MEMBER_TYPE_FILTER = "interfaceMemberTypeFilter";
+    public static final String ANNOTATION_MEMBER_TYPE_FILTER = "annotationMemberTypeFilter";
     public static final String NAME = "extensive";
     public static final String SHOW_ANNOTATIONS = "showAnnotations";
     public static final String SIMPLE_TYPE_DATA = "simpleTypeData";

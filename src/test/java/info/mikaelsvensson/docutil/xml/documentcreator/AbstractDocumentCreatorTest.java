@@ -2,6 +2,7 @@ package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import info.mikaelsvensson.docutil.shared.DocumentCreator;
 import info.mikaelsvensson.docutil.shared.DocumentCreatorFactory;
+import info.mikaelsvensson.docutil.shared.FileUtil;
 import info.mikaelsvensson.docutil.xml.XmlDoclet;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
@@ -52,7 +53,7 @@ public abstract class AbstractDocumentCreatorTest {
                 XmlDoclet.class.getName(),
                 args);
 
-//        System.out.println(FileUtil.getFileContent(actualFile));
+        System.out.println(FileUtil.getFileContent(actualFile));
 
         File expectedFile = new File("target\\test-classes\\" + testClass.getName().replace('.', File.separatorChar) + "." + documentCreatorId + ".xml");
         Diff diff = new Diff(new FileReader(expectedFile), new FileReader(actualFile));

@@ -52,7 +52,7 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
             super.handleImpl(el, doc);
 
             el.setAttributes(
-                    ABSTRACT, Boolean.toString(doc.isAbstract()),
+                    "abstract", Boolean.toString(doc.isAbstract()),
                     "externalizable", Boolean.toString(doc.isExternalizable()),
                     "serializable", Boolean.toString(doc.isSerializable()));
 
@@ -64,6 +64,9 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
                     break;
                 case INTERFACE:
                     classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.INTERFACE_MEMBER_TYPE_FILTER, "sfnimtp");
+                    break;
+                case ANNOTATION:
+                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.ANNOTATION_MEMBER_TYPE_FILTER, "sm");
                     break;
                 default:
                     classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.CLASS_MEMBER_TYPE_FILTER, "scfnimtp");

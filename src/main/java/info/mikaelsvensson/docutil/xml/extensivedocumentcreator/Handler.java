@@ -36,7 +36,6 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 abstract class Handler<T> {
 // ------------------------------ FIELDS ------------------------------
 
-    static final String ABSTRACT = "abstract";
     static final String CLASS = "class";
 
     protected static final ObjectHandlerFilter ACCEPT_ALL_FILTER = new ObjectHandlerFilter() {
