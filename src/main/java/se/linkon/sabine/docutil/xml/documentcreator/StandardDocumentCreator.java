@@ -57,11 +57,11 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
     /**
      * When using
      * <p/>
-     * {@embed file ../test/java/se.linkon.sabine.doclet/ClassA.java}
+     * {@embed file ../test/resources/info/mikaelsvensson/docutil/ClassA.java}
      * <p/>
      * the result is this
      * <p/>
-     * {@embed file ../test/resources/se.linkon.sabine.docutil.ClassA.StandardDocumentCreator.xml}
+     * {@embed file ../test/resources/info/mikaelsvensson/docutil/ClassA.standard.xml}
      *
      * @formatproperty
      */

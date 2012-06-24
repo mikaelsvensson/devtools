@@ -67,7 +67,7 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
         try {
             dispatcher.dispatch(dw, "java", doc);
         } catch (JavadocItemHandlerException e) {
-            throw new DocumentCreatorException("Could not parse/process Javadoc. ", e);
+            throw new DocumentCreatorException("Could not parse/process Javadoc: " + e.getMessage(), e);
         }
 
         return dw.getDocument();

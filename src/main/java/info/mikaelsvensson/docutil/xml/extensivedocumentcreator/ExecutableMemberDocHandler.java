@@ -86,7 +86,7 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
         try {
             parameterEl.addCommentChild(paramTag);
         } catch (InlineTagHandlerException e) {
-            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
+            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags:" + e.getMessage(), e);
         }
     }
 
