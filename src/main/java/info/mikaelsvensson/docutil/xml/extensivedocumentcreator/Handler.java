@@ -27,6 +27,10 @@
 
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
+import com.sun.javadoc.AnnotationDesc;
+import com.sun.javadoc.AnnotationValue;
+import com.sun.javadoc.FieldDoc;
+import com.sun.javadoc.Type;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 abstract class Handler<T> {
@@ -113,5 +117,44 @@ abstract class Handler<T> {
 
     protected boolean getBooleanProperty(final String property, final boolean defaultValue) {
         return Boolean.valueOf(getProperty(property, defaultValue ? Boolean.TRUE.toString() : Boolean.FALSE.toString()));
+    }
+
+    protected int getDimensionCount(final String dimension) {
+        int count = 0;
+        int pos = -1;
+        while ((pos = dimension.indexOf('[', pos + 1)) != -1) {
+            count++;
+        }
+        return count;
+    }
+
+    protected void setTypeAttributes(final ElementWrapper el, final Type doc) {
+        el.setAttributes(
+                "dimension", Integer.toString(getDimensionCount(doc.dimension())),
+                "primitive", Boolean.toString(doc.isPrimitive()),
+                ProgramElementDocHandler.QUALIFIED_NAME, doc.qualifiedTypeName());
+    }
+
+    protected void handleValue(final ElementWrapper el, final AnnotationValue annotationValue) throws JavadocItemHandlerException {
+        Object value = annotationValue.value();
+        if (value instanceof Type) {
+            el.setAttribute("type", "class-reference");
+            handleDocImpl(el, value, "class-reference");
+        } else if (value instanceof FieldDoc) {
+            el.setAttribute("type", "enum-constant");
+            handleDocImpl(el, value, "enum-constant");
+        } else if (value instanceof AnnotationDesc) {
+            el.setAttribute("type", "single-annotation");
+            handleDocImpl(el, value, "single-annotation");
+        } else if (value instanceof AnnotationValue[]) {
+            el.setAttribute("type", "values");
+            for (AnnotationValue v : (AnnotationValue[])value) {
+                handleValue(el.addChild("value"), v);
+            }
+//            handleDocImpl(el, (AnnotationValue[]) value, "values", "value");
+        } else {
+            el.setAttribute("type", "single-object");
+            el.setText(value.toString());
+        }
     }
 }

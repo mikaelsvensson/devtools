@@ -42,5 +42,7 @@ class AnnotationTypeElementDocHandler extends MethodDocHandler<AnnotationTypeEle
     @Override
     void handleImpl(final ElementWrapper el, final AnnotationTypeElementDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
+
+        handleDocImpl(el, doc.defaultValue(), "default-value");
     }
 }

@@ -33,8 +33,8 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class AnnotationTypeDocHandler extends ClassDocHandler<AnnotationTypeDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    AnnotationTypeDocHandler(final Dispatcher dispatcher) {
-        super(AnnotationTypeDoc.class, dispatcher);
+    AnnotationTypeDocHandler(final Dispatcher dispatcher/*, boolean referenceOnlyOutput, Callback callback*/) {
+        super(AnnotationTypeDoc.class, dispatcher/*, referenceOnlyOutput, callback*/);
     }
 
 // -------------------------- OTHER METHODS --------------------------
@@ -43,6 +43,8 @@ class AnnotationTypeDocHandler extends ClassDocHandler<AnnotationTypeDoc> {
     void handleImpl(final ElementWrapper el, final AnnotationTypeDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        handleDocImpl(el, doc.elements(), "elements", "element");
+        if (el.getTagName().equals("class")) {
+            handleDocImpl(el, doc.elements(), "elements", "element");
+        }
     }
 }

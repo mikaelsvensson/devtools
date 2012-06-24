@@ -41,6 +41,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class ElementWrapper {
@@ -188,5 +190,16 @@ public class ElementWrapper {
             return new ElementWrapper((Element) parentNode);
         }
         return null;
+    }
+
+    public ElementWrapper[] getChildren(final String name) {
+        List<ElementWrapper> children = new LinkedList<ElementWrapper>();
+        for (int i = 0; i < el.getChildNodes().getLength(); i++) {
+            Node node = el.getChildNodes().item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                children.add(new ElementWrapper((Element) node));
+            }
+        }
+        return children.toArray(new ElementWrapper[]{});
     }
 }

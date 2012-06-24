@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <documentation>
-    <java message-from-developer="">
+    <java>
         <packages>
             <package name="info.mikaelsvensson.docutil">
                 <classes>
                     <class abstract="false" access="default" externalizable="false" final="false" name="Truck" qualified-name="info.mikaelsvensson.docutil.Truck" serializable="false" static="false" type="class">
-                        <superclass access="public" final="false" name="Vehicle" qualified-name="info.mikaelsvensson.docutil.Vehicle" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
                         <constructors>
                             <constructor access="default" final="false" name="Truck" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
                         <interfaces>
-                            <interface access="default" final="false" name="Motorized" qualified-name="info.mikaelsvensson.docutil.Motorized" static="false"/>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Motorized"/>
                             <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.HasItems">
                                 <type-arguments>
-                                    <type-argument access="default" final="false" name="Trailer" qualified-name="info.mikaelsvensson.docutil.Trailer" static="false"/>
+                                    <type-argument dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Trailer"/>
                                 </type-arguments>
                             </interface>
                         </interfaces>
                     </class>
                     <class abstract="false" access="default" externalizable="false" final="false" name="TrainCar" qualified-name="info.mikaelsvensson.docutil.TrainCar" serializable="false" static="false" type="class">
-                        <superclass access="default" final="false" name="Pullable" qualified-name="info.mikaelsvensson.docutil.Pullable" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Pullable"/>
                         <constructors>
                             <constructor access="default" final="false" name="TrainCar" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
                     </class>
                     <class abstract="false" access="default" externalizable="false" final="false" name="Train" qualified-name="info.mikaelsvensson.docutil.Train" serializable="false" static="false" type="class">
-                        <superclass access="public" final="false" name="Vehicle" qualified-name="info.mikaelsvensson.docutil.Vehicle" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
                         <constructors>
                             <constructor access="default" final="false" name="Train" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
                         <interfaces>
-                            <interface access="default" final="false" name="Motorized" qualified-name="info.mikaelsvensson.docutil.Motorized" static="false"/>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Motorized"/>
                             <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.HasItems">
                                 <type-arguments>
-                                    <type-argument access="default" final="false" name="TrainCar" qualified-name="info.mikaelsvensson.docutil.TrainCar" static="false"/>
+                                    <type-argument dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.TrainCar"/>
                                 </type-arguments>
                             </interface>
                         </interfaces>
                     </class>
                     <class abstract="false" access="default" externalizable="false" final="false" name="Trailer" qualified-name="info.mikaelsvensson.docutil.Trailer" serializable="false" static="false" type="class">
-                        <superclass access="default" final="false" name="Pullable" qualified-name="info.mikaelsvensson.docutil.Pullable" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Pullable"/>
                         <constructors>
                             <constructor access="default" final="false" name="Trailer" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
                     </class>
                     <class abstract="false" access="default" externalizable="false" final="false" name="Pullable" qualified-name="info.mikaelsvensson.docutil.Pullable" serializable="false" static="false" type="class">
-                        <superclass access="public" final="false" name="Vehicle" qualified-name="info.mikaelsvensson.docutil.Vehicle" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
                         <constructors>
                             <constructor access="default" final="false" name="Pullable" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
                     </class>
                     <class abstract="true" access="default" externalizable="false" final="false" name="Motorized" qualified-name="info.mikaelsvensson.docutil.Motorized" serializable="false" static="false" type="interface"/>
                     <class abstract="false" access="default" externalizable="false" final="false" name="Metro" qualified-name="info.mikaelsvensson.docutil.Metro" serializable="false" static="false" type="class">
-                        <superclass access="default" final="false" name="Train" qualified-name="info.mikaelsvensson.docutil.Train" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Train"/>
                         <constructors>
                             <constructor access="default" final="false" name="Metro" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
@@ -66,13 +66,13 @@
                         <comment format="html">
                             <p>Class comment</p>
                         </comment>
-                        <superclass access="public" final="false" name="Object" qualified-name="java.lang.Object" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="java.lang.Object"/>
                         <constructors>
                             <constructor access="public" final="false" name="ClassA" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
                         <fields>
                             <field access="public" constant-value="value" final="true" name="A_CONSTANT" static="true" synthetic="false" transient="false" volatile="false">
-                                <type access="public" final="true" name="String" qualified-name="java.lang.String" static="false"/>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.String"/>
                             </field>
                             <field access="private" constant-value="1" final="true" name="PRIVATE_INTEGER" static="true" synthetic="false" transient="false" volatile="false">
                                 <comment format="html">
@@ -81,10 +81,10 @@
                                 <type dimension="0" primitive="true" qualified-name="int"/>
                             </field>
                             <field access="private" final="false" name="field1" static="false" synthetic="false" transient="false" volatile="false">
-                                <type access="public" final="true" name="String" qualified-name="java.lang.String" static="false"/>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.String"/>
                             </field>
                             <field access="public" final="false" name="field2" static="false" synthetic="false" transient="false" volatile="false">
-                                <type access="public" final="true" name="String" qualified-name="java.lang.String" static="false"/>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.String"/>
                             </field>
                         </fields>
                         <methods>
@@ -115,7 +115,7 @@
                                     <parameter name="numberParameter">
                                         <type dimension="0" primitive="false" qualified-name="T">
                                             <bounds>
-                                                <bound access="public" final="false" name="Number" qualified-name="java.lang.Number" static="false"/>
+                                                <bound dimension="0" primitive="false" qualified-name="java.lang.Number"/>
                                             </bounds>
                                         </type>
                                         <comment format="html">
@@ -126,7 +126,7 @@
                                 <type-parameters>
                                     <type-parameter dimension="0" primitive="false" qualified-name="T">
                                         <bounds>
-                                            <bound access="public" final="false" name="Number" qualified-name="java.lang.Number" static="false"/>
+                                            <bound dimension="0" primitive="false" qualified-name="java.lang.Number"/>
                                         </bounds>
                                         <comment format="html">
                                             <p>a comment</p>
@@ -135,7 +135,7 @@
                                 </type-parameters>
                                 <return-type dimension="0" primitive="false" qualified-name="T">
                                     <bounds>
-                                        <bound access="public" final="false" name="Number" qualified-name="java.lang.Number" static="false"/>
+                                        <bound dimension="0" primitive="false" qualified-name="java.lang.Number"/>
                                     </bounds>
                                     <comment format="html">
                                         <p>something</p>
@@ -148,7 +148,7 @@
                                 </comment>
                                 <tags/>
                                 <throws-list>
-                                    <throws access="public" final="false" name="Exception" qualified-name="java.lang.Exception" static="false">
+                                    <throws dimension="0" primitive="false" qualified-name="java.lang.Exception">
                                         <comment format="html">
                                             <p>when something does wrong.</p>
                                         </comment>
@@ -156,10 +156,10 @@
                                 </throws-list>
                                 <return-type dimension="0" primitive="false" qualified-name="java.util.Map">
                                     <type-arguments>
-                                        <type-argument access="public" final="true" name="String" qualified-name="java.lang.String" static="false"/>
+                                        <type-argument dimension="0" primitive="false" qualified-name="java.lang.String"/>
                                         <type-argument dimension="0" primitive="false" qualified-name="java.util.List">
                                             <type-arguments>
-                                                <type-argument access="public" final="true" name="String" qualified-name="java.lang.String" static="false"/>
+                                                <type-argument dimension="0" primitive="false" qualified-name="java.lang.String"/>
                                             </type-arguments>
                                         </type-argument>
                                     </type-arguments>
@@ -171,18 +171,18 @@
                         </methods>
                     </class>
                     <class abstract="false" access="default" externalizable="false" final="false" name="Car" qualified-name="info.mikaelsvensson.docutil.Car" serializable="false" static="false" type="class">
-                        <superclass access="public" final="false" name="Vehicle" qualified-name="info.mikaelsvensson.docutil.Vehicle" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
                         <constructors>
                             <constructor access="default" final="false" name="Car" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
                     </class>
                     <class abstract="false" access="default" externalizable="false" final="false" name="Bicycle" qualified-name="info.mikaelsvensson.docutil.Bicycle" serializable="false" static="false" type="class">
-                        <superclass access="public" final="false" name="Vehicle" qualified-name="info.mikaelsvensson.docutil.Vehicle" static="false"/>
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
                         <constructors>
                             <constructor access="default" final="false" name="Bicycle" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
                         </constructors>
                         <interfaces>
-                            <interface access="default" final="false" name="Motorized" qualified-name="info.mikaelsvensson.docutil.Motorized" static="false"/>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Motorized"/>
                         </interfaces>
                     </class>
                 </classes>

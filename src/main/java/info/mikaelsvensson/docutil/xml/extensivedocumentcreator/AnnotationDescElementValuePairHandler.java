@@ -28,6 +28,7 @@
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.AnnotationDesc;
+import com.sun.javadoc.AnnotationValue;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class AnnotationDescElementValuePairHandler extends Handler<AnnotationDesc.ElementValuePair> {
@@ -43,8 +44,14 @@ class AnnotationDescElementValuePairHandler extends Handler<AnnotationDesc.Eleme
     void handleImpl(final ElementWrapper el, final AnnotationDesc.ElementValuePair doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        handleDocImpl(el, doc.element(), "element");
+        el.setAttribute("element-name", doc.element().name());
 
-        handleDocImpl(el, doc.value(), "value");
+        AnnotationValue annotationValue = doc.value();
+        handleValue(el, annotationValue);
+
+//        handleDocImpl(el, doc.element(), "element");
+
+//        handleDocImpl(el, doc.value()., "value");
     }
+
 }

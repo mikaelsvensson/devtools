@@ -27,10 +27,7 @@
 
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
-import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.AnnotationValue;
-import com.sun.javadoc.FieldDoc;
-import com.sun.javadoc.Type;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class AnnotationValueHandler extends Handler<AnnotationValue> {
@@ -46,16 +43,18 @@ class AnnotationValueHandler extends Handler<AnnotationValue> {
     void handleImpl(final ElementWrapper el, final AnnotationValue doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        Object value = doc.value();
-        if (value instanceof Type ||
-                value instanceof FieldDoc ||
-                value instanceof AnnotationDesc) {
-            handleDocImpl(el, value, "value");
-        } else if (value instanceof AnnotationValue[]) {
-            handleDocImpl(el, (AnnotationValue[]) value, "values", "value");
-        } else {
-            el.setText(value.toString());
-        }
-        el.setAttribute("class-name", value.getClass().getSimpleName());
+        handleValue(el, doc);
+
+//        Object value = doc.value();
+//        if (value instanceof Type ||
+//                value instanceof FieldDoc ||
+//                value instanceof AnnotationDesc) {
+//            handleDocImpl(el, value, "value");
+//        } else if (value instanceof AnnotationValue[]) {
+//            handleDocImpl(el, (AnnotationValue[]) value, "values", "value");
+//        } else {
+//            el.setText(value.toString());
+//        }
+//        el.setAttribute("class-name", value.getClass().getSimpleName());
     }
 }

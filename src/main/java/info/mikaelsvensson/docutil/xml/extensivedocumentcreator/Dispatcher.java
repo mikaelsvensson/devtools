@@ -27,20 +27,37 @@
 
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
+import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
 
-public class Dispatcher {
+public class Dispatcher /*implements ClassDocHandler.Callback*/ {
 // ------------------------------ FIELDS ------------------------------
 
     private PropertySet propertySet;
 
     private Handler[] handlers;
 
-// --------------------------- CONSTRUCTORS ---------------------------
+    private ClassDocHandler detailedClassDocHandler;
+    private ElementWrapper rootElement;
+    private RootDocHandler rootDocHandler;
+
+    public ElementWrapper getRootElement() {
+        return rootElement;
+    }
+
+    public RootDocHandler getRootDocHandler() {
+
+        return rootDocHandler;
+    }
+
+    // --------------------------- CONSTRUCTORS ---------------------------
 
     public Dispatcher(final PropertySet propertySet) {
         this.propertySet = propertySet;
+        this.detailedClassDocHandler = new ClassDocHandler(this/*, false, null*/);
+
+        rootDocHandler = new RootDocHandler(this);
         handlers = new Handler[] {
                 /**/ new AnnotationTypeElementDocHandler(this),
                 /*  */ new MethodDocHandler(this),
@@ -48,9 +65,10 @@ public class Dispatcher {
                 /*    */ new ExecutableMemberDocHandler(this),
                 /*    */ new FieldDocHandler(this),
                 /*      */ new MemberDocHandler(this),
-                /*      */ new ClassDocHandler(this),
+                /*    */ new AnnotationTypeDocHandler(this/*, true, this*/),
+                /*      */ new ClassDocHandler(this/*, true, this*/),
                 /*        */ new ProgramElementDocHandler(this),
-                /*        */ new RootDocHandler(this),
+                /*        */ rootDocHandler,
                 /*        */ new PackageDocHandler(this),
                 /*          */ new DocHandler(this),
 
@@ -62,7 +80,6 @@ public class Dispatcher {
                 /**/ new SerialFieldTagHandler(this),
                 /*  */ new TagHandler(this),
 
-                /**/ new AnnotationTypeDocHandler(this),
                 /**/ new ParameterizedTypeHandler(this),
                 /**/ new TypeVariableHandler(this),
                 /**/ new WildcardTypeHandler(this),
@@ -76,6 +93,10 @@ public class Dispatcher {
 
 // -------------------------- OTHER METHODS --------------------------
 
+//    public ElementWrapper dispatch(final ElementWrapper el, String elementName, final RootDoc rootDoc) throws JavadocItemHandlerException {
+//        rootElement = dispatch(el, elementName, rootDoc, false);
+//        return rootElement;
+//    }
     public ElementWrapper dispatch(final ElementWrapper el, String elementName, final Object javadocObject) throws JavadocItemHandlerException {
         return dispatch(el, elementName, javadocObject, false);
     }
@@ -83,13 +104,16 @@ public class Dispatcher {
     public ElementWrapper dispatch(final ElementWrapper el, String elementName, final Object javadocObject, final boolean includeClassHandler) throws JavadocItemHandlerException {
         if (javadocObject != null) {
             ElementWrapper child = el.addChild(elementName);
+            if (javadocObject instanceof RootDoc) {
+                rootElement = child;
+            }
 
             for (Handler handler : handlers) {
-                if (includeClassHandler || !(handler instanceof ClassDocHandler)) {
+//                if (includeClassHandler || !(handler instanceof ClassDocHandler)) {
                     if (handler.handle(child, javadocObject)) {
                         break;
                     }
-                }
+//                }
             }
 
             return child;
@@ -100,4 +124,12 @@ public class Dispatcher {
     public String getProperty(final String key) {
         return propertySet.getProperty(key);
     }
+
+//    @Override
+//    public void onTrigger(final ClassDoc doc) throws JavadocItemHandlerException {
+//        ElementWrapper clsEl = RootDocHandler.getElementForClass(rootElement, doc);
+//        if (clsEl.getAttribute(ClassDocHandler.ABSTRACT).length() == 0) {
+//            detailedClassDocHandler.handle(clsEl, doc);
+//        }
+//    }
 }

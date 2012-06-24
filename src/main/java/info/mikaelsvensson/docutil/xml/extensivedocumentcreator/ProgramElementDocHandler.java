@@ -27,6 +27,7 @@
 
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
+import com.sun.javadoc.AnnotationDesc;
 import com.sun.javadoc.ProgramElementDoc;
 import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
@@ -34,7 +35,7 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T> {
 // ------------------------------ FIELDS ------------------------------
 
-    protected static final String QUALIFIED_NAME = "qualified-name";
+    public static final String QUALIFIED_NAME = "qualified-name";
 //    protected static final String NAME = "name";
     protected static final String FINAL = "final";
     protected static final String ACCESS = "access";
@@ -66,8 +67,9 @@ class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T
                 FINAL, Boolean.toString(doc.isFinal()),
                 ACCESS, getAccess(doc),
                 STATIC, Boolean.toString(doc.isStatic()));
-        if (getBooleanProperty("showAnnotations", false)) {
-            handleDocImpl(el, doc.annotations(), "annotations", "annotation");
+        if (getBooleanProperty(ExtensiveDocumentCreator.SHOW_ANNOTATIONS, false)) {
+            AnnotationDesc[] annotations = doc.annotations();
+            handleDocImpl(el, annotations, "annotations", "annotation");
         }
     }
 
