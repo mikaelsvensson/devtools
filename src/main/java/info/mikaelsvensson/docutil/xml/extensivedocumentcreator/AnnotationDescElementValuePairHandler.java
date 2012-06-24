@@ -27,45 +27,24 @@
 
 package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
-import com.sun.javadoc.Type;
+import com.sun.javadoc.AnnotationDesc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
-class TypeHandler<T extends Type> extends Handler<T> {
-    // --------------------------- CONSTRUCTORS ---------------------------
+class AnnotationDescElementValuePairHandler extends Handler<AnnotationDesc.ElementValuePair> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
-    TypeHandler(final Dispatcher dispatcher) {
-        super((Class<T>) Type.class, dispatcher);
-    }
-
-    public TypeHandler(final Class<T> docClass, final Dispatcher dispatcher) {
-        super(docClass, dispatcher);
+    AnnotationDescElementValuePairHandler(final Dispatcher dispatcher) {
+        super(AnnotationDesc.ElementValuePair.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final AnnotationDesc.ElementValuePair doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        ElementWrapper attrEl = el;
-        String attrNamePrefix = "";
-        if (getBooleanProperty(ExtensiveDocumentCreator.SIMPLE_TYPE_DATA, false)) {
-            attrEl = el.getParent();
-            attrNamePrefix = el.getTagName() + "-";
-            el.remove();
-        }
-        attrEl.setAttributes(
-                attrNamePrefix + "dimension", Integer.toString(getDimensionCount(doc.dimension())),
-                attrNamePrefix + "primitive", Boolean.toString(doc.isPrimitive()),
-                attrNamePrefix + "qualified-name", doc.qualifiedTypeName());
-    }
+        handleDocImpl(el, doc.element(), "element");
 
-    private int getDimensionCount(final String dimension) {
-        int count = 0;
-        int pos = -1;
-        while ((pos = dimension.indexOf('[', pos + 1)) != -1) {
-            count++;
-        }
-        return count;
+        handleDocImpl(el, doc.value(), "value");
     }
 }

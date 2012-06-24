@@ -66,7 +66,11 @@ public class Dispatcher {
                 /**/ new ParameterizedTypeHandler(this),
                 /**/ new TypeVariableHandler(this),
                 /**/ new WildcardTypeHandler(this),
-                /*  */ new TypeHandler(this)
+                /*  */ new TypeHandler(this),
+
+                /**/ new AnnotationDescHandler(this),
+                /**/ new AnnotationDescElementValuePairHandler(this),
+                /**/ new AnnotationValueHandler(this)
         };
     }
 

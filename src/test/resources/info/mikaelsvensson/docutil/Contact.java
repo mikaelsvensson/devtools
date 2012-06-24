@@ -25,47 +25,61 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
+package info.mikaelsvensson.docutil;
 
-import com.sun.javadoc.Type;
-import info.mikaelsvensson.docutil.shared.ElementWrapper;
+import javax.mail.internet.InternetAddress;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 
-class TypeHandler<T extends Type> extends Handler<T> {
-    // --------------------------- CONSTRUCTORS ---------------------------
+@Pojo(name = "ca")
+public class Contact {
+    @Required
+    private InternetAddress emailAddress;
 
-    TypeHandler(final Dispatcher dispatcher) {
-        super((Class<T>) Type.class, dispatcher);
-    }
+    @Required
+    private String name;
 
-    public TypeHandler(final Class<T> docClass, final Dispatcher dispatcher) {
-        super(docClass, dispatcher);
-    }
+    @NumericRange(min = 1900)
+    private int birthYear;
 
-// -------------------------- OTHER METHODS --------------------------
+    @Text(condition = "^[0-9\\s]+$", conditionType = TextConditionType.REGEXP)
+    @Required
+    private String zipCode;
 
-    @Override
-    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
-        super.handleImpl(el, doc);
+    @Texts({@Text(condition = "sv_SE", conditionType = TextConditionType.EQUALS), @Text(condition = "en", conditionType = TextConditionType.STARTS_WITH)})
+    private String preferredLocale;
+}
 
-        ElementWrapper attrEl = el;
-        String attrNamePrefix = "";
-        if (getBooleanProperty(ExtensiveDocumentCreator.SIMPLE_TYPE_DATA, false)) {
-            attrEl = el.getParent();
-            attrNamePrefix = el.getTagName() + "-";
-            el.remove();
-        }
-        attrEl.setAttributes(
-                attrNamePrefix + "dimension", Integer.toString(getDimensionCount(doc.dimension())),
-                attrNamePrefix + "primitive", Boolean.toString(doc.isPrimitive()),
-                attrNamePrefix + "qualified-name", doc.qualifiedTypeName());
-    }
+@Target(ElementType.TYPE)
+@interface Pojo {
+    String name();
+}
 
-    private int getDimensionCount(final String dimension) {
-        int count = 0;
-        int pos = -1;
-        while ((pos = dimension.indexOf('[', pos + 1)) != -1) {
-            count++;
-        }
-        return count;
-    }
+@Target(ElementType.FIELD)
+@interface Text {
+    String condition();
+
+    TextConditionType conditionType() default TextConditionType.EQUALS;
+}
+
+@Target(ElementType.FIELD)
+@interface Texts {
+    Text[] value();
+}
+
+@Target(ElementType.FIELD)
+@interface NumericRange {
+    long min() default Long.MIN_VALUE;
+
+    long max() default Long.MAX_VALUE;
+}
+
+@interface Required {
+
+}
+
+enum TextConditionType {
+    EQUALS,
+    STARTS_WITH,
+    REGEXP
 }

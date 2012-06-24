@@ -66,8 +66,9 @@ class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T
                 FINAL, Boolean.toString(doc.isFinal()),
                 ACCESS, getAccess(doc),
                 STATIC, Boolean.toString(doc.isStatic()));
-
-        handleDocImpl(el, doc.annotations(), "annotations", "annotation");
+        if (getBooleanProperty("showAnnotations", false)) {
+            handleDocImpl(el, doc.annotations(), "annotations", "annotation");
+        }
     }
 
     private String getAccess(ProgramElementDoc javadocItem) {

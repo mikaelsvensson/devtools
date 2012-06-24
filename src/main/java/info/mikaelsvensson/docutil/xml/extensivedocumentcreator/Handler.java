@@ -98,14 +98,20 @@ abstract class Handler<T> {
         handleDocImpl(el, javadocObjects, filter, listElName, elName, false);
     }
 
-    protected <X> void handleDocImpl(final ElementWrapper el, final X[] javadocObjects, final ObjectHandlerFilter<X> filter, final String listElName, final String elName, final boolean includeClassHandler) throws JavadocItemHandlerException {
+    protected <X> void handleDocImpl(ElementWrapper el, final X[] javadocObjects, final ObjectHandlerFilter<X> filter, final String listElName, final String elName, final boolean includeClassHandler) throws JavadocItemHandlerException {
         if (null != javadocObjects && javadocObjects.length > 0) {
-            ElementWrapper listEl = el.addChild(listElName);
+            if (getBooleanProperty(ExtensiveDocumentCreator.WRAP_LIST_ELEMENTS, true)) {
+                el = el.addChild(listElName);
+            }
             for (X javadocObject : javadocObjects) {
                 if (filter.accept(javadocObject)) {
-                    handleDocImpl(listEl, elName, javadocObject, includeClassHandler);
+                    handleDocImpl(el, elName, javadocObject, includeClassHandler);
                 }
             }
         }
+    }
+
+    protected boolean getBooleanProperty(final String property, final boolean defaultValue) {
+        return Boolean.valueOf(getProperty(property, defaultValue ? Boolean.TRUE.toString() : Boolean.FALSE.toString()));
     }
 }
