@@ -49,5 +49,4 @@ class AnnotationDescElementValuePairHandler extends Handler<AnnotationDesc.Eleme
         AnnotationValue annotationValue = doc.value();
         handleValue(el, annotationValue);
     }
-
 }

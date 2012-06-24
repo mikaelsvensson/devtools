@@ -56,5 +56,4 @@ class RootDocHandler extends DocHandler<RootDoc> {
         }
         handleDocImpl(el, packages.toArray(new PackageDoc[]{}), "packages", "package");
     }
-
 }

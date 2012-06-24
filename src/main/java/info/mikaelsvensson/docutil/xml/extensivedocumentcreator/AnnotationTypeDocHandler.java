@@ -47,5 +47,4 @@ class AnnotationTypeDocHandler extends ClassDocHandler<AnnotationTypeDoc> {
             handleDocImpl(el, doc.elements(), "elements", "element");
         }
     }
-
 }

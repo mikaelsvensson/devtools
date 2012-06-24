@@ -37,17 +37,16 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
+// ------------------------------ FIELDS ------------------------------
 
     public static final String CLASS_MEMBER_TYPE_FILTER = "classMemberTypeFilter";
-    public static final String INTERFACE_MEMBER_TYPE_FILTER = "interfaceMemberTypeFilter";
-    public static final String SIMPLE_TYPE_DATA = "simpleTypeData";
-    public static final String EXCLUDE_PACKAGE = "excludePackage";
     public static final String ENUM_MEMBER_TYPE_FILTER = "enumMemberTypeFilter";
-
-    // ------------------------------ FIELDS ------------------------------
+    public static final String EXCLUDE_PACKAGE = "excludePackage";
+    public static final String INTERFACE_MEMBER_TYPE_FILTER = "interfaceMemberTypeFilter";
     public static final String NAME = "extensive";
-    public static final String WRAP_LIST_ELEMENTS = "wrapListElements";
     public static final String SHOW_ANNOTATIONS = "showAnnotations";
+    public static final String SIMPLE_TYPE_DATA = "simpleTypeData";
+    public static final String WRAP_LIST_ELEMENTS = "wrapListElements";
 
 // ------------------------ INTERFACE METHODS ------------------------
 

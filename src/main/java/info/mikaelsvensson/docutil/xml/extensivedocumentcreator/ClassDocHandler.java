@@ -31,40 +31,12 @@ import com.sun.javadoc.ClassDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
+// ------------------------------ FIELDS ------------------------------
 
     static final String ABSTRACT = "abstract";
     static final String CLASS = "class";
 
-    protected boolean isClassElement(final ElementWrapper el) {
-        return el.getTagName().equals(CLASS);
-    }
-
-/*
-    interface Callback {
-        void onTrigger(ClassDoc doc) throws JavadocItemHandlerException;
-    }
-*/
-
-    enum ClassType {
-        ENUM,
-        INTERFACE,
-        CLASS,
-        ANNOTATION;
-
-        static ClassType valueOf(ClassDoc doc) {
-            if (doc.isEnum()) {
-                return ENUM;
-            } else if (doc.isInterface()) {
-                return INTERFACE;
-            } else if (doc.isAnnotationType()) {
-                return ANNOTATION;
-            } else {
-                return CLASS;
-            }
-        }
-    }
-
-    // --------------------------- CONSTRUCTORS ---------------------------
+// --------------------------- CONSTRUCTORS ---------------------------
 
     ClassDocHandler(final Dispatcher dispatcher) {
         this((Class<T>) ClassDoc.class, dispatcher/*, false, null*/);
@@ -81,11 +53,10 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
 //        this.referenceOnlyOutput = referenceOnlyOutput;
     }
 
-//    private Callback callback;
-//    private boolean referenceOnlyOutput;
-
 // -------------------------- OTHER METHODS --------------------------
 
+//    private Callback callback;
+//    private boolean referenceOnlyOutput;
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         if (!isClassElement(el)) {
@@ -150,5 +121,36 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
 //        if (callback != null) {
 //            callback.onTrigger(doc);
 //        }
+    }
+
+    protected boolean isClassElement(final ElementWrapper el) {
+        return el.getTagName().equals(CLASS);
+    }
+
+// -------------------------- ENUMERATIONS --------------------------
+
+/*
+    interface Callback {
+        void onTrigger(ClassDoc doc) throws JavadocItemHandlerException;
+    }
+*/
+
+    enum ClassType {
+        ENUM,
+        INTERFACE,
+        CLASS,
+        ANNOTATION;
+
+        static ClassType valueOf(ClassDoc doc) {
+            if (doc.isEnum()) {
+                return ENUM;
+            } else if (doc.isInterface()) {
+                return INTERFACE;
+            } else if (doc.isAnnotationType()) {
+                return ANNOTATION;
+            } else {
+                return CLASS;
+            }
+        }
     }
 }

@@ -58,11 +58,6 @@ abstract class Handler<T> {
         return getProperty(property, null);
     }
 
-    protected String getProperty(final String property, final String defaultValue) {
-        String value = dispatcher.getProperty(property);
-        return value != null ? value : defaultValue;
-    }
-
     boolean handle(final ElementWrapper el, final Object javadocObject) throws JavadocItemHandlerException {
         if (handledClass.isAssignableFrom(javadocObject.getClass())) {
             handleImpl(el, (T) javadocObject);
@@ -73,13 +68,6 @@ abstract class Handler<T> {
     }
 
     void handleImpl(final ElementWrapper el, T doc) throws JavadocItemHandlerException {
-    }
-
-    protected ElementWrapper handleDocImpl(final ElementWrapper el, final Object javadocObject, final String elName) throws JavadocItemHandlerException {
-        if (null != javadocObject) {
-            return handleDocImpl(el, elName, javadocObject);
-        }
-        return null;
     }
 
     protected <X> ElementWrapper handleDocImpl(final ElementWrapper el, final String elName, final X javadocObject) throws JavadocItemHandlerException {
@@ -119,20 +107,9 @@ abstract class Handler<T> {
         return Boolean.valueOf(getProperty(property, defaultValue ? Boolean.TRUE.toString() : Boolean.FALSE.toString()));
     }
 
-    protected int getDimensionCount(final String dimension) {
-        int count = 0;
-        int pos = -1;
-        while ((pos = dimension.indexOf('[', pos + 1)) != -1) {
-            count++;
-        }
-        return count;
-    }
-
-    protected void setTypeAttributes(final ElementWrapper el, final Type doc) {
-        el.setAttributes(
-                "dimension", Integer.toString(getDimensionCount(doc.dimension())),
-                "primitive", Boolean.toString(doc.isPrimitive()),
-                ProgramElementDocHandler.QUALIFIED_NAME, doc.qualifiedTypeName());
+    protected String getProperty(final String property, final String defaultValue) {
+        String value = dispatcher.getProperty(property);
+        return value != null ? value : defaultValue;
     }
 
     protected void handleValue(final ElementWrapper el, final AnnotationValue annotationValue) throws JavadocItemHandlerException {
@@ -155,5 +132,28 @@ abstract class Handler<T> {
             el.setAttribute("type", "single-object");
             el.setText(value.toString());
         }
+    }
+
+    protected ElementWrapper handleDocImpl(final ElementWrapper el, final Object javadocObject, final String elName) throws JavadocItemHandlerException {
+        if (null != javadocObject) {
+            return handleDocImpl(el, elName, javadocObject);
+        }
+        return null;
+    }
+
+    protected void setTypeAttributes(final ElementWrapper el, final Type doc) {
+        el.setAttributes(
+                "dimension", Integer.toString(getDimensionCount(doc.dimension())),
+                "primitive", Boolean.toString(doc.isPrimitive()),
+                ProgramElementDocHandler.QUALIFIED_NAME, doc.qualifiedTypeName());
+    }
+
+    protected int getDimensionCount(final String dimension) {
+        int count = 0;
+        int pos = -1;
+        while ((pos = dimension.indexOf('[', pos + 1)) != -1) {
+            count++;
+        }
+        return count;
     }
 }

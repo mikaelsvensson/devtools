@@ -31,7 +31,7 @@ import com.sun.javadoc.Type;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class TypeHandler<T extends Type> extends Handler<T> {
-    // --------------------------- CONSTRUCTORS ---------------------------
+// --------------------------- CONSTRUCTORS ---------------------------
 
     TypeHandler(final Dispatcher dispatcher) {
         super((Class<T>) Type.class, dispatcher);
@@ -49,5 +49,4 @@ class TypeHandler<T extends Type> extends Handler<T> {
 
         setTypeAttributes(el, doc);
     }
-
 }

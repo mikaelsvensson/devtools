@@ -39,7 +39,7 @@ public class Dispatcher {
 
     private RootDocHandler rootDocHandler;
 
-    // --------------------------- CONSTRUCTORS ---------------------------
+// --------------------------- CONSTRUCTORS ---------------------------
 
     public Dispatcher(final PropertySet propertySet) {
         this.propertySet = propertySet;
@@ -102,5 +102,4 @@ public class Dispatcher {
     public String getProperty(final String key) {
         return propertySet.getProperty(key);
     }
-
 }
