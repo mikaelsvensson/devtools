@@ -35,10 +35,10 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T> {
 // ------------------------------ FIELDS ------------------------------
 
-    public static final String QUALIFIED_NAME = "qualified-name";
-    protected static final String FINAL = "final";
-    protected static final String ACCESS = "access";
-    protected static final String STATIC = "static";
+    public static final String ELEMENT_QUALIFIED_NAME = "qualified-name";
+    protected static final String ATTR_FINAL = "final";
+    protected static final String ATTR_ACCESS = "access";
+    protected static final String ATTR_STATIC = "static";
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
@@ -61,10 +61,10 @@ class ProgramElementDocHandler<T extends ProgramElementDoc> extends DocHandler<T
         super.handleImpl(el, doc);
 
         el.setAttributes(
-                QUALIFIED_NAME, doc.qualifiedName(),
-                FINAL, Boolean.toString(doc.isFinal()),
-                ACCESS, getAccess(doc),
-                STATIC, Boolean.toString(doc.isStatic()));
+                ELEMENT_QUALIFIED_NAME, doc.qualifiedName(),
+                ATTR_FINAL, Boolean.toString(doc.isFinal()),
+                ATTR_ACCESS, getAccess(doc),
+                ATTR_STATIC, Boolean.toString(doc.isStatic()));
         if (getBooleanProperty(ExtensiveDocumentCreator.SHOW_ANNOTATIONS, false)) {
             AnnotationDesc[] annotations = doc.annotations();
             handleDocImpl(el, annotations, "annotations", "annotation");

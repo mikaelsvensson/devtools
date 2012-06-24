@@ -36,6 +36,9 @@ import info.mikaelsvensson.docutil.shared.ElementWrapper;
 abstract class Handler<T> {
 // ------------------------------ FIELDS ------------------------------
 
+    static final String ABSTRACT = "abstract";
+    static final String CLASS = "class";
+
     protected static final ObjectHandlerFilter ACCEPT_ALL_FILTER = new ObjectHandlerFilter() {
         @Override
         public boolean accept(final Object object) {
@@ -145,7 +148,7 @@ abstract class Handler<T> {
         el.setAttributes(
                 "dimension", Integer.toString(getDimensionCount(doc.dimension())),
                 "primitive", Boolean.toString(doc.isPrimitive()),
-                ProgramElementDocHandler.QUALIFIED_NAME, doc.qualifiedTypeName());
+                ProgramElementDocHandler.ELEMENT_QUALIFIED_NAME, doc.qualifiedTypeName());
     }
 
     protected int getDimensionCount(final String dimension) {

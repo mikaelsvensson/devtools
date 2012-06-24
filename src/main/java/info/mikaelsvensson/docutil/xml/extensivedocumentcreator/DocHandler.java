@@ -35,7 +35,8 @@ import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
 public class DocHandler<T extends Doc> extends Handler<T> {
 // ------------------------------ FIELDS ------------------------------
 
-    protected static final String NAME = "name";
+protected static final String NAME = "name";
+
     private ObjectHandlerFilter<Tag> tagsFilter = ACCEPT_ALL_FILTER;
 
 // --------------------------- CONSTRUCTORS ---------------------------

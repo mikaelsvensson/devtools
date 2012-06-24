@@ -31,37 +31,23 @@ import com.sun.javadoc.ClassDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
-// ------------------------------ FIELDS ------------------------------
-
-    static final String ABSTRACT = "abstract";
-    static final String CLASS = "class";
-
 // --------------------------- CONSTRUCTORS ---------------------------
 
     ClassDocHandler(final Dispatcher dispatcher) {
-        this((Class<T>) ClassDoc.class, dispatcher/*, false, null*/);
+        this((Class<T>) ClassDoc.class, dispatcher);
     }
 
-/*
-    protected ClassDocHandler(final Dispatcher dispatcher, boolean referenceOnlyOutput, Callback callback) {
-        this((Class<T>) ClassDoc.class, dispatcher, referenceOnlyOutput, callback);
-    }
-*/
-    protected ClassDocHandler(final Class<T> cls, final Dispatcher dispatcher/*, boolean referenceOnlyOutput, Callback callback*/) {
+    protected ClassDocHandler(final Class<T> cls, final Dispatcher dispatcher) {
         super(cls, dispatcher);
-//        this.callback = callback;
-//        this.referenceOnlyOutput = referenceOnlyOutput;
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
-//    private Callback callback;
-//    private boolean referenceOnlyOutput;
     @Override
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         if (!isClassElement(el)) {
             setTypeAttributes(el, doc);
-            el.setAttribute(QUALIFIED_NAME, doc.qualifiedName());
+            el.setAttribute(ELEMENT_QUALIFIED_NAME, doc.qualifiedName());
         } else {
             super.handleImpl(el, doc);
 
@@ -117,10 +103,6 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
                 }
             }
         }
-
-//        if (callback != null) {
-//            callback.onTrigger(doc);
-//        }
     }
 
     protected boolean isClassElement(final ElementWrapper el) {
@@ -128,12 +110,6 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
     }
 
 // -------------------------- ENUMERATIONS --------------------------
-
-/*
-    interface Callback {
-        void onTrigger(ClassDoc doc) throws JavadocItemHandlerException;
-    }
-*/
 
     enum ClassType {
         ENUM,

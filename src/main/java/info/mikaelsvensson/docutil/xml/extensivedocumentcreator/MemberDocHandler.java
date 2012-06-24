@@ -52,7 +52,7 @@ class MemberDocHandler<T extends MemberDoc> extends ProgramElementDocHandler<T> 
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.removeAttributes(QUALIFIED_NAME);
+        el.removeAttributes(ELEMENT_QUALIFIED_NAME);
 
         el.setAttributes("synthetic", Boolean.toString(doc.isSynthetic()));
     }
