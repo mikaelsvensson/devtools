@@ -125,7 +125,7 @@ public class PropertySet {
             PropertySet propertySet = collections.get(key);
             if (null == propertySet) {
                 //TODO: MISV 20120619 remove STDOUT debugging and document return value in javadoc
-                System.out.println(this.toString() + " does not contain a property set called " + key);
+//                System.out.println(this.toString() + " does not contain a property set called " + key);
                 return new HashMap<String, PropertySet>();
             }
             return propertySet.collections;
@@ -158,7 +158,7 @@ public class PropertySet {
             PropertySet propertySet = collections.get(key);
             if (null == propertySet) {
                 //TODO: MISV 20120619 remove STDOUT debugging and document return value in javadoc
-                System.out.println(this.toString() + " does not contain a property set called " + key);
+//                System.out.println(this.toString() + " does not contain a property set called " + key);
                 return new HashMap<String, String>();
             }
             return propertySet.properties;

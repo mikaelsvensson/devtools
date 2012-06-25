@@ -62,6 +62,28 @@ public class XmlDoclet extends AbstractDoclet {
     }
 
     public boolean generate() {
+        try {
+            XmlDocletAction action = new XmlDocletAction(new PropertySet(root.options()));
+
+            root.printNotice("Building XML document.");
+            DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(action.format);
+            Document document = documentCreator.generateDocument(root, action.getParameters());
+            root.printNotice("Finished building XML document.");
+
+            generate(document, action.getOutput(), action.getTransformer(), action.getParameters().getProperties());
+
+            postProcess(action);
+        } catch (IOException e) {
+            printError(new DocumentCreatorException("Could not post-process.", e));
+        } catch (DocumentCreatorException e) {
+            printError(e);
+        } catch (PropertySetException e) {
+            printError(e);
+        }
+        return true;
+    }
+/*
+    public boolean generate() {
         for (Map.Entry<String, XmlDocletAction> entry : options.getActions().entrySet()) {
             try {
                 XmlDocletAction action = entry.getValue();
@@ -82,6 +104,7 @@ public class XmlDoclet extends AbstractDoclet {
         }
         return true;
     }
+*/
 
     //TODO: MISV 20120618 Refactor postProcess into the same kind of "factory mechanism" used for DocumentCreator. Perhaps call it PostProcessor?
     private void postProcess(XmlDocletAction action) throws IOException {
@@ -158,7 +181,7 @@ public class XmlDoclet extends AbstractDoclet {
     }
 
     public static int optionLength(String option) {
-        int len = XmlDocletOptions.optionLength(option);
+        int len = XmlDocletAction.optionLength(option);
         return len;
 //        return len > 0 ? len : Standard.optionLength(option);
     }

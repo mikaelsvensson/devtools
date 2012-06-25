@@ -94,7 +94,7 @@ public class XmlDoclet extends AbstractDoclet {
             String filePatternExpr = action.getPostProcessingParameters().get("filePattern");
             String replaceStringExpr = action.getPostProcessingParameters().get("replaceString");
 
-            System.out.println(action.getPostProcessingParameters());
+//            System.out.println(action.getPostProcessingParameters());
 
             File folder = new File(folderExpr);
             Pattern filePattern = Pattern.compile(filePatternExpr);

@@ -38,9 +38,9 @@ public abstract class AbstractDocumentCreatorTest {
         args[i++] = "-doclet";
         args[i++] = XmlDoclet.class.getName();
         args[i++] = "-private";
-        args[i++] = "-action.1.format.name";
+        args[i++] = "-format.name";
         args[i++] = documentCreatorId;
-        args[i++] = "-action.1.output";
+        args[i++] = "-output";
         args[i++] = actualFile.getAbsolutePath();
         for (int x = 0; x < documentCreatorArgs.length; x++) {
             args[i++] = documentCreatorArgs[x];

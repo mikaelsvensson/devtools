@@ -16,7 +16,7 @@ public class ExtensiveDocumentCreatorTest extends AbstractDocumentCreatorTest {
     @Test
     public void testClassA() throws Exception {
         performTest(ClassA.class,
-                "-action.1.format.property." + ExtensiveDocumentCreator.EXCLUDE_PACKAGE,
+                "-format.property." + ExtensiveDocumentCreator.EXCLUDE_PACKAGE,
                 "java");
     }
 
@@ -29,7 +29,7 @@ public class ExtensiveDocumentCreatorTest extends AbstractDocumentCreatorTest {
     public void testContact() throws Exception {
         performTest(
                 Contact.class,
-                "-action.1.format.property." + ExtensiveDocumentCreator.SHOW_ANNOTATIONS,
+                "-format.property." + ExtensiveDocumentCreator.SHOW_ANNOTATIONS,
                 "true");
     }
 
@@ -37,9 +37,9 @@ public class ExtensiveDocumentCreatorTest extends AbstractDocumentCreatorTest {
     public void testVehicle() throws Exception {
         performTest(
                 Vehicle.class,
-                "-action.1.format.property." + ExtensiveDocumentCreator.CLASS_MEMBER_TYPE_FILTER,
+                "-format.property." + ExtensiveDocumentCreator.CLASS_MEMBER_TYPE_FILTER,
                 "si",
-                "-action.1.format.property." + ExtensiveDocumentCreator.INTERFACE_MEMBER_TYPE_FILTER,
+                "-format.property." + ExtensiveDocumentCreator.INTERFACE_MEMBER_TYPE_FILTER,
                 "si");
     }
 
