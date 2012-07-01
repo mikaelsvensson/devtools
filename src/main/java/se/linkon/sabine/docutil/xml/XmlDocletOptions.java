@@ -58,12 +58,6 @@ public class XmlDocletOptions {
         }
     }
 
-/*
-    protected T createAction(PropertySet propertySet) {
-        return (T)
-    }
-*/
-
     public static int optionLength(String option) {
         if (option.startsWith("-" + ACTION)) {
             return 2;
