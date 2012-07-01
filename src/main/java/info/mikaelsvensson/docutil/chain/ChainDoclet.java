@@ -46,7 +46,7 @@ public class ChainDoclet {
     private static final String CHAIN_OPTION_NAME = "chain";
     private static final String CHAIN_OPTION_SEPARATOR = ":";
 
-    public static final Pattern CHAIN_LINK_DEFINITION = Pattern.compile(CHAIN_OPTION_NAME + CHAIN_OPTION_SEPARATOR + "([a-z]+)" + CHAIN_OPTION_SEPARATOR + "([a-zA-Z0-9.]+)");
+    public static final Pattern CHAIN_LINK_DEFINITION = Pattern.compile(CHAIN_OPTION_NAME + CHAIN_OPTION_SEPARATOR + "([a-z0-9]+)" + CHAIN_OPTION_SEPARATOR + "([a-zA-Z0-9.]+)");
     private static Map<String, DocletInvoker> docletWrappers = new LinkedHashMap<String, DocletInvoker>();
 
     public static boolean start(RootDoc root) {
@@ -112,6 +112,7 @@ public class ChainDoclet {
                         return 1;
                     } catch (DocletInvoker.DocletWrapperException e) {
                         // Silently ignore.
+                        e.printStackTrace();
                     }
                 }
             } else {

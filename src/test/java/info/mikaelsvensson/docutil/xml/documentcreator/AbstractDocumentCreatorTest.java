@@ -2,7 +2,6 @@ package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import info.mikaelsvensson.docutil.shared.DocumentCreator;
 import info.mikaelsvensson.docutil.shared.DocumentCreatorFactory;
-import info.mikaelsvensson.docutil.shared.FileUtil;
 import info.mikaelsvensson.docutil.xml.XmlDoclet;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
@@ -39,9 +38,9 @@ public abstract class AbstractDocumentCreatorTest {
         args[i++] = "-doclet";
         args[i++] = XmlDoclet.class.getName();
         args[i++] = "-private";
-        args[i++] = "-action.1.format.name";
+        args[i++] = "-format.name";
         args[i++] = documentCreatorId;
-        args[i++] = "-action.1.output";
+        args[i++] = "-output";
         args[i++] = actualFile.getAbsolutePath();
         for (int x = 0; x < documentCreatorArgs.length; x++) {
             args[i++] = documentCreatorArgs[x];
@@ -53,7 +52,7 @@ public abstract class AbstractDocumentCreatorTest {
                 XmlDoclet.class.getName(),
                 args);
 
-        System.out.println(FileUtil.getFileContent(actualFile));
+//        System.out.println(FileUtil.getFileContent(actualFile));
 
         File expectedFile = new File("target\\test-classes\\" + testClass.getName().replace('.', File.separatorChar) + "." + documentCreatorId + ".xml");
         Diff diff = new Diff(new FileReader(expectedFile), new FileReader(actualFile));

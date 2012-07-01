@@ -54,14 +54,14 @@ public abstract class AbstractDocumentCreator implements DocumentCreator {
         try {
             parentEl.addCommentChild(doc);
         } catch (InlineTagHandlerException e) {
-            throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags. ", e);
+            throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags: " + e.getMessage(), e);
         }
     }
     protected void addComment(ElementWrapper parentEl, Tag doc) throws DocumentCreatorException {
         try {
             parentEl.addCommentChild(doc);
         } catch (InlineTagHandlerException e) {
-            throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags. ", e);
+            throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags: " + e.getMessage(), e);
         }
     }
 }

@@ -65,7 +65,7 @@ protected static final String NAME = "name";
             try {
                 el.addCommentChild(doc);
             } catch (InlineTagHandlerException e) {
-                throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags. ", e);
+                throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags: " + e.getMessage(), e);
             }
         }
         el.setAttribute(NAME, doc.name());

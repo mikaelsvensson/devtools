@@ -129,4 +129,14 @@ public class XmlDocletAction {
     public void setTransformer(final File transformer) {
         this.transformer = transformer;
     }
+
+    public static int optionLength(String option) {
+        if (option.startsWith("-" + FORMAT) ||
+                option.startsWith("-" + OUTPUT) ||
+                option.startsWith("-" + POSTPROCESSOR) ||
+                option.startsWith("-" + TRANSFORMER)) {
+            return 2;
+        }
+        return 0;
+    }
 }
