@@ -92,6 +92,9 @@ public class XmlDoclet extends AbstractDoclet {
             printError(e);
         } catch (PropertySetException e) {
             printError(e);
+        } catch (Throwable e) {
+            root.printError(e.getMessage());
+            e.printStackTrace();
         }
         return true;
     }

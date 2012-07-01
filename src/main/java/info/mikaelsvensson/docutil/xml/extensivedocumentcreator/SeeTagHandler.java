@@ -46,7 +46,10 @@ class SeeTagHandler extends TagHandler<SeeTag> {
         el.setAttributes(
                 "label", doc.label(),
                 "referenced-class", doc.referencedClassName(),
-                "referenced-member", doc.referencedMemberName(),
-                "referenced-package", doc.referencedPackage().name());
+                "referenced-member", doc.referencedMemberName());
+
+        if (doc.referencedPackage() != null) {
+            el.setAttribute("referenced-package", String.valueOf(doc.referencedPackage()));
+        }
     }
 }

@@ -2,17 +2,25 @@ package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import info.mikaelsvensson.docutil.shared.DocumentCreator;
 import info.mikaelsvensson.docutil.shared.DocumentCreatorFactory;
+import info.mikaelsvensson.docutil.shared.FileUtil;
 import info.mikaelsvensson.docutil.xml.XmlDoclet;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMSource;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -52,13 +60,37 @@ public abstract class AbstractDocumentCreatorTest {
                 XmlDoclet.class.getName(),
                 args);
 
-//        System.out.println(FileUtil.getFileContent(actualFile));
+        System.out.println("#############################################################");
+        System.out.println(Arrays.asList(args).toString());
+        System.out.println("#############################################################");
+        System.out.println(FileUtil.getFileContent(actualFile));
+
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
         File expectedFile = new File("target\\test-classes\\" + testClass.getName().replace('.', File.separatorChar) + "." + documentCreatorId + ".xml");
-        Diff diff = new Diff(new FileReader(expectedFile), new FileReader(actualFile));
+        Document expectedDoc = documentBuilder.parse(expectedFile);
+        Node expectedNode = findClassElement(testClass, expectedDoc);
 
-        actualFile.delete();
+        Document actualDoc = documentBuilder.parse(expectedFile);
+        Node actualNode = findClassElement(testClass, actualDoc);
+
+        Diff diff = new Diff(new DOMSource(expectedNode), new DOMSource(actualNode));
+
+//        actualFile.delete();
 
         assertTrue(diff.identical());
+    }
+
+    protected abstract Node findClassElement(final Class cls, final Document doc);
+
+    protected static Node findClassElementByQName(final Class cls, final Document doc, final String classElementName, final String qnameAttributeName) {
+        NodeList classElements = doc.getDocumentElement().getElementsByTagName(classElementName);
+        for (int j = 0; j < classElements.getLength(); j++) {
+            Element classEl = (Element) classElements.item(j);
+            if (classEl.getAttribute(qnameAttributeName).equals(cls.getName())) {
+                return classEl;
+            }
+        }
+        return null;
     }
 }

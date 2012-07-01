@@ -29,6 +29,8 @@ package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import enumeration.Fruit;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -53,5 +55,10 @@ public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
 
     private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
         performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
+    }
+
+    @Override
+    protected Node findClassElement(final Class cls, final Document doc) {
+        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
     }
 }

@@ -2,6 +2,8 @@ package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import info.mikaelsvensson.docutil.ClassA;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 
 public class StandardDocumentCreatorTest extends AbstractDocumentCreatorTest {
@@ -17,5 +19,9 @@ public class StandardDocumentCreatorTest extends AbstractDocumentCreatorTest {
     @Test
     public void testClassA() throws Exception {
         performTest(StandardDocumentCreator.NAME, ClassA.class);
+    }
+    @Override
+    protected Node findClassElement(final Class cls, final Document doc) {
+        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "class", "qualified-name");
     }
 }
