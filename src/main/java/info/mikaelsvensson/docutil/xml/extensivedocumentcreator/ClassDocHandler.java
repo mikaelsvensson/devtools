@@ -31,7 +31,43 @@ import com.sun.javadoc.ClassDoc;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
-// --------------------------- CONSTRUCTORS ---------------------------
+    public static final char FILTER_TYPE_SUPER_CLASS = 's';
+    public static final char FILTER_TYPE_CONSTRUCTORS = 'c';
+    public static final char FILTER_TYPE_ENUM_CONSTANTS = 'e';
+    public static final char FILTER_TYPE_FIELDS = 'f';
+    public static final char FILTER_TYPE_INNER_CLASSES = 'n';
+    public static final char FILTER_TYPE_INTERFACES = 'i';
+    public static final char FILTER_TYPE_METHODS = 'm';
+    public static final char FILTER_TYPE_TYPE_PARAMETERS = 't';
+    public static final char FILTER_TYPE_TYPE_PARAMETER_TAG = 'p';
+
+    public static final String DEFAULT_ENUM_MEMBER_TYPE_FILTER = "" +
+            FILTER_TYPE_ENUM_CONSTANTS +
+            FILTER_TYPE_FIELDS +
+            FILTER_TYPE_INNER_CLASSES +
+            FILTER_TYPE_INTERFACES +
+            FILTER_TYPE_METHODS;
+    public static final String DEFAULT_INTERFACE_MEMBER_TYPE_FILTER = "" +
+            FILTER_TYPE_SUPER_CLASS +
+            FILTER_TYPE_FIELDS +
+            FILTER_TYPE_INNER_CLASSES +
+            FILTER_TYPE_INTERFACES +
+            FILTER_TYPE_METHODS +
+            FILTER_TYPE_TYPE_PARAMETERS +
+            FILTER_TYPE_TYPE_PARAMETER_TAG;
+    public static final String DEFAULT_ANNOTATION_MEMBER_TYPE_FILTER = "" +
+            FILTER_TYPE_SUPER_CLASS +
+            FILTER_TYPE_METHODS;
+    public static final String DEFAULT_CLASS_MEMBER_TYPE_FILTER = "" +
+            FILTER_TYPE_SUPER_CLASS +
+            FILTER_TYPE_CONSTRUCTORS +
+            FILTER_TYPE_FIELDS +
+            FILTER_TYPE_INNER_CLASSES +
+            FILTER_TYPE_INTERFACES +
+            FILTER_TYPE_METHODS +
+            FILTER_TYPE_TYPE_PARAMETERS +
+            FILTER_TYPE_TYPE_PARAMETER_TAG;
+    // --------------------------- CONSTRUCTORS ---------------------------
 
     ClassDocHandler(final Dispatcher dispatcher) {
         this((Class<T>) ClassDoc.class, dispatcher);
@@ -60,47 +96,47 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
             ClassType classType = ClassType.valueOf(doc);
             switch (classType) {
                 case ENUM:
-                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.ENUM_MEMBER_TYPE_FILTER, "efnim");
+                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.ENUM_MEMBER_TYPE_FILTER, DEFAULT_ENUM_MEMBER_TYPE_FILTER);
                     break;
                 case INTERFACE:
-                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.INTERFACE_MEMBER_TYPE_FILTER, "sfnimtp");
+                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.INTERFACE_MEMBER_TYPE_FILTER, DEFAULT_INTERFACE_MEMBER_TYPE_FILTER);
                     break;
                 case ANNOTATION:
-                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.ANNOTATION_MEMBER_TYPE_FILTER, "sm");
+                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.ANNOTATION_MEMBER_TYPE_FILTER, DEFAULT_ANNOTATION_MEMBER_TYPE_FILTER);
                     break;
                 default:
-                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.CLASS_MEMBER_TYPE_FILTER, "scfnimtp");
+                    classMemberTypeFilter = getProperty(ExtensiveDocumentCreator.CLASS_MEMBER_TYPE_FILTER, DEFAULT_CLASS_MEMBER_TYPE_FILTER);
                     break;
             }
             el.setAttribute("type", classType.name().toLowerCase());
 
             for (char c : classMemberTypeFilter.toCharArray()) {
                 switch (c) {
-                    case 's':
+                    case FILTER_TYPE_SUPER_CLASS:
                         handleDocImpl(el, "superclass", doc.superclassType());
                         break;
-                    case 'c':
+                    case FILTER_TYPE_CONSTRUCTORS:
                         handleDocImpl(el, doc.constructors(), "constructors", "constructor");
                         break;
-                    case 'e':
+                    case FILTER_TYPE_ENUM_CONSTANTS:
                         handleDocImpl(el, doc.enumConstants(), "enum-constants", "enum-constant");
                         break;
-                    case 'f':
+                    case FILTER_TYPE_FIELDS:
                         handleDocImpl(el, doc.fields(), "fields", "field");
                         break;
-                    case 'n':
+                    case FILTER_TYPE_INNER_CLASSES:
                         handleDocImpl(el, doc.innerClasses(), "inner-classes", "inner-class");
                         break;
-                    case 'i':
+                    case FILTER_TYPE_INTERFACES:
                         handleDocImpl(el, doc.interfaceTypes(), "interfaces", "interface");
                         break;
-                    case 'm':
+                    case FILTER_TYPE_METHODS:
                         handleDocImpl(el, doc.methods(), "methods", "method");
                         break;
-                    case 't':
+                    case FILTER_TYPE_TYPE_PARAMETERS:
                         handleDocImpl(el, doc.typeParameters(), "type-parameters", "type-parameter");
                         break;
-                    case 'p':
+                    case FILTER_TYPE_TYPE_PARAMETER_TAG:
                         handleDocImpl(el, doc.typeParamTags(), "type-parameter-tags", "type-parameter-tag");
                         break;
                 }

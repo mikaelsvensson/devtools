@@ -31,6 +31,7 @@ import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.docutil.shared.DocumentCreatorException;
 import info.mikaelsvensson.docutil.shared.DocumentWrapper;
 import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
+import info.mikaelsvensson.docutil.xml.FormatProperty;
 import info.mikaelsvensson.docutil.xml.documentcreator.AbstractDocumentCreator;
 import org.w3c.dom.Document;
 
@@ -39,34 +40,74 @@ import javax.xml.parsers.ParserConfigurationException;
 public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
 // ------------------------------ FIELDS ------------------------------
 
-    /**
-     * @formatproperty
-     */
-    public static final String CLASS_MEMBER_TYPE_FILTER = "classMemberTypeFilter";
-    /**
-     * @formatproperty
-     */
-    public static final String ENUM_MEMBER_TYPE_FILTER = "enumMemberTypeFilter";
-    /**
-     * @formatproperty
-     */
+    @FormatProperty
     public static final String EXCLUDE_PACKAGE = "excludePackage";
     /**
-     * @formatproperty
+     * Specifies which types of members should be included in the generated XML document for <em>regular classes</em>,
+     * i.e note interfaces or enumerations.
+     * <p/>
+     * The property value is a string of character where each character represents a type of member.
+     * <dl>
+     * <dt>s</dt>
+     * <dd>Super classes</dd>
+     * <dt>c</dt>
+     * <dd>Constructors</dd>
+     * <dt>e</dt>
+     * <dd>Enum constants</dd>
+     * <dt>f</dt>
+     * <dd>Fields</dd>
+     * <dt>n</dt>
+     * <dd>Inner classes</dd>
+     * <dt>i</dt>
+     * <dd>Interfaces</dd>
+     * <dt>m</dt>
+     * <dd>Methods</dd>
+     * <dt>t</dt>
+     * <dd>Type parameters</dd>
+     * <dt>p</dt>
+     * <dd>Type parameter tags</dd>
+     * </dl>
      */
+    @FormatProperty(defaultValue = ClassDocHandler.DEFAULT_CLASS_MEMBER_TYPE_FILTER)
+    public static final String CLASS_MEMBER_TYPE_FILTER = "classMemberTypeFilter";
+
+    /**
+     * Specifies which types of members should be included in the generated XML document for <em>enum classes</em>.
+     *
+     * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     * @see #CLASS_MEMBER_TYPE_FILTER
+     */
+    @FormatProperty(defaultValue = ClassDocHandler.DEFAULT_ENUM_MEMBER_TYPE_FILTER)
+    public static final String ENUM_MEMBER_TYPE_FILTER = "enumMemberTypeFilter";
+    /**
+     * Specifies which types of members should be included in the generated XML document for <em>interfaces</em>.
+     *
+     * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     * @see #CLASS_MEMBER_TYPE_FILTER
+     */
+    @FormatProperty(defaultValue = ClassDocHandler.DEFAULT_INTERFACE_MEMBER_TYPE_FILTER)
     public static final String INTERFACE_MEMBER_TYPE_FILTER = "interfaceMemberTypeFilter";
     /**
-     * @formatproperty
+     * Specifies which types of members should be included in the generated XML document for <em>annotation classes</em>,
+     * i.e. interfaces that define annotations.
+     *
+     * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     * @see #CLASS_MEMBER_TYPE_FILTER
      */
+    @FormatProperty(defaultValue = ClassDocHandler.DEFAULT_ANNOTATION_MEMBER_TYPE_FILTER)
     public static final String ANNOTATION_MEMBER_TYPE_FILTER = "annotationMemberTypeFilter";
+
     public static final String NAME = "extensive";
+
     /**
-     * @formatproperty
+     * Sets whether or not annotations for methods, classes, fields etcetera should be included in the XML document.
+     *
+     * This setting does not affect whether or not annotation definitions, i.e. annotation classes, are included in the
+     * generated XML document.
      */
+    @FormatProperty(defaultValue = "false")
     public static final String SHOW_ANNOTATIONS = "showAnnotations";
-    /**
-     * @formatproperty
-     */
+    @FormatProperty
     public static final String WRAP_LIST_ELEMENTS = "wrapListElements";
 
 // ------------------------ INTERFACE METHODS ------------------------

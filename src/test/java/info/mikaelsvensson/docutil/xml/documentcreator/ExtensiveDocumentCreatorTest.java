@@ -1,6 +1,7 @@
 package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import enumeration.Fruit;
+import info.mikaelsvensson.docutil.AnnotatedClass;
 import info.mikaelsvensson.docutil.ClassA;
 import info.mikaelsvensson.docutil.Contact;
 import info.mikaelsvensson.docutil.Vehicle;
@@ -23,6 +24,13 @@ public class ExtensiveDocumentCreatorTest extends AbstractDocumentCreatorTest {
     @Test
     public void testFruit() throws Exception {
         performTest(Fruit.class);
+    }
+
+    @Test
+    public void testAnnotated() throws Exception {
+        performTest(AnnotatedClass.class,
+                "-format.property." + ExtensiveDocumentCreator.SHOW_ANNOTATIONS,
+                "true");
     }
 
     @Test

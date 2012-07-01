@@ -59,11 +59,12 @@
                                 </docletArtifacts>
                                 <show>private</show>
                                 <additionalparam>
-                                    -chain:c:info.mikaelsvensson.docutil.xml.XmlDoclet
-                                    -c:format.name extensive
-                                    -c:format.property.wrapListElements true
-                                    -c:transformer ${project.build.sourceDirectory}/../../site/packages.xslt
-                                    -c:output ./index.html
+
+                                    -chain:x:info.mikaelsvensson.docutil.xml.XmlDoclet
+                                    -x:format.name extensive
+                                    -x:format.property.wrapListElements true
+                                    -x:format.property.showAnnotations true
+                                    -x:output ./source-code-documentation.xml
                                 </additionalparam>
 <!--
                                 <additionalparam>

@@ -34,6 +34,7 @@ import info.mikaelsvensson.docutil.shared.DocumentCreatorException;
 import info.mikaelsvensson.docutil.shared.DocumentWrapper;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
+import info.mikaelsvensson.docutil.xml.FormatProperty;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,7 +52,11 @@ import java.util.Map;
 public class EnumDocumentCreator extends AbstractDocumentCreator {
     public static final String NAME = "enum";
 
-    /** @formatproperty */
+    /**
+     * Specified where the compiled classes (*.class files) can be found. The class file folder is used to instantiate
+     * enum classes in order to invoke their getters and retrieve their return values.
+     */
+    @FormatProperty
     public static final String PARAMETER_CLASS_FOLDER = "classfolder";
 //    private File classFolder;
 

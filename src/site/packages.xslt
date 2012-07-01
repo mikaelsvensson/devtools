@@ -79,6 +79,7 @@
                                 <br/>
                                 Parameters:
                                 <xsl:for-each select="fields/field[tags/tag[@name='@formatproperty']]">
+                                <!--xsl:for-each select="fields/field[//annotation[@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']]"-->
                                     <br/>
                                     <xsl:value-of select="@constant-value"/>
                                     <br/>

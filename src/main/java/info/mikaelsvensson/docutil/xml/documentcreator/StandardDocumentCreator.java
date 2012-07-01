@@ -32,6 +32,7 @@ import info.mikaelsvensson.docutil.shared.DocumentCreatorException;
 import info.mikaelsvensson.docutil.shared.DocumentWrapper;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
 import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
+import info.mikaelsvensson.docutil.xml.FormatProperty;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -44,19 +45,17 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
 
     public static final String NAME = "standard";
 
-    /** @formatproperty */
+    @FormatProperty
     public static final String PARAMETER_SHOW_ANNOTATIONS = "showAnnotations";
-    /** @formatproperty */
+    @FormatProperty
     public static final String PARAMETER_SHOW_TYPE_PARAMETERS = "showTypeParameters";
-    /** @formatproperty */
+    @FormatProperty
     public static final String PARAMETER_SHOW_INHERITED_INTERFACES = "showInheritedInterfaces";
-    /** @formatproperty */
+    @FormatProperty
     public static final String PARAMETER_SHOW_FIELDS = "showFields";
-    /** @formatproperty */
+    @FormatProperty
     public static final String PARAMETER_TEXT_ONLY_COMMENTS = "textOnlyComments";
-    /**
-     * @formatproperty
-     */
+    @FormatProperty
     public static final String PARAMETER_SHOW_ALL_TAGS = "showAllTags";
 
     private class Options {
