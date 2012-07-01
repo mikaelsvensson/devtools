@@ -63,7 +63,7 @@
                 <p>Inline Tags:
                     <ul>
                         <xsl:for-each
-                                select="//class[@abstract='false' and ends-with(@qualified-name, '.TagHandler')]">
+                                select="//class[@abstract='false' and ends-with(@qualified-name, 'InlineTagHandler')]">
                             <li>
                                 <xsl:value-of select="@name"/>
                             </li>
@@ -73,12 +73,12 @@
                 <p>Document Creators:
                     <ul>
                         <xsl:for-each
-                                select="//class[@abstract='false' and ends-with(@qualified-name, '.DocumentCreator')]">
+                                select="//class[@abstract='false' and starts-with(@qualified-name, 'info.mikaelsvensson.') and ends-with(@qualified-name, 'DocumentCreator')]">
                             <li>
                                 <xsl:value-of select="@name"/>
                                 <br/>
                                 Parameters:
-                                <xsl:for-each select="fields/field[tags/tag[@name='formatproperty']]">
+                                <xsl:for-each select="fields/field[tags/tag[@name='@formatproperty']]">
                                     <br/>
                                     <xsl:value-of select="@constant-value"/>
                                     <br/>

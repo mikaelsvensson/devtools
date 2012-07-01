@@ -39,14 +39,34 @@ import javax.xml.parsers.ParserConfigurationException;
 public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
 // ------------------------------ FIELDS ------------------------------
 
+    /**
+     * @formatproperty
+     */
     public static final String CLASS_MEMBER_TYPE_FILTER = "classMemberTypeFilter";
+    /**
+     * @formatproperty
+     */
     public static final String ENUM_MEMBER_TYPE_FILTER = "enumMemberTypeFilter";
+    /**
+     * @formatproperty
+     */
     public static final String EXCLUDE_PACKAGE = "excludePackage";
+    /**
+     * @formatproperty
+     */
     public static final String INTERFACE_MEMBER_TYPE_FILTER = "interfaceMemberTypeFilter";
+    /**
+     * @formatproperty
+     */
     public static final String ANNOTATION_MEMBER_TYPE_FILTER = "annotationMemberTypeFilter";
     public static final String NAME = "extensive";
+    /**
+     * @formatproperty
+     */
     public static final String SHOW_ANNOTATIONS = "showAnnotations";
-    public static final String SIMPLE_TYPE_DATA = "simpleTypeData";
+    /**
+     * @formatproperty
+     */
     public static final String WRAP_LIST_ELEMENTS = "wrapListElements";
 
 // ------------------------ INTERFACE METHODS ------------------------

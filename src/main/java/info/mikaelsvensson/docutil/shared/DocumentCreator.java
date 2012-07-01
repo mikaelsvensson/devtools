@@ -32,5 +32,16 @@ import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
 import org.w3c.dom.Document;
 
 public interface DocumentCreator {
+    /**
+     * Creates an XML document based on the supplied Javadoc metadata.
+     *
+     * @param doc
+     *         the root object for the Javadoc documentation.
+     * @param properties
+     *         command-line properties specified by the user.
+     * @return an DOM document. Should never return {@code null} (throws exception instead).
+     * @throws DocumentCreatorException
+     *         thrown in case an unrecoverable/severe error occurs during document generation.
+     */
     Document generateDocument(RootDoc doc, final PropertySet properties) throws DocumentCreatorException;
 }
