@@ -32,6 +32,13 @@ import com.sun.tools.doclets.standard.Standard;
 import info.mikaelsvensson.docutil.shared.propertyset.PropertySet;
 import info.mikaelsvensson.docutil.shared.propertyset.PropertySetException;
 
+/**
+ * Depcrated. Use ChainDoclet and XmlDoclet instead.
+ *
+ * @doclet
+ * @deprecated
+ */
+@Deprecated
 public class XmlAndStandardDoclet extends XmlDoclet {
 
     protected XmlAndStandardDoclet(RootDoc root, XmlDocletOptions options) {

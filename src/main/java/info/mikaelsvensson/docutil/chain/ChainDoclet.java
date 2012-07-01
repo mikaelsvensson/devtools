@@ -34,6 +34,13 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Doclet used to use multple doclets in a single Javadoc invokation. This is useful, for
+ * example, when generating Maven sites and it is desired to use multiple doclets to
+ * produce a set of "reports" instead of only the usual Javadoc API "reports.
+ *
+ * @doclet
+ */
 public class ChainDoclet {
 
     private static final String CHAIN_OPTION_NAME = "chain";

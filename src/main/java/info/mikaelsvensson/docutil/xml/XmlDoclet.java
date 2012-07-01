@@ -48,6 +48,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * Creates XML documents based on the Java source code and, if specified by the user,
+ * processes the XML document using an XSLT style sheet.
+ *
+ * The source code can be processed using a couple of different document creators, each one
+ * designed to produce XML documents for different purposes (be they generic or specific
+ * purposes).
+ *
+ * The primary objective of this doclet is to aid developers in creating more useful web
+ * sites for their source code when using the {@code mvn site} command.
+ *
+ * @doclet
+ */
 public class XmlDoclet extends AbstractDoclet {
 
     private XmlDocletOptions options;
