@@ -56,7 +56,7 @@ public class ChainDocletTest {
 
     private void performTest(Class testClass, String... options) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
 
-        String testClassFileName = new File(".\\src\\test\\resources\\" + testClass.getName().replace('.', File.separatorChar) + ".java").getAbsolutePath();
+        String testClassFileName = new File("src" + File.separatorChar + "test" + File.separatorChar + "resources" + File.separatorChar + testClass.getName().replace('.', File.separatorChar) + ".java").getAbsolutePath();
 
         String[] args = new String[2 + options.length + 1];
         args[0] = "-doclet";

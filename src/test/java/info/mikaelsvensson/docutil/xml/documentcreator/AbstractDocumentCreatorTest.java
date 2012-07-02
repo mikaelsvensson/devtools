@@ -38,7 +38,7 @@ public abstract class AbstractDocumentCreatorTest {
 
         DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(documentCreatorId);
 
-        String testClassFileName = new File(".\\src\\test\\resources\\" + testClass.getName().replace('.', File.separatorChar) + ".java").getAbsolutePath();
+        String testClassFileName = new File("src" + File.separatorChar + "test" + File.separatorChar + "resources" + File.separatorChar + testClass.getName().replace('.', File.separatorChar) + ".java").getAbsolutePath();
         File actualFile = File.createTempFile("xmldoclet-test-" + testClass.getName() + "-" + documentCreator.getClass().getSimpleName() + "-", ".xml");
 
         String[] args = new String[7 + documentCreatorArgs.length + 1];
@@ -67,7 +67,7 @@ public abstract class AbstractDocumentCreatorTest {
 
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
-        File expectedFile = new File("target\\test-classes\\" + testClass.getName().replace('.', File.separatorChar) + "." + documentCreatorId + ".xml");
+        File expectedFile = new File("target" + File.separatorChar + "test-classes" + File.separator + testClass.getName().replace('.', File.separatorChar) + "." + documentCreatorId + ".xml");
         Document expectedDoc = documentBuilder.parse(expectedFile);
         Node expectedNode = findClassElement(testClass, expectedDoc);
 
