@@ -62,6 +62,7 @@
                                     -chain:c:info.mikaelsvensson.docutil.xml.XmlDoclet
                                     -c:format.name extensive
                                     -c:format.property.wrapListElements true
+                                    -c:format.property.showAnnotations true
                                     -c:transformer ${project.build.sourceDirectory}/../../site/packages.xslt
                                     -c:output ./index.html
 

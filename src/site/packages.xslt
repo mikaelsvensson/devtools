@@ -36,18 +36,18 @@
     <xsl:template name="head">
         <xsl:param name="pageTitle"/>
         <head>
-            <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js" />
+            <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"/>
             <script type="text/javascript">
                 $(document).ready(function () {
-                    $("pre.embedded-java-file").addClass("sh_java");
-                    $("pre.embedded-xml-file").addClass("sh_xml");
-                    sh_highlightDocument();
+                $("pre.embedded-java-file").addClass("sh_java");
+                $("pre.embedded-xml-file").addClass("sh_xml");
+                sh_highlightDocument();
                 });
             </script>
             <script type="text/javascript" src="resources/sh_main.min.js"></script>
             <script type="text/javascript" src="resources/sh_java.min.js"></script>
             <script type="text/javascript" src="resources/sh_xml.min.js"></script>
-            <link type="text/css" rel="stylesheet" href="resources/sh_acid.min.css" />
+            <link type="text/css" rel="stylesheet" href="resources/sh_acid.min.css"/>
             <title>
                 <xsl:value-of select="$pageTitle"/>
             </title>
@@ -78,13 +78,30 @@
                                 <xsl:value-of select="@name"/>
                                 <br/>
                                 Parameters:
-                                <xsl:for-each select="fields/field[tags/tag[@name='@formatproperty']]">
-                                <!--xsl:for-each select="fields/field[//annotation[@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']]"-->
-                                    <br/>
-                                    <xsl:value-of select="@constant-value"/>
-                                    <br/>
-                                    <xsl:copy-of select="comment"/>
-                                </xsl:for-each>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Default Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <xsl:for-each select=".//field[//annotation/type/@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']">
+                                            <tr>
+                                                <td>
+                                                    <xsl:value-of select="@constant-value"/>
+                                                </td>
+                                                <td>
+                                                    <xsl:copy-of select="comment"/>
+                                                </td>
+                                                <td>
+                                                    <xsl:value-of select=".//annotation[type/@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
+                                                </td>
+                                            </tr>
+                                        </xsl:for-each>
+                                    </tbody>
+                                </table>
                             </li>
                         </xsl:for-each>
                     </ul>
