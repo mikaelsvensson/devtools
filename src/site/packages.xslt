@@ -48,6 +48,7 @@
             <script type="text/javascript" src="resources/sh_java.min.js"></script>
             <script type="text/javascript" src="resources/sh_xml.min.js"></script>
             <link type="text/css" rel="stylesheet" href="resources/sh_acid.min.css"/>
+            <link type="text/css" rel="stylesheet" href="../css/site.css"/>
             <title>
                 <xsl:value-of select="$pageTitle"/>
             </title>
@@ -87,13 +88,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <xsl:for-each select=".//field[//annotation/type/@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']">
+                                        <xsl:for-each select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']">
                                             <tr>
                                                 <td>
                                                     <xsl:value-of select="@constant-value"/>
                                                 </td>
                                                 <td>
-                                                    <xsl:copy-of select="comment"/>
+                                                    <xsl:copy-of select="comment/child::*"/>
                                                 </td>
                                                 <td>
                                                     <xsl:value-of select=".//annotation[type/@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
@@ -138,7 +139,7 @@
         <h1>
             <xsl:value-of select="@name"/>
         </h1>
-        <xsl:copy-of select="comment"/>
+        <xsl:copy-of select="comment/child::*"/>
 
         <xsl:apply-templates select="methods/method"/>
 
@@ -149,12 +150,12 @@
         <p>Method
             <xsl:value-of select="@name"/>
         </p>
-        <xsl:copy-of select="comment"/>
+        <xsl:copy-of select="comment/child::*"/>
     </xsl:template>
     <xsl:template match="field">
         <p>Field
             <xsl:value-of select="@name"/>
         </p>
-        <xsl:copy-of select="comment"/>
+        <xsl:copy-of select="comment/child::*"/>
     </xsl:template>
 </xsl:stylesheet>
