@@ -39,6 +39,14 @@ import java.util.regex.Pattern;
  * example, when generating Maven sites and it is desired to use multiple doclets to
  * produce a set of "reports" instead of only the usual Javadoc API "reports.
  *
+ * Using this doclet is pretty straight forward. In your {@code pom.xml} you define a
+ * sequence of doclets to run, assign an identifier to each of them and add this identifier
+ * to all doclet parameters that should be sent to that particulat doclet.
+ *
+ * Example:
+ *
+ * {@embed}
+ *
  * @doclet
  */
 public class ChainDoclet {

@@ -115,7 +115,7 @@ public class ElementWrapper {
     }
 
     private ElementWrapper addCommentChild(String comment) {
-        String c = comment != null && comment.length() > 0 ? comment.replace("\n", "") : "";
+        String c = comment != null && comment.length() > 0 ? comment/*.replace("\n", "")*/ : "";
         if (c.length() > 0) {
             try {
                 StringBuilder sb = new StringBuilder();

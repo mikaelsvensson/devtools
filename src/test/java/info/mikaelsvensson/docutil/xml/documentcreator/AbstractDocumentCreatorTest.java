@@ -2,7 +2,6 @@ package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import info.mikaelsvensson.docutil.shared.DocumentCreator;
 import info.mikaelsvensson.docutil.shared.DocumentCreatorFactory;
-import info.mikaelsvensson.docutil.shared.FileUtil;
 import info.mikaelsvensson.docutil.xml.XmlDoclet;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
@@ -16,13 +15,11 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 public abstract class AbstractDocumentCreatorTest {
 
@@ -34,7 +31,7 @@ public abstract class AbstractDocumentCreatorTest {
         XMLUnit.setIgnoreAttributeOrder(true);
     }
 
-    protected void performTest(String documentCreatorId, Class testClass, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
+    protected void performTest(String documentCreatorId, final Class testClass, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
 
         DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(documentCreatorId);
 
@@ -60,25 +57,33 @@ public abstract class AbstractDocumentCreatorTest {
                 XmlDoclet.class.getName(),
                 args);
 
-        System.out.println("#############################################################");
-        System.out.println(Arrays.asList(args).toString());
-        System.out.println("#############################################################");
-        System.out.println(FileUtil.getFileContent(actualFile));
-
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
         File expectedFile = new File("target" + File.separatorChar + "test-classes" + File.separator + testClass.getName().replace('.', File.separatorChar) + "." + documentCreatorId + ".xml");
-        Document expectedDoc = documentBuilder.parse(expectedFile);
+
+        Document expectedDoc = loadSingleClassElement(testClass, documentBuilder, expectedFile);
+
+        Document actualDoc = loadSingleClassElement(testClass, documentBuilder, actualFile);
+
+        Diff diff = new Diff(expectedDoc, actualDoc);
+
+        actualFile.delete();
+
+        boolean identical = diff.identical();
+        if (!identical) {
+            StringBuffer sb = new StringBuffer();
+            diff.appendMessage(sb);
+            fail(sb.toString());
+        }
+        //assertTrue(identical);
+    }
+
+    private Document loadSingleClassElement(Class testClass, DocumentBuilder documentBuilder, File sourceFile) throws SAXException, IOException {
+        Document expectedDoc = documentBuilder.parse(sourceFile);
         Node expectedNode = findClassElement(testClass, expectedDoc);
-
-        Document actualDoc = documentBuilder.parse(expectedFile);
-        Node actualNode = findClassElement(testClass, actualDoc);
-
-        Diff diff = new Diff(new DOMSource(expectedNode), new DOMSource(actualNode));
-
-//        actualFile.delete();
-
-        assertTrue(diff.identical());
+        Document doc2 = documentBuilder.newDocument();
+        doc2.appendChild(doc2.importNode(expectedNode, true));
+        return doc2;
     }
 
     protected abstract Node findClassElement(final Class cls, final Document doc);

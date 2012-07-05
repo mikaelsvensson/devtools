@@ -72,7 +72,7 @@
                                     -c:format.name extensive
                                     -c:format.property.wrapListElements true
                                     -c:format.property.showAnnotations true
-                                    -c:transformer ${project.build.sourceDirectory}/../../site/packages.xslt
+                                    -c:transformer ${project.build.sourceDirectory}/../../site/index.xslt
                                     -c:output ./index.html
 
                                     -chain:x:info.mikaelsvensson.docutil.xml.XmlDoclet
