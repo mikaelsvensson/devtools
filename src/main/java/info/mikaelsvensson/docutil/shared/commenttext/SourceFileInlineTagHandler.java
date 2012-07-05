@@ -31,11 +31,23 @@ import com.sun.javadoc.Doc;
 import com.sun.javadoc.PackageDoc;
 import com.sun.javadoc.ProgramElementDoc;
 import com.sun.javadoc.Tag;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import java.io.*;
 import java.text.MessageFormat;
 
 public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
@@ -48,6 +60,66 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
             String getFile(final File sourceFolder, final String fileExpression) throws IOException {
                 File sourceFile = new File(sourceFolder, fileExpression.replace('.', File.separatorChar) + ".java");
                 return MessageFormat.format("</p><pre class=\"{0}\"><![CDATA[{1}]]></pre><p>", getStyleSheetClassByFileType(sourceFile), getFileContent(sourceFile));
+            }
+        },
+        XML {
+            @Override
+            String getFile(File sourceFolder, String fileExpression) throws IOException {
+                int spacePos = fileExpression.indexOf(' ');
+                String filePath = spacePos != -1 ? fileExpression.substring(0, spacePos) : fileExpression;
+                String xpathExpr = spacePos != -1 ? fileExpression.substring(spacePos + 1) : "";
+
+                filePath = filePath.replace('/', File.separatorChar);
+
+                File sourceFile = new File(sourceFolder.getParentFile(), filePath);
+                DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+
+
+                try {
+                    DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
+                    Document document = documentBuilder.parse(sourceFile);
+
+                    Node resultNode = null;
+                    if (xpathExpr.length() > 0) {
+                        XPathExpression expression = XPathFactory.newInstance().newXPath().compile(xpathExpr);
+                        Object result = expression.evaluate(document, XPathConstants.NODESET);
+                        if (result instanceof NodeList) {
+                            NodeList nodes = (NodeList) result;
+                            if (nodes.getLength() > 0) {
+                                resultNode = nodes.item(0);
+                            }
+                        }
+                    } else {
+                        resultNode = document;
+                    }
+
+                    StringWriter sw = new StringWriter();
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    transformerFactory.setAttribute("indent-number", new Integer(4));
+
+                    Transformer transformer = transformerFactory.newTransformer();
+                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(4));
+
+                    transformer.transform(new DOMSource(resultNode), new StreamResult(sw));
+
+                    String s = sw.toString();
+                    return MessageFormat.format("</p><pre class=\"{0}\"><![CDATA[{1}]]></pre><p>", getStyleSheetClassByFileType(sourceFile), s);
+
+                } catch (XPathExpressionException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (SAXException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (TransformerConfigurationException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (TransformerException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
         },
         FILE {

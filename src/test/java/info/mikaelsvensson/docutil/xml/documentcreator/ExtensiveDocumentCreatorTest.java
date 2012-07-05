@@ -1,10 +1,7 @@
 package info.mikaelsvensson.docutil.xml.documentcreator;
 
 import enumeration.Fruit;
-import info.mikaelsvensson.docutil.AnnotatedClass;
-import info.mikaelsvensson.docutil.ClassA;
-import info.mikaelsvensson.docutil.Contact;
-import info.mikaelsvensson.docutil.Vehicle;
+import info.mikaelsvensson.docutil.*;
 import info.mikaelsvensson.docutil.xml.extensivedocumentcreator.ExtensiveDocumentCreator;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,6 +24,11 @@ public class ExtensiveDocumentCreatorTest extends AbstractDocumentCreatorTest {
     @Test
     public void testFruit() throws Exception {
         performTest(Fruit.class);
+    }
+
+    @Test
+    public void testSourceFileInlineTag() throws Exception {
+        performTest(EmbedSourceCode.class);
     }
 
     @Test
