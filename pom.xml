@@ -81,24 +81,6 @@
                                     -x:format.property.showAnnotations true
                                     -x:output ./source-code-documentation.xml
                                 </additionalparam>
-                                <!--
-                                                                <additionalparam>
-                                                                    -chain:a:info.mikaelsvensson.docutil.xml.XmlDoclet
-                                                                    -a:format.name standard
-                                                                    -a:output ./index-standard.xml
-
-                                                                    -chain:b:info.mikaelsvensson.docutil.xml.XmlDoclet
-                                                                    -b:format.name extensive
-                                                                    -b:format.property.wrapListElements true
-                                                                    -b:output ./index-extensive.xml
-
-                                                                    -chain:c:info.mikaelsvensson.docutil.xml.XmlDoclet
-                                                                    -c:format.name extensive
-                                                                    -c:format.property.wrapListElements true
-                                                                    -c:transformer ${project.build.sourceDirectory}/../../site/packages.xslt
-                                                                    -c:output ./index-extensive.xml
-                                                                </additionalparam>
-                                -->
                                 <useStandardDocletOptions>false</useStandardDocletOptions>
                             </configuration>
                         </plugin>
