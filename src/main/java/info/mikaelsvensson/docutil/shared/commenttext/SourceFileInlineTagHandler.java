@@ -36,19 +36,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
+import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.*;
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.Iterator;
 
 public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
 
@@ -73,16 +72,43 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
 
                 File sourceFile = new File(sourceFolder.getParentFile(), filePath);
                 DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-
+                builderFactory.setNamespaceAware(true);
 
                 try {
                     DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
-                    Document document = documentBuilder.parse(sourceFile);
+                    final Document document = documentBuilder.parse(sourceFile);
+                    final String namespaceURI = document.getDocumentElement().getNamespaceURI();
 
                     Node resultNode = null;
                     if (xpathExpr.length() > 0) {
-                        XPathExpression expression = XPathFactory.newInstance().newXPath().compile(xpathExpr);
+                        XPath xPath = XPathFactory.newInstance().newXPath();
+                        xPath.setNamespaceContext(new NamespaceContext() {
+
+                            @Override
+                            public String getNamespaceURI(String prefix) {
+                                if (prefix.equals(XMLConstants.DEFAULT_NS_PREFIX)) {
+                                    return document.lookupNamespaceURI(null);
+                                } else {
+                                    return document.lookupNamespaceURI(prefix);
+                                }
+                            }
+
+                            @Override
+                            public String getPrefix(String namespaceURI) {
+                                return null;
+//                                return "x";
+                            }
+
+                            @Override
+                            public Iterator getPrefixes(String namespaceURI) {
+                                return null;
+//                                return Collections.singletonList("x").iterator();
+                            }
+                        });
+                        XPathExpression expression = xPath.compile(xpathExpr);
                         Object result = expression.evaluate(document, XPathConstants.NODESET);
+                        System.out.println("Using XPath expression " + xpathExpr + " resulted in " +
+                                "a " + result);
                         if (result instanceof NodeList) {
                             NodeList nodes = (NodeList) result;
                             if (nodes.getLength() > 0) {
@@ -95,7 +121,9 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
 
                     StringWriter sw = new StringWriter();
                     TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                    transformerFactory.setAttribute("indent-number", new Integer(4));
+//                    transformerFactory.setAttribute("indent-number", new Integer(4));
+
+                    System.out.println("Result node = " + resultNode);
 
                     Transformer transformer = transformerFactory.newTransformer();
                     transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");

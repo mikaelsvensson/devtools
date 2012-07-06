@@ -28,7 +28,22 @@ public class ExtensiveDocumentCreatorTest extends AbstractDocumentCreatorTest {
 
     @Test
     public void testSourceFileInlineTag() throws Exception {
-        performTest(EmbedSourceCode.class);
+        performTest(EmbedSourceCodeNoNS.class);
+    }
+
+    @Test
+    public void testEmbedSourceCodeDefaultNS() throws Exception {
+        performTest(EmbedSourceCodeDefaultNS.class);
+    }
+
+    @Test
+    public void testEmbedSourceCodeRegularNS() throws Exception {
+        performTest(EmbedSourceCodeRegularNS.class);
+    }
+
+    @Test
+    public void testEmbedSourceCodeNoNS() throws Exception {
+        performTest(EmbedSourceCodeNoNS.class);
     }
 
     @Test

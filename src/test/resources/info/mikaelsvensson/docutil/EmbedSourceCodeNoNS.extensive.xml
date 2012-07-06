@@ -3,7 +3,9 @@
 <packages>
 <package name="info.mikaelsvensson.docutil">
 <classes>
-<class abstract="false" access="public" externalizable="false" final="false" name="EmbedSourceCode" qualified-name="info.mikaelsvensson.docutil.EmbedSourceCode" serializable="false" static="false" type="class">
+<class abstract="false" access="public" externalizable="false" final="false"
+       name="EmbedSourceCodeNoNS" qualified-name="info.mikaelsvensson.docutil.EmbedSourceCodeNoNS"
+       serializable="false" static="false" type="class">
 <comment format="html">
 <p>The <code>@embed</code> tag can be used to include XML documents into the documentation.
 
@@ -40,7 +42,7 @@
 </comment>
 <superclass dimension="0" primitive="false" qualified-name="java.lang.Object"/>
 <constructors>
-<constructor access="public" final="false" name="EmbedSourceCode" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+<constructor access="public" final="false" name="EmbedSourceCodeNoNS" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
 </constructors>
 </class>
 <class abstract="true" access="default" externalizable="false" final="false" name="Texts" qualified-name="info.mikaelsvensson.docutil.Texts" serializable="false" static="false" type="annotation">

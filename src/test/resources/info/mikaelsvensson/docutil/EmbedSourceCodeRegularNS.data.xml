@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<family xmlns:esc="http://docutil.mikaelsvensson.info/EmbedSourceCode/sample">
+    <esc:member name="alice">
+        <role>mother</role>
+        <role>impulsive</role>
+    </esc:member>
+    <esc:member name="bob">
+        <role>father</role>
+        <role>steady</role>
+    </esc:member>
+    <esc:member name="carol">
+        <role>daughter</role>
+        <role>reckless</role>
+    </esc:member>
+</family>

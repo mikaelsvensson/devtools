@@ -5,12 +5,12 @@ package info.mikaelsvensson.docutil;
  *
  * Like this:
  *
- * {@embed xml resources/info/mikaelsvensson/docutil/EmbedSourceCode.data.xml}
+ * {@embed xml resources/info/mikaelsvensson/docutil/EmbedSourceCodeNoNS.data.xml}
  *
  * As an added bonus it is possible to only include a part of the XML document by specifying an XPath expression after
  * the file name:
  *
- * {@embed xml resources/info/mikaelsvensson/docutil/EmbedSourceCode.data.xml //member[role/text() = 'father']}
+ * {@embed xml resources/info/mikaelsvensson/docutil/EmbedSourceCodeNoNS.data.xml //member[role/text() = 'father']}
  */
-public class EmbedSourceCode {
+public class EmbedSourceCodeNoNS {
 }
