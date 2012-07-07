@@ -42,11 +42,13 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
 
     @FormatProperty
     public static final String EXCLUDE_PACKAGE = "excludePackage";
+
     /**
-     * Specifies which types of members should be included in the generated XML document for <em>regular classes</em>,
-     * i.e note interfaces or enumerations.
+     * Specifies which types of members should be included in the generated XML document for
+     * <em>regular classes</em>, i.e note interfaces or enumerations.
      * <p/>
-     * The property value is a string of character where each character represents a type of member.
+     * The property value is a string of character where each character represents a type of
+     * member.
      * <dl>
      * <dt>s</dt>
      * <dd>Super classes</dd>
@@ -72,26 +74,31 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
     public static final String CLASS_MEMBER_TYPE_FILTER = "classMemberTypeFilter";
 
     /**
-     * Specifies which types of members should be included in the generated XML document for <em>enum classes</em>.
-     *
+     * Specifies which types of members should be included in the generated XML document for
+     * <em>enum classes</em>.
+     * <p/>
      * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     *
      * @see #CLASS_MEMBER_TYPE_FILTER
      */
     @FormatProperty(defaultValue = ClassDocHandler.DEFAULT_ENUM_MEMBER_TYPE_FILTER)
     public static final String ENUM_MEMBER_TYPE_FILTER = "enumMemberTypeFilter";
     /**
-     * Specifies which types of members should be included in the generated XML document for <em>interfaces</em>.
-     *
+     * Specifies which types of members should be included in the generated XML document for
+     * <em>interfaces</em>.
+     * <p/>
      * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     *
      * @see #CLASS_MEMBER_TYPE_FILTER
      */
     @FormatProperty(defaultValue = ClassDocHandler.DEFAULT_INTERFACE_MEMBER_TYPE_FILTER)
     public static final String INTERFACE_MEMBER_TYPE_FILTER = "interfaceMemberTypeFilter";
     /**
-     * Specifies which types of members should be included in the generated XML document for <em>annotation classes</em>,
-     * i.e. interfaces that define annotations.
-     *
+     * Specifies which types of members should be included in the generated XML document for
+     * <em>annotation classes</em>, i.e. interfaces that define annotations.
+     * <p/>
      * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     *
      * @see #CLASS_MEMBER_TYPE_FILTER
      */
     @FormatProperty(defaultValue = ClassDocHandler.DEFAULT_ANNOTATION_MEMBER_TYPE_FILTER)
@@ -100,13 +107,25 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
     public static final String NAME = "extensive";
 
     /**
-     * Sets whether or not annotations for methods, classes, fields etcetera should be included in the XML document.
-     *
-     * This setting does not affect whether or not annotation definitions, i.e. annotation classes, are included in the
-     * generated XML document.
+     * Sets whether or not annotations for methods, classes, fields etcetera should be included in
+     * the XML document.
+     * <p/>
+     * This setting does not affect whether or not annotation definitions, i.e. annotation classes,
+     * are included in the generated XML document.
      */
     @FormatProperty(defaultValue = "false")
     public static final String SHOW_ANNOTATIONS = "showAnnotations";
+
+    /**
+     * Sets whether or not child elements of a particular type should be "wrapped" in an "container
+     * elements".
+     *
+     * If this option is set to {@code true} each {@code <class>} elements will have a child
+     * element {@code <methods>} which will contain one {@code <method>} element for each
+     * method in the class. Otherwise, i.e. if this configuration property is set to {@code
+     * false}, the {@code <method>} elements will be added as direct children of the {@code
+     * <class>} element.
+     */
     @FormatProperty
     public static final String WRAP_LIST_ELEMENTS = "wrapListElements";
 

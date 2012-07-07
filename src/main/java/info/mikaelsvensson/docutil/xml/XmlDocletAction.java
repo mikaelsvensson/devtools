@@ -35,9 +35,6 @@ import java.util.Map;
 
 public class XmlDocletAction {
 
-    public static final String FORMAT_STANDARD = "standard";
-    public static final String FORMAT_ENUM = "enum";
-    public static final String FORMAT_ELEMENTS_ONLY = "elementsonly";
     public static final String FORMAT = "format";
     public static final String FORMAT_NAME = "name";
     public static final String OUTPUT = "output";
@@ -64,23 +61,6 @@ public class XmlDocletAction {
             this.transformer = new File(transformerPath);
         }
     }
-
-/*
-    public DocumentCreator createDocumentCreator(final Map<String, String> parameters) throws DocumentCreatorException {
-        try {
-            if (FORMAT_STANDARD.equalsIgnoreCase(format)) {
-                return new StandardDocumentCreator(parameters);
-            } else if (FORMAT_ENUM.equalsIgnoreCase(format)) {
-                return new EnumDocumentCreator(parameters);
-            } else if (FORMAT_ELEMENTS_ONLY.equalsIgnoreCase(format)) {
-                return new ElementsOnlyDocumentCreator();
-            }
-        } catch (ParserConfigurationException e) {
-            throw new DocumentCreatorException("Could not create formatter for the format '" + format + "'.", e);
-        }
-        throw new DocumentCreatorException("Could not find a suitable formatter for the format '" + format + "'.");
-    }
-*/
 
     private File output;
     private File transformer;

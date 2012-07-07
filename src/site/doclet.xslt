@@ -48,6 +48,38 @@
                         <xsl:with-param name="element" select="comment"/>
                     </xsl:call-template>
 
+                    <p>
+                        Doclet Parameters:
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Default Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <xsl:for-each
+                                        select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']">
+                                    <tr>
+                                        <td>
+                                            <xsl:value-of select="@constant-value"/>
+                                        </td>
+                                        <td>
+                                            <xsl:call-template name="documentation">
+                                                <xsl:with-param name="element" select="comment"/>
+                                            </xsl:call-template>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of
+                                                    select=".//annotation[type/@qualified-name='info.mikaelsvensson.docutil.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
+                                        </td>
+                                    </tr>
+                                </xsl:for-each>
+                            </tbody>
+                        </table>
+
+                    </p>
                     <xsl:choose>
                         <xsl:when test="@qualified-name='info.mikaelsvensson.docutil.xml.XmlDoclet'">
                             <xsl:apply-templates select="." mode="doclet-xmldoclet"/>

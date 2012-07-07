@@ -31,6 +31,7 @@
     <xsl:output method="html" indent="yes" name="html"/>
 
     <xsl:template match="class" mode="doclet-xmldoclet">
+
         <p>Document Creators:
             <ul>
                 <xsl:for-each
