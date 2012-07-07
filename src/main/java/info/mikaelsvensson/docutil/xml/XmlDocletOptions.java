@@ -34,6 +34,8 @@ import info.mikaelsvensson.docutil.shared.propertyset.PropertySetException;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO Remove this class since its only use, keeping track of multiple actions, can be accomplished using XmlDoclet and ChainDoclet
+
 public class XmlDocletOptions {
     public static final String ACTION = "action";
     public static final String PROPERTIES_FILE = "propertiesfile";

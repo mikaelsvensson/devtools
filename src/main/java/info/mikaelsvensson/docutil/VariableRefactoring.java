@@ -15,13 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mikael
- * Date: 7/5/12
- * Time: 8:21 PM
- * To change this template use File | Settings | File Templates.
- */
+//TODO Remove class
 public class VariableRefactoring {
     public static void main (String[] args) {
         try {

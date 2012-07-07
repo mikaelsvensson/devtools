@@ -30,6 +30,7 @@ package info.mikaelsvensson.docutil.shared.commenttext;
 import com.sun.javadoc.SeeTag;
 import com.sun.javadoc.Tag;
 
+//TODO Should not tag handlers return proper HTML code?
 /**
  * @taghandler
  */

@@ -35,6 +35,7 @@ import java.util.Map;
 
 public class XmlDocletAction {
 
+    //TODO Move these constants to XmlDoclet
     public static final String FORMAT = "format";
     public static final String FORMAT_NAME = "name";
     public static final String OUTPUT = "output";

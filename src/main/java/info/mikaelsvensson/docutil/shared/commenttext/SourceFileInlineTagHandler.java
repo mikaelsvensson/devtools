@@ -88,6 +88,8 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
             }
         };
 
+        //TODO Refactor method into multiple methods
+        //TODO Improve error messages when using invalid XPath expressions or expressions which does not return any nodes
         private static String getXMLString(File sourceFolder,
                                            String fileExpression,
                                            boolean isNamespaceAware) throws IOException,

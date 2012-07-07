@@ -27,6 +27,7 @@
 
 package info.mikaelsvensson.docutil.xml;
 
+//TODO Create more generic "ConfigurationProperty" annotation?
 public @interface FormatProperty {
     String defaultValue() default "";
 }
