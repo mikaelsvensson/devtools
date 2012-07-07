@@ -30,12 +30,11 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
-import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
 
 public class DocHandler<T extends Doc> extends Handler<T> {
 // ------------------------------ FIELDS ------------------------------
 
-protected static final String NAME = "name";
+    protected static final String NAME = "name";
 
     private ObjectHandlerFilter<Tag> tagsFilter = ACCEPT_ALL_FILTER;
 
@@ -62,11 +61,7 @@ protected static final String NAME = "name";
 
         String text = doc.commentText();
         if (null != text && text.length() > 0) {
-            try {
-                el.addCommentChild(doc);
-            } catch (InlineTagHandlerException e) {
-                throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags: " + e.getMessage(), e);
-            }
+            el.addCommentChild(doc);
         }
         el.setAttribute(NAME, doc.name());
 

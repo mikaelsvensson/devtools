@@ -29,7 +29,6 @@ package info.mikaelsvensson.docutil.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.*;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
-import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
 
 class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDocHandler<T> {
 // ------------------------------ FIELDS ------------------------------
@@ -83,11 +82,7 @@ class ExecutableMemberDocHandler<T extends ExecutableMemberDoc> extends MemberDo
     }
 
     protected void addComment(final ElementWrapper parameterEl, final Tag paramTag) throws JavadocItemHandlerException {
-        try {
-            parameterEl.addCommentChild(paramTag);
-        } catch (InlineTagHandlerException e) {
-            throw new JavadocItemHandlerException("Could not parse/process one of the Javadoc tags:" + e.getMessage(), e);
-        }
+        parameterEl.addCommentChild(paramTag);
     }
 
     private void handleThrows(final ElementWrapper el, final Type[] exceptionTypes, final ThrowsTag[] throwsTags) throws JavadocItemHandlerException {

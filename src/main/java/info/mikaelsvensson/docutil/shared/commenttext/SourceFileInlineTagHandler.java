@@ -63,29 +63,59 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
         },
         XML {
             @Override
-            String getFile(File sourceFolder, String fileExpression) throws IOException {
-                int spacePos = fileExpression.indexOf(' ');
-                String filePath = spacePos != -1 ? fileExpression.substring(0, spacePos) : fileExpression;
-                String xpathExpr = spacePos != -1 ? fileExpression.substring(spacePos + 1) : "";
+            String getFile(File sourceFolder, String fileExpression) throws IOException, InlineTagHandlerException {
+                return getXMLString(sourceFolder, fileExpression, true);
+            }
+        },
+        XML_NO_NAMESPACE {
+            @Override
+            String getFile(File sourceFolder, String fileExpression) throws IOException, InlineTagHandlerException {
+                return getXMLString(sourceFolder, fileExpression, false);
+            }
+        },
+        FILE {
+            @Override
+            String getFile(final File sourceFolder, final String fileExpression) throws IOException {
+                File sourceFile = new File(sourceFolder.getParentFile(), fileExpression.replace('/', File.separatorChar));
+                return MessageFormat.format("</p><pre class=\"{0}\"><![CDATA[{1}]]></pre><p>", getStyleSheetClassByFileType(sourceFile), getFileContent(sourceFile));
+            }
+        },
+        INCLUDE {
+            @Override
+            String getFile(final File sourceFolder, final String fileExpression) throws IOException {
+                File sourceFile = new File(sourceFolder.getParentFile(), fileExpression.replace('/', File.separatorChar));
+                return getFileContent(sourceFile);
+            }
+        };
 
-                filePath = filePath.replace('/', File.separatorChar);
+        private static String getXMLString(File sourceFolder,
+                                           String fileExpression,
+                                           boolean isNamespaceAware) throws IOException,
+                InlineTagHandlerException {
+            int spacePos = fileExpression.indexOf(' ');
+            String filePath = spacePos != -1 ? fileExpression.substring(0, spacePos) : fileExpression;
+            String xpathExpr = spacePos != -1 ? fileExpression.substring(spacePos + 1) : "";
 
-                File sourceFile = new File(sourceFolder.getParentFile(), filePath);
-                DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-                builderFactory.setNamespaceAware(true);
+            filePath = filePath.replace('/', File.separatorChar);
 
-                try {
-                    DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
-                    final Document document = documentBuilder.parse(sourceFile);
-                    final String namespaceURI = document.getDocumentElement().getNamespaceURI();
+            File sourceFile = new File(sourceFolder.getParentFile(), filePath);
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            builderFactory.setNamespaceAware(isNamespaceAware);
 
-                    Node resultNode = null;
-                    if (xpathExpr.length() > 0) {
-                        XPath xPath = XPathFactory.newInstance().newXPath();
+            try {
+                DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
+                final Document document = documentBuilder.parse(sourceFile);
+                final String namespaceURI = document.getDocumentElement().getNamespaceURI();
+
+                Node resultNode = null;
+                if (xpathExpr.length() > 0) {
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    if (isNamespaceAware) {
                         xPath.setNamespaceContext(new NamespaceContext() {
 
                             @Override
                             public String getNamespaceURI(String prefix) {
+                                System.err.println("getNamespaceURI '" + prefix +"'");
                                 if (prefix.equals(XMLConstants.DEFAULT_NS_PREFIX)) {
                                     return document.lookupNamespaceURI(null);
                                 } else {
@@ -105,65 +135,56 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
 //                                return Collections.singletonList("x").iterator();
                             }
                         });
-                        XPathExpression expression = xPath.compile(xpathExpr);
-                        Object result = expression.evaluate(document, XPathConstants.NODESET);
-                        System.out.println("Using XPath expression " + xpathExpr + " resulted in " +
-                                "a " + result);
-                        if (result instanceof NodeList) {
-                            NodeList nodes = (NodeList) result;
-                            if (nodes.getLength() > 0) {
-                                resultNode = nodes.item(0);
-                            }
-                        }
-                    } else {
-                        resultNode = document;
                     }
-
-                    StringWriter sw = new StringWriter();
-                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//                    transformerFactory.setAttribute("indent-number", new Integer(4));
-
-                    System.out.println("Result node = " + resultNode);
-
-                    Transformer transformer = transformerFactory.newTransformer();
-                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-                    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(4));
-
-                    transformer.transform(new DOMSource(resultNode), new StreamResult(sw));
-
-                    String s = sw.toString();
-                    return MessageFormat.format("</p><pre class=\"{0}\"><![CDATA[{1}]]></pre><p>", getStyleSheetClassByFileType(sourceFile), s);
-
-                } catch (XPathExpressionException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (SAXException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (TransformerConfigurationException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (TransformerException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    XPathExpression expression = xPath.compile(xpathExpr);
+                    Object result = expression.evaluate(document, XPathConstants.NODESET);
+                    System.out.println("Using XPath expression " + xpathExpr + " resulted in " +
+                            "a " + result);
+                    if (result instanceof NodeList) {
+                        NodeList nodes = (NodeList) result;
+                        if (nodes.getLength() > 0) {
+                            resultNode = nodes.item(0);
+                        }
+                    }
+                    if (null == resultNode) {
+                        throw new InlineTagHandlerException("XPath expression '" + xpathExpr
+                                + "' yielded no nodes. You might want to double-check if you " +
+                                "use the correct namespaces in the XPath expression.");
+                    }
+                } else {
+                    resultNode = document;
                 }
 
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
+                StringWriter sw = new StringWriter();
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//                    transformerFactory.setAttribute("indent-number", new Integer(4));
+
+                System.out.println("Result node = " + resultNode);
+
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(4));
+
+                transformer.transform(new DOMSource(resultNode), new StreamResult(sw));
+
+                String s = sw.toString();
+                return MessageFormat.format("</p><pre class=\"{0}\"><![CDATA[{1}]]></pre><p>", getStyleSheetClassByFileType(sourceFile), s);
+
+            } catch (XPathExpressionException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (SAXException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (TransformerConfigurationException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (TransformerException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        },
-        FILE {
-            @Override
-            String getFile(final File sourceFolder, final String fileExpression) throws IOException {
-                File sourceFile = new File(sourceFolder.getParentFile(), fileExpression.replace('/', File.separatorChar));
-                return MessageFormat.format("</p><pre class=\"{0}\"><![CDATA[{1}]]></pre><p>", getStyleSheetClassByFileType(sourceFile), getFileContent(sourceFile));
-            }
-        },
-        INCLUDE {
-            @Override
-            String getFile(final File sourceFolder, final String fileExpression) throws IOException {
-                File sourceFile = new File(sourceFolder.getParentFile(), fileExpression.replace('/', File.separatorChar));
-                return getFileContent(sourceFile);
-            }
-        };
+
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
         private static String getStyleSheetClassByFileType(File file) {
             int pos = file.getName().lastIndexOf('.');
@@ -174,7 +195,7 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
             return "";
         }
 
-        abstract String getFile(final File sourceFolder, String fileExpression) throws IOException;
+        abstract String getFile(final File sourceFolder, String fileExpression) throws IOException, InlineTagHandlerException;
 
         private static String getFileContent(final File file) throws IOException {
             if (file.exists() && file.isFile()) {

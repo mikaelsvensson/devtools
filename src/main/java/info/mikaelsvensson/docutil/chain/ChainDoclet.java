@@ -29,6 +29,7 @@ package info.mikaelsvensson.docutil.chain;
 
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.RootDoc;
+import info.mikaelsvensson.docutil.xml.FormatProperty;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -38,19 +39,34 @@ import java.util.regex.Pattern;
  * Doclet used to use multple doclets in a single Javadoc invokation. This is useful, for
  * example, when generating Maven sites and it is desired to use multiple doclets to
  * produce a set of "reports" instead of only the usual Javadoc API "reports.
- *
+ * <p/>
  * Using this doclet is pretty straight forward. In your {@code pom.xml} you define a
  * sequence of doclets to run, assign an identifier to each of them and add this identifier
- * to all doclet parameters that should be sent to that particulat doclet.
- *
+ * to all doclet parameters that should be sent to that particular doclet.
+ * <p/>
  * Example:
- *
- * {@embed}
+ * <p/>
+ * {@embed xml ../../pom.xml //*[local-name() = 'additionalparam']}
  *
  * @doclet
  */
 public class ChainDoclet {
 
+    /**
+     * The doclet's only configuration option, but it is used for two things:
+     * <ol>
+     *     <li>to define a custom prefix used to determine which options should be relayed to
+     *     the doclet at hand</li>
+     *     <li>to define the doclet at hand</li>
+     * </ol>
+     *
+     * The format is simple: {@code prefix:full-doclet-class-name}.
+     *
+     * Example:
+     *
+     * {@code firstdocet:full.doclet.class.name}
+     */
+    @FormatProperty
     private static final String CHAIN_OPTION_NAME = "chain";
     private static final String CHAIN_OPTION_SEPARATOR = ":";
 

@@ -32,7 +32,7 @@ import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.DocumentCreator;
 import info.mikaelsvensson.docutil.shared.DocumentCreatorException;
 import info.mikaelsvensson.docutil.shared.ElementWrapper;
-import info.mikaelsvensson.docutil.shared.commenttext.InlineTagHandlerException;
+import info.mikaelsvensson.docutil.xml.extensivedocumentcreator.JavadocItemHandlerException;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -53,15 +53,15 @@ public abstract class AbstractDocumentCreator implements DocumentCreator {
     protected void addComment(ElementWrapper parentEl, Doc doc) throws DocumentCreatorException {
         try {
             parentEl.addCommentChild(doc);
-        } catch (InlineTagHandlerException e) {
-            throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags: " + e.getMessage(), e);
+        } catch (JavadocItemHandlerException e) {
+            throw new DocumentCreatorException(e);
         }
     }
     protected void addComment(ElementWrapper parentEl, Tag doc) throws DocumentCreatorException {
         try {
             parentEl.addCommentChild(doc);
-        } catch (InlineTagHandlerException e) {
-            throw new DocumentCreatorException("Could not parse/process one of the Javadoc tags: " + e.getMessage(), e);
+        } catch (JavadocItemHandlerException e) {
+            throw new DocumentCreatorException(e);
         }
     }
 }

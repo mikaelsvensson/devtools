@@ -30,6 +30,7 @@ package info.mikaelsvensson.docutil.shared;
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
 import info.mikaelsvensson.docutil.shared.commenttext.*;
+import info.mikaelsvensson.docutil.xml.extensivedocumentcreator.JavadocItemHandlerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -90,22 +91,31 @@ public class ElementWrapper {
         return new ElementWrapper(element);
     }
 
-    public ElementWrapper addCommentChild(Doc doc) throws InlineTagHandlerException {
+    public ElementWrapper addCommentChild(Doc doc) throws JavadocItemHandlerException {
         return addCommentChild(doc.inlineTags());
     }
 
-    public ElementWrapper addCommentChild(Tag doc) throws InlineTagHandlerException {
+    public ElementWrapper addCommentChild(Tag doc) throws JavadocItemHandlerException {
         return addCommentChild(doc.inlineTags());
     }
 
-    private ElementWrapper addCommentChild(Tag[] inlineTags) throws InlineTagHandlerException {
+    private ElementWrapper addCommentChild(Tag[] inlineTags) throws JavadocItemHandlerException /*throws InlineTagHandlerException */{
         StringBuilder sb = new StringBuilder();
 
         tag:
         for (Tag tag : inlineTags) {
             for (InlineTagHandler handler : inlineTagHandlers) {
                 if (handler.handles(tag)) {
-                    sb.append(handler.toString(tag));
+                    try {
+                        sb.append(handler.toString(tag));
+                    } catch (InlineTagHandlerException e) {
+                        throw new JavadocItemHandlerException("Could not parse/process Javadoc tag " +
+                                tag.name() +
+                                " in " + tag.position().file().getName() +
+                                " at line " + tag.position().line() + ". " +
+                                "Error message: " + e.getMessage(), e);
+
+                    }
                     continue tag;
                 }
             }
