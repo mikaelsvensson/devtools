@@ -9,6 +9,7 @@
     <modules>
         <module>site-map-generator</module>
         <module>site-map-generator-demo</module>
+        <module>doclet</module>
     </modules>
 
     <name>doctools</name>
