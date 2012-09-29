@@ -25,41 +25,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.doctools.doclet.db2.metadata;
 
-import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import java.util.*;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
-    /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
-     * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
-     *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
-     */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
+public class Database extends DatabaseObject {
+    private List<Table> tables = new ArrayList<Table>();
+    private Map<String, String> properties = new TreeMap<String, String>();
+    public Date getTimeStamp() {
+        return timeStamp;
     }
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
+    private Date timeStamp;
+
+    public List<Table> getTables() {
+        return tables;
     }
 
-    @Override
-    protected Node findClassElement(final Class cls, final Document doc) {
-        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
+    public boolean addTable(Table table) {
+        return tables.add(table);
+    }
+
+    public Database() {
+        super("Untitled");
+    }
+
+    public Table getTable(String name) {
+        for (Table table : tables) {
+            if (table.getName().equals(name)) {
+                return table;
+            }
+        }
+        return null;
+    }
+
+    public void setProperty(String key, String value) {
+        properties.put(key, value);
+    }
+
+    public Map<String, String> getProperties() {
+        return Collections.unmodifiableMap(properties);
+    }
+
+    public void setTimeStamp(Date date) {
+        this.timeStamp = date;
     }
 }

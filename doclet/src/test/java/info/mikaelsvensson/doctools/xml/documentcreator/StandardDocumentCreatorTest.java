@@ -1,6 +1,7 @@
 package info.mikaelsvensson.doctools.xml.documentcreator;
 
 import info.mikaelsvensson.doctools.ClassA;
+import info.mikaelsvensson.doctools.doclet.xml.documentcreator.StandardDocumentCreator;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

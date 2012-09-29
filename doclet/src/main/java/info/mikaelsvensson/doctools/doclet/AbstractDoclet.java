@@ -25,41 +25,63 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.doctools.doclet;
 
-import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import com.sun.javadoc.LanguageVersion;
+import com.sun.javadoc.RootDoc;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+/**
+ * Image with {@image resources/cloud.png} or without {@image resources/cloud.png A cloud} alternative texts.
+ */
+public class AbstractDoclet {
 
+/*
+    public RootDoc getRoot() {
+        return root;
+    }
+*/
 
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
+    protected RootDoc root;
+
+    protected AbstractDoclet(RootDoc root) {
+        this.root = root;
+    }
+
+    protected String readOption(String optionName) {
+        return readOption(optionName, root);
+    }
+
+    protected static String readOption(String optionName, RootDoc root) {
+        String[][] options = root.options();
+        for (String[] opt : options) {
+            if (opt[0].equals(optionName)) {
+                return opt[1];
+            }
+        }
+        return null;
+    }
+
     /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
+     * Indicate that this doclet supports the 1.5 language features.
      * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
+     * Credits to http://stackoverflow.com/questions/5731619/doclet-get-generics-of-a-list
      *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
+     * @return JAVA_1_5, indicating that the new features are supported.
      */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
+    public static LanguageVersion languageVersion() {
+        return LanguageVersion.JAVA_1_5;
     }
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
+    protected void printNotice(String message) {
+        root.printNotice(message);
     }
 
-    @Override
-    protected Node findClassElement(final Class cls, final Document doc) {
-        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
+    protected void printError(Exception e) {
+        root.printError(e.getMessage());
     }
+
+    protected void printWarning(Exception e) {
+        root.printWarning(e.getMessage());
+    }
+
 }

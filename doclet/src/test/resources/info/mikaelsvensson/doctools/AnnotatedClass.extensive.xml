@@ -13,7 +13,7 @@
 <field access="public" constant-value="testing" final="true" name="TEST" static="true" synthetic="false" transient="false" volatile="false">
 <annotations>
 <annotation>
-<type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.doctools.xml.FormatProperty"/>
+<type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.doctools.doclet.xml.FormatProperty"/>
 </annotation>
 </annotations>
 <type dimension="0" primitive="false" qualified-name="java.lang.String"/>

@@ -56,7 +56,7 @@
                             </reports>
                             <configuration>
                                 <docfilessubdirs>true</docfilessubdirs>
-                                <doclet>info.mikaelsvensson.doctools.chain.ChainDoclet</doclet>
+                                <doclet>info.mikaelsvensson.doctools.doclet.chain.ChainDoclet</doclet>
                                 <docletArtifacts>
                                     <docletArtifact>
                                         <groupId>info.mikaelsvensson.doclet</groupId>
@@ -71,7 +71,7 @@
                                 </docletArtifacts>
                                 <show>private</show>
                                 <additionalparam>
-                                    -chain:c:info.mikaelsvensson.doctools.xml.XmlDoclet
+                                    -chain:c:info.mikaelsvensson.doctools.doclet.xml.XmlDoclet
                                     -c:format.name extensive
                                     -c:format.property.wrapListElements true
                                     -c:format.property.showAnnotations true

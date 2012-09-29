@@ -27,7 +27,7 @@
 
 package info.mikaelsvensson.doctools;
 
-import info.mikaelsvensson.doctools.xml.FormatProperty;
+import info.mikaelsvensson.doctools.doclet.xml.FormatProperty;
 
 public class AnnotatedClass {
     @FormatProperty

@@ -25,41 +25,51 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.doctools.doclet.xml;
 
-import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import com.sun.javadoc.RootDoc;
+import com.sun.tools.doclets.standard.Standard;
+import info.mikaelsvensson.doctools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.doctools.doclet.shared.propertyset.PropertySetException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+/**
+ * Depcrated. Use ChainDoclet and XmlDoclet instead.
+ *
+ * @doclet
+ * @deprecated
+ */
+@Deprecated
+public class XmlAndStandardDoclet extends XmlDoclet {
 
-
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
-    /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
-     * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
-     *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
-     */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
+    protected XmlAndStandardDoclet(RootDoc root, XmlDocletOptions options) {
+        super(root, options);
     }
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
+    public static int optionLength(String option) {
+        int len = XmlDoclet.optionLength(option);
+        if (len > 0) {
+            return len;
+        } else {
+            return Standard.optionLength(option);
+        }
     }
 
-    @Override
-    protected Node findClassElement(final Class cls, final Document doc) {
-        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
+    public static boolean validOptions(String[][] strings, com.sun.javadoc.DocErrorReporter docErrorReporter) {
+        return Standard.validOptions(strings, docErrorReporter);
+    }
+
+    public static boolean start(RootDoc root) {
+        root.printNotice("Generating standard API documentation");
+        Standard standard = new Standard();
+        standard.start(root);
+
+        root.printNotice("Generating XML based API documentation");
+        try {
+            new XmlDoclet(root, new XmlDocletOptions(new PropertySet(root.options()))).generate();
+        } catch (PropertySetException e) {
+            root.printError(e.getMessage());
+        }
+
+        return true;
     }
 }

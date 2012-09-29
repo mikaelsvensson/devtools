@@ -60,7 +60,7 @@
                             </thead>
                             <tbody>
                                 <xsl:for-each
-                                        select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.doctools.xml.FormatProperty']">
+                                        select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.doctools.doclet.xml.FormatProperty']">
                                     <tr>
                                         <td>
                                             <xsl:value-of select="@constant-value"/>
@@ -72,7 +72,7 @@
                                         </td>
                                         <td>
                                             <xsl:value-of
-                                                    select=".//annotation[type/@qualified-name='info.mikaelsvensson.doctools.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
+                                                    select=".//annotation[type/@qualified-name='info.mikaelsvensson.doctools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
                                         </td>
                                     </tr>
                                 </xsl:for-each>

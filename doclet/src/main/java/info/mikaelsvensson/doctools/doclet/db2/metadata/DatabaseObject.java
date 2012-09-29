@@ -25,41 +25,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.doctools.doclet.db2.metadata;
 
-import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+public class DatabaseObject {
+    private String name;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
-    /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
-     * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
-     *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
-     */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
+    public DatabaseObject(String name) {
+        this.name = name;
     }
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
+    public String getName() {
+        return name;
     }
 
-    @Override
-    protected Node findClassElement(final Class cls, final Document doc) {
-        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
+    public void setName(String name) {
+        this.name = name;
     }
 }

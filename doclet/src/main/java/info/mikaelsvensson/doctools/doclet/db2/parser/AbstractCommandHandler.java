@@ -25,41 +25,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.doctools.doclet.db2.parser;
 
-import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+public abstract class AbstractCommandHandler implements CommandHandler {
+    protected static final String REGEXP_QUOTED_NAME = "\"([a-zA-Z0-9_-]+)\"";
+    protected static final String REGEXP_QUOTED_NAMES_IN_PARENTHESIS = "\\(((" + REGEXP_QUOTED_NAME + "[\\s,ASCDEascde]*)+)\\)";
+    protected static final Pattern QUOTED_NAME_PATTERN = Pattern.compile(REGEXP_QUOTED_NAME);
 
-
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
-    /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
-     * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
-     *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
-     */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
+    public static String getAffectedTableName(String sql) {
+        int posDot = sql.indexOf('.');
+        int posSpace = sql.indexOf(' ', posDot);
+        return sql.substring(posDot + 1 + 1, posSpace - 1);
     }
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
+    protected List<String> getColumns(String columnListSql) {
+        List<String> cols = new LinkedList<String>();
+        Matcher colMatcher = QUOTED_NAME_PATTERN.matcher(columnListSql);
+        while (colMatcher.find()) {
+            cols.add(colMatcher.group(1));
+        }
+        return cols;
     }
 
-    @Override
-    protected Node findClassElement(final Class cls, final Document doc) {
-        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
+    protected String fixSQL(String sql) {
+        return sql.replaceAll("\n", "");
     }
 }

@@ -25,41 +25,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.doctools.doclet.xml.extensivedocumentcreator;
 
-import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import com.sun.javadoc.Tag;
+import info.mikaelsvensson.doctools.doclet.shared.ElementWrapper;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+class TagHandler<T extends Tag> extends Handler<T> {
+// --------------------------- CONSTRUCTORS ---------------------------
 
-
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
-    /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
-     * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
-     *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
-     */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
+    TagHandler(final Dispatcher dispatcher) {
+        super((Class<T>) Tag.class, dispatcher);
     }
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
+    public TagHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+        super(docClass, dispatcher);
     }
+
+// -------------------------- OTHER METHODS --------------------------
 
     @Override
-    protected Node findClassElement(final Class cls, final Document doc) {
-        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
+    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
+        super.handleImpl(el, doc);
+
+        el.setAttributes(
+                "name", doc.name(),
+                "kind", doc.kind(),
+                "text", doc.text());
     }
 }

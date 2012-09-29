@@ -2,6 +2,7 @@ package info.mikaelsvensson.doctools.chain;
 
 import com.sun.tools.doclets.standard.Standard;
 import info.mikaelsvensson.doctools.ClassA;
+import info.mikaelsvensson.doctools.doclet.chain.ChainDoclet;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;

@@ -25,41 +25,40 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.doctools.doclet.db2.metadata;
 
-import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+public class Column extends DatabaseObject {
+    private String definition;
+    private Db2Datatype db2Datatype;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
-    /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
-     * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
-     *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
-     */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
+    public Column(String name, String definition) {
+        super(name);
+        setDefinition(definition);
     }
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
+    public Column(String name) {
+        super(name);
     }
 
-    @Override
-    protected Node findClassElement(final Class cls, final Document doc) {
-        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
+    public String getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(String definition) {
+        int posSpace = definition.indexOf(' ');
+        if (posSpace == -1) {
+            posSpace = definition.length();
+        }
+        String datatypeDef = definition.substring(0, posSpace);
+        this.db2Datatype = Db2Datatype.fromColumnDefinition(datatypeDef);
+        if (this.db2Datatype != null) {
+            this.definition = definition.substring(posSpace).trim();
+        } else {
+            this.definition = definition;
+        }
+    }
+
+    public Db2Datatype getDb2Datatype() {
+        return db2Datatype;
     }
 }

@@ -25,41 +25,41 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
-
-import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+package info.mikaelsvensson.doctools.doclet.db2.parser;
 
 
-public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
-    /**
-     * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
-     * <p/>
-     * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
-     *
-     * Result:
-     * {@embed file resources/ClassA.standard.xml}
-     */
-    @Test
-    public void testFruit() throws Exception {
-        performTest(Fruit.class);
-    }
+import info.mikaelsvensson.doctools.doclet.db2.metadata.Column;
+import info.mikaelsvensson.doctools.doclet.db2.metadata.Database;
+import info.mikaelsvensson.doctools.doclet.db2.metadata.Table;
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
-        performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
-    }
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class CreateTableCommandHandler extends AbstractCommandHandler {
+    private static final Pattern COLUMNS_PATTERN = Pattern.compile("\\(\\s*([^,)]+)\\s");
+    private static final Pattern COLUMN_DEFINITION_PATTERN = Pattern.compile("\\s*\"([a-zA-Z0-9_-]+)\"(.*)");
+
 
     @Override
-    protected Node findClassElement(final Class cls, final Document doc) {
-        return AbstractDocumentCreatorTest.findClassElementByQName(cls, doc, "enum", "qualified-name");
+    public void execute(Database db, String sql) {
+        String name = getAffectedTableName(fixSQL(sql));
+
+        Table table = new Table(name);
+
+        table.addSqlCommand(sql);
+
+        int posLeftParenthesis = fixSQL(sql).indexOf('(');
+        int posRightParenthesis = fixSQL(sql).lastIndexOf(')');
+        String columnsSql = fixSQL(sql).substring(posLeftParenthesis + 1, posRightParenthesis);
+        for (String columnSql : columnsSql.split(",")) {
+            Matcher matcher = COLUMN_DEFINITION_PATTERN.matcher(columnSql);
+            if (matcher.matches()) {
+                String columnName = matcher.group(1);
+                String columnDefinition = matcher.group(2).trim();
+                table.addColumn(new Column(columnName, columnDefinition));
+            }
+        }
+
+        db.addTable(table);
     }
 }
