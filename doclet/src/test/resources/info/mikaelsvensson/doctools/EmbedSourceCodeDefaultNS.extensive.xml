@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><documentation>
+<java>
+<packages>
+<package name="info.mikaelsvensson.doctools">
+<classes>
+<class abstract="true" access="default" externalizable="false" final="false" name="Texts" qualified-name="info.mikaelsvensson.doctools.Texts" serializable="false" static="false" type="annotation">
+<elements>
+<element abstract="false" access="public" final="false" name="value" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
+<return-type dimension="1" primitive="false" qualified-name="info.mikaelsvensson.doctools.Text"/>
+</element>
+</elements>
+</class>
+<class abstract="false" access="public" externalizable="false" final="false" name="EmbedSourceCodeDefaultNS" qualified-name="info.mikaelsvensson.doctools.EmbedSourceCodeDefaultNS" serializable="false" static="false" type="class">
+<comment format="html">
+<p/>
+<pre class="embedded-xml-file"><![CDATA[<family xmlns="http://docutil.mikaelsvensson.info/EmbedSourceCode/sample">
+    <member name="alice">
+        <role>mother</role>
+        <role>impulsive</role>
+    </member>
+    <member name="bob">
+        <role>father</role>
+        <role>steady</role>
+    </member>
+    <member name="carol">
+        <role>daughter</role>
+        <role>reckless</role>
+    </member>
+</family>
+]]></pre>
+<p>
+
+ </p>
+<pre class="embedded-xml-file"><![CDATA[<member name="bob" xmlns="http://docutil.mikaelsvensson.info/EmbedSourceCode/sample">
+        <role>father</role>
+        <role>steady</role>
+    </member>
+]]></pre>
+<p/>
+</comment>
+<superclass dimension="0" primitive="false" qualified-name="java.lang.Object"/>
+<constructors>
+<constructor access="public" final="false" name="EmbedSourceCodeDefaultNS" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+</constructors>
+</class>
+<class abstract="false" access="default" externalizable="false" final="false" name="Trailer" qualified-name="info.mikaelsvensson.doctools.Trailer" serializable="false" static="false" type="class">
+<superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.doctools.Pullable"/>
+<constructors>
+<constructor access="default" final="false" name="Trailer" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+</constructors>
+</class>
+<class abstract="true" access="default" externalizable="false" final="false" name="Motorized" qualified-name="info.mikaelsvensson.doctools.Motorized" serializable="false" static="false" type="interface"/>
+</classes>
+</package>
+</packages>
+</java>
+</documentation>

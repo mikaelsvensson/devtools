@@ -9,7 +9,7 @@ public class StandardDocumentCreatorTest extends AbstractDocumentCreatorTest {
      * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
      * <p/>
      * Class:
-     * {@embed class info.mikaelsvensson.docutil.ClassA}
+     * {@embed class info.mikaelsvensson.doctools.ClassA}
      *
      * Result:
      * {@embed file resources/se.linkon.sabine.docutil.ClassA.StandardDocumentCreator.xml}
