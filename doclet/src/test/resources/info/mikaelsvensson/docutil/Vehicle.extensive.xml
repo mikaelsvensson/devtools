@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documentation>
+    <java>
+        <packages>
+            <package name="info.mikaelsvensson.docutil">
+                <classes>
+                    <class abstract="false" access="public" externalizable="false" final="false" name="Vehicle" qualified-name="info.mikaelsvensson.docutil.Vehicle" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="java.lang.Object"/>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Truck" qualified-name="info.mikaelsvensson.docutil.Truck" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
+                        <interfaces>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Motorized"/>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.HasItems">
+                                <type-arguments>
+                                    <type-argument dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Trailer"/>
+                                </type-arguments>
+                            </interface>
+                        </interfaces>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="TrainCar" qualified-name="info.mikaelsvensson.docutil.TrainCar" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Pullable"/>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Train" qualified-name="info.mikaelsvensson.docutil.Train" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
+                        <interfaces>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Motorized"/>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.HasItems">
+                                <type-arguments>
+                                    <type-argument dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.TrainCar"/>
+                                </type-arguments>
+                            </interface>
+                        </interfaces>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Trailer" qualified-name="info.mikaelsvensson.docutil.Trailer" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Pullable"/>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Pullable" qualified-name="info.mikaelsvensson.docutil.Pullable" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="Motorized" qualified-name="info.mikaelsvensson.docutil.Motorized" serializable="false" static="false" type="interface"/>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Metro" qualified-name="info.mikaelsvensson.docutil.Metro" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Train"/>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="HasItems" qualified-name="info.mikaelsvensson.docutil.HasItems" serializable="false" static="false" type="interface"/>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Car" qualified-name="info.mikaelsvensson.docutil.Car" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Bicycle" qualified-name="info.mikaelsvensson.docutil.Bicycle" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Vehicle"/>
+                        <interfaces>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.docutil.Motorized"/>
+                        </interfaces>
+                    </class>
+                </classes>
+            </package>
+        </packages>
+    </java>
+</documentation>

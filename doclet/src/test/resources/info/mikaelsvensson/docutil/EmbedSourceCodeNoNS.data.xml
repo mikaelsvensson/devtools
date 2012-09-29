@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<family>
+    <member name="alice">
+        <role>mother</role>
+        <role>impulsive</role>
+    </member>
+    <member name="bob">
+        <role>father</role>
+        <role>steady</role>
+    </member>
+    <member name="carol">
+        <role>daughter</role>
+        <role>reckless</role>
+    </member>
+</family>

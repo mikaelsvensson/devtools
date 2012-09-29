@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><documentation>
+<java>
+<packages>
+<package name="info.mikaelsvensson.docutil">
+<classes>
+<class abstract="false" access="public" externalizable="false" final="false" name="EmbedSourceCodeRegularNS" qualified-name="info.mikaelsvensson.docutil.EmbedSourceCodeRegularNS" serializable="false" static="false" type="class">
+<comment format="html">
+<p/>
+<pre class="embedded-xml-file"><![CDATA[<family xmlns:esc="http://docutil.mikaelsvensson.info/EmbedSourceCode/sample">
+    <esc:member name="alice">
+        <role>mother</role>
+        <role>impulsive</role>
+    </esc:member>
+    <esc:member name="bob">
+        <role>father</role>
+        <role>steady</role>
+    </esc:member>
+    <esc:member name="carol">
+        <role>daughter</role>
+        <role>reckless</role>
+    </esc:member>
+</family>
+]]></pre>
+<p>
+
+ </p>
+<pre class="embedded-xml-file"><![CDATA[<esc:member name="bob" xmlns:esc="http://docutil.mikaelsvensson.info/EmbedSourceCode/sample">
+        <role>father</role>
+        <role>steady</role>
+    </esc:member>
+]]></pre>
+<p/>
+</comment>
+<superclass dimension="0" primitive="false" qualified-name="java.lang.Object"/>
+<constructors>
+<constructor access="public" final="false" name="EmbedSourceCodeRegularNS" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+</constructors>
+</class>
+</classes>
+</package>
+</packages>
+</java>
+</documentation>
