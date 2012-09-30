@@ -73,9 +73,9 @@ public class SiteMap extends AbstractMavenReport {
 
         printHeading1(title);
 
-        printParagraph(title);
+        printSiteMapTree1(locale);
 
-        printSiteMapTree();
+        printSiteMapTree2(locale);
 
         sink.body_();
 
@@ -83,10 +83,20 @@ public class SiteMap extends AbstractMavenReport {
         sink.close();
     }
 
-    private void printSiteMapTree() {
+    private void printSiteMapTree1(final Locale locale) {
+        printHeading2(getString(locale, "sitemap.aptfoldertree.title"));
+
         File folder = new File(new File(sourceDirectory).getParentFile().getParentFile(), "site");
 
         printFolderContent(getSink(), new File(folder, "apt"));
+    }
+
+    private void printSiteMapTree2(final Locale locale) {
+        printHeading2(getString(locale, "sitemap.outputfoldertree.title"));
+
+        File folder = new File(getOutputDirectory());
+
+        printFolderContent(getSink(), folder);
     }
 
     private void printHeading1(String text) {
@@ -94,6 +104,13 @@ public class SiteMap extends AbstractMavenReport {
         sink.sectionTitle1();
         sink.text(text);
         sink.sectionTitle1_();
+    }
+
+    private void printHeading2(String text) {
+        Sink sink = getSink();
+        sink.sectionTitle2();
+        sink.text(text);
+        sink.sectionTitle2_();
     }
 
     private void printParagraph(String text) {
@@ -113,10 +130,11 @@ public class SiteMap extends AbstractMavenReport {
     }
 
     private void printFolderContent(Sink sink, File folder) {
-        printFolderContent(sink, folder, folder.toURI());
+        printFolderContent(folder, folder.toURI());
     }
 
-    private void printFolderContent(Sink sink, File folder, URI rootURI) {
+    private void printFolderContent(File folder, URI rootURI) {
+        Sink sink = getSink();
         File[] files = folder.listFiles();
         if (files != null) {
             sink.list();
@@ -124,7 +142,7 @@ public class SiteMap extends AbstractMavenReport {
                 if (file.isDirectory()) {
                     sink.listItem();
                     sink.text(file.getName() + ":");
-                    printFolderContent(sink, file, rootURI);
+                    printFolderContent(file, rootURI);
                     sink.listItem_();
                 } else {
                     PageStrategy pageStrategy = PageStrategyFactory.getInstance().createPageStrategy(file);

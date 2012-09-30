@@ -13,11 +13,15 @@ public class PageStrategyFactory {
     }
 
     public PageStrategy createPageStrategy(File file) {
-        String ext = file.getName().substring(file.getName().lastIndexOf('.')).toLowerCase();
-        if (".apt".equals(ext)) {
-            return new AptPageStrategy(file);
-        } else {
-            return null;
+        int dotPos = file.getName().lastIndexOf('.');
+        if (dotPos >= 0) {
+            String ext = file.getName().substring(dotPos).toLowerCase();
+            if (".apt".equals(ext)) {
+                return new AptPageStrategy(file);
+            } else if (".html".equals(ext)) {
+                return new HtmlPageStrategy(file);
+            }
         }
+        return null;
     }
 }
