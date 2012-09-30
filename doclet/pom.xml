@@ -59,7 +59,7 @@
                                 <doclet>info.mikaelsvensson.doctools.doclet.chain.ChainDoclet</doclet>
                                 <docletArtifacts>
                                     <docletArtifact>
-                                        <groupId>info.mikaelsvensson.doclet</groupId>
+                                        <groupId>info.mikaelsvensson.doctools</groupId>
                                         <artifactId>doclet</artifactId>
                                         <version>1.0-SNAPSHOT</version>
                                     </docletArtifact>
@@ -78,7 +78,7 @@
                                     -c:transformer ${project.build.sourceDirectory}/../../site/index.xslt
                                     -c:output ./index.html
 
-                                    -chain:x:info.mikaelsvenssondoctoolsl.xml.XmlDoclet
+                                    -chain:x:info.mikaelsvensson.doctools.doclet.xml.XmlDoclet
                                     -x:format.name extensive
                                     -x:format.property.wrapListElements true
                                     -x:format.property.showAnnotations true

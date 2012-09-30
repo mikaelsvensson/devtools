@@ -1,0 +1,230 @@
+@import url(http://fonts.googleapis.com/css?family=Maven+Pro:400,700,500,900);
+
+body, td, p, th, li, .ui-widget {
+    font-family: 'Maven Pro',Tahoma,Arial,sans-serif;
+    font-size: 10pt;
+    font-weight: 400;
+}
+code, pre, span.class-ref, span.field-ref, span.table-ref {
+    font-family: Consolas,monospace;
+}
+td, th {
+    vertical-align: top;
+}
+h1, h2, h3 {
+    font-family: 'Maven Pro',Tahoma,Arial,sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+}
+h2 {
+    background: none repeat scroll 0 0 transparent;
+    border-color: #DDDDDD;
+    border-style: none none solid;
+    border-width: medium medium 1px;
+    padding: 0;
+    font-size: xx-large;
+}
+h3, h4 {
+    border: none;
+    margin: 2em -0.3em 0.3em -0.3em;
+    padding: 0.3em;
+    font-weight: 300;
+}
+h3 {
+    background: #eee;
+    font-size: large;
+}
+h4 {
+    font-size: medium;
+}
+a.externalLink {
+    background: none !important;
+    padding-right: 0 !important;
+}
+#navcolumn h5,
+#navcolumn ul,
+#navcolumn li {
+    font-size: 9pt;
+
+}
+.section {
+    padding: 0;
+}
+.section li ,
+.section p {
+    line-height: 1.5em;
+    max-width: 50em;
+}
+#navcolumn h5 {
+    font-weight: 700;
+}
+
+#navcolumn > ul {
+    margin: 0.5em 0;
+}
+.ui-dialog h2, .hidden {
+    display: none;
+}
+td {
+    margin: 0;
+    padding: 0.2em 1em 0.2em 0;
+    vertical-align: top;
+}
+.javadoc-properties ul,
+.javadoc-methods ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+.ui-widget-content a {
+    text-decoration: none;
+}
+.ui-widget-content a:link {
+    color: #3366AA;
+}
+.ui-widget-content a:visited {
+    color: #4477AA;
+}
+.ui-widget-content a:active, a:hover {
+    color: #6699CC;
+}
+table.javadoc-methods, table.javadoc-properties {
+    border-collapse: collapse;
+    width: auto;
+}
+table.javadoc-methods tbody tr:first-child td {
+    border-top: medium none;
+}
+table.javadoc-methods tbody td {
+    border-top: 1px solid #999999;
+}
+blockquote.javadoc-comment {
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+}
+blockquote.javadoc-comment em {
+    font-style: normal;
+}
+.javadoc-methods dl blockquote.javadoc-comment p {
+    margin: 0;
+}
+.javadoc-class h3 {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    margin: 0;
+    padding: 0;
+}
+.javadoc-methods dl {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    margin: 0;
+    padding: 0;
+}
+.javadoc-methods dt, .javadoc-methods dd {
+    margin: 0;
+    padding: 0;
+}
+.javadoc-methods dd {
+    margin-left: 2em;
+}
+.javadoc-related blockquote {
+    display: none;
+}
+.javadoc-related, .javadoc-related p, .javadoc-related blockquote p {
+    font-size: 9pt;
+}
+.javadoc-related.show-related blockquote {
+    display: block;
+}
+.glossary h3 .package {
+    color: #666666;
+    font-size: 80%;
+}
+.glossary.hide-enums div.glossary-item-enum, .glossary.hide-enum-values div.glossary-item-enum ul, .glossary.hide-classes div.glossary-item-class {
+    display: none;
+}
+#link-toggle-enums:before, #link-toggle-enum-values:before, #link-toggle-classes:before, .javadoc-related.show-related a.javadoc-toggle-related:before {
+    content: "Hide ";
+}
+.glossary.hide-enums #link-toggle-enums:before, .glossary.hide-enum-values #link-toggle-enum-values:before, .glossary.hide-classes #link-toggle-classes:before, .javadoc-related a.javadoc-toggle-related:before {
+    content: "Show ";
+}
+#breadcrumbs, #banner {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    font-size: 9pt;
+    margin: 0;
+    padding: 1em;
+}
+.poweredBy {
+    display: none;
+}
+.xright {
+    color: #AAAAAA;
+    font-size: 9pt;
+}
+#breadcrumbs, #banner, #leftColumn {
+    margin-left: 20px;
+    padding-left: 0;
+}
+#bannerLeft, #bannerRight {
+    font-size: 40pt;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    color: #aaa;
+}
+thead td, th {
+    font-weight: 700;
+     text-align: left;
+            padding: 0.1em 1em 0.1em 0;
+}
+#leftColumn {
+    border: none;
+}
+
+#bodyColumn {
+    margin-left: 210px;
+    margin-top: -1em;
+}
+
+            ul.database-properties {
+            margin: 0;
+            padding: 0;
+            }
+            ul.database-properties li {
+            list-item-style: none;
+            margin: 0;
+            padding: 0;
+            }
+            ul.database-properties li span{
+            width: 20em;
+            display: inline-block;
+            }
+            thead th {
+            border-bottom: 1px solid #ccc;
+            }
+            table {
+            border-collapse: collapse;
+            }
+            .column-type-number {
+            /*color: DarkRed;*/
+            }
+            .column-type-text {
+            /*color: DarkGreen;*/
+            }
+            .column-type-datetime {
+            /*color: DarkBlue;*/
+            }
+            .column-type-reference {
+            /*font-style: italic;*/
+            }
+.database-columns blockquote p,
+.database-indexes blockquote p,
+.database-tables blockquote p {
+    margin: 0;
+}
+#contentBox table {
+    width: auto;
+}
