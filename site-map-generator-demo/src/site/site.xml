@@ -8,6 +8,19 @@
         <artifactId>doctools-skin</artifactId>
         <version>1.0-SNAPSHOT</version>
     </skin>
+    <custom>
+        <siteIndexerPlugin>
+            <searchboxContainerInsertat>&lt;div id="breadcrumbs"&gt;</searchboxContainerInsertat>
+            <searchboxContainerInsertaction>prepend</searchboxContainerInsertaction>
+            <searchboxContainerId>search-form</searchboxContainerId>
+            <searchboxButtonLabel>Search</searchboxButtonLabel>
+            <searchboxTitleLabel>Search Site</searchboxTitleLabel>
+            <searchboxIndexExcludecommonwords>true</searchboxIndexExcludecommonwords>
+            <searchboxIndexExcludenumbers>false</searchboxIndexExcludenumbers>
+            <searchboxIndexMinwordlength>3</searchboxIndexMinwordlength>
+            <searchboxIndexExcludefolder>apidocs</searchboxIndexExcludefolder>
+        </siteIndexerPlugin>
+    </custom>
     <body>
         <menu name="Group">
             <item name="A Simple Document" href="simple.html"/>
