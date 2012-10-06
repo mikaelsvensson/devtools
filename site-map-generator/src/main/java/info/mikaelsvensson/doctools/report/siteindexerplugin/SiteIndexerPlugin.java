@@ -18,6 +18,7 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 
 import java.io.*;
@@ -185,7 +186,12 @@ public class SiteIndexerPlugin extends AbstractMojo {
                 if (item.isDirectory()) {
                     processFolder(item, result);
                 } else {
-                    result.add(createIndexEntry(item));
+                    IndexEntry indexEntry = createIndexEntry(item);
+                    if (indexEntry != null) {
+                        result.add(indexEntry);
+                    } else {
+                        getLog().info("Could not index " + item.getAbsolutePath());
+                    }
                 }
             }
         }
@@ -207,10 +213,16 @@ public class SiteIndexerPlugin extends AbstractMojo {
     private IndexEntry createIndexEntry(final File file) {
         try {
             Document document = Jsoup.parse(file, "UTF-8", "http://invalid.host");
-            String text = Jsoup.clean(document.getElementById("contentBox").html(), Whitelist.simpleText());
-            Collection<WordCount> wordCount = getWordCount(text);
-            Collection<WordCount> filteredWordCount = filterWordCount(wordCount);
-            return new IndexEntry(document.title(), getRelativePath(getSiteOutputFolder(), file), filteredWordCount);
+            Element contentEl = document.getElementById("contentBox");
+            if (contentEl == null) {
+                contentEl = document.body();
+            }
+            if (contentEl != null) {
+                String text = Jsoup.clean(contentEl.html(), Whitelist.simpleText());
+                Collection<WordCount> wordCount = getWordCount(text);
+                Collection<WordCount> filteredWordCount = filterWordCount(wordCount);
+                return new IndexEntry(document.title(), getRelativePath(getSiteOutputFolder(), file), filteredWordCount);
+            }
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -221,36 +233,39 @@ public class SiteIndexerPlugin extends AbstractMojo {
         try {
             StringBuilder content = new StringBuilder(FileUtils.readFileToString(file));
 
-            modifyStringBuilder(content,
-                    END_OF_HEAD_PATTERN,
-                    ModifyAction.PREPEND,
-                    getScriptFileElement(getRelativePath(file, getJavascriptLibraryFile())));
-
-            modifyStringBuilder(content,
-                    END_OF_HEAD_PATTERN,
-                    ModifyAction.PREPEND,
-                    getScriptFileElement(getRelativePath(file, getJavascriptDatabaseFile()).toString()));
-
-            modifyStringBuilder(content,
-                    END_OF_HEAD_PATTERN,
-                    ModifyAction.PREPEND,
-                    getStylesheetFileElement(getRelativePath(file, getStylesheetFile()).toString()));
-
-            modifyStringBuilder(content,
-                    END_OF_HEAD_PATTERN,
-                    ModifyAction.PREPEND,
-                    getScriptElement(MessageFormat.format(JAVASCRIPT_INIT_TEMPLATE, getProperties().get(PROPERTY_SEARCHBOX_CONTAINER_ID), getRelativePath(file, getSiteOutputFolder()), JAVASCRIPT_VARIABLE_NAME_INDEX_DATA)));
-
             Map<String, String> props = getProperties();
+
             String findExpr = props.get(PROPERTY_SEARCHBOX_CONTAINER_INSERTAT);
             Pattern insertionPointPattern = Pattern.compile(findExpr);
-
             ModifyAction modifyAction = ModifyAction.valueOf(props.get(PROPERTY_SEARCHBOX_CONTAINER_INSERTACTION).toUpperCase());
             String html = getSearchForm();
-            modifyStringBuilder(content,
+            boolean isFormInserted = modifyStringBuilder(content,
                     insertionPointPattern,
                     modifyAction,
                     html);
+            if (isFormInserted) {
+                modifyStringBuilder(content,
+                        END_OF_HEAD_PATTERN,
+                        ModifyAction.PREPEND,
+                        getScriptFileElement(getRelativePath(file, getJavascriptLibraryFile())));
+
+                modifyStringBuilder(content,
+                        END_OF_HEAD_PATTERN,
+                        ModifyAction.PREPEND,
+                        getScriptFileElement(getRelativePath(file, getJavascriptDatabaseFile()).toString()));
+
+                modifyStringBuilder(content,
+                        END_OF_HEAD_PATTERN,
+                        ModifyAction.PREPEND,
+                        getStylesheetFileElement(getRelativePath(file, getStylesheetFile()).toString()));
+
+                modifyStringBuilder(content,
+                        END_OF_HEAD_PATTERN,
+                        ModifyAction.PREPEND,
+                        getScriptElement(MessageFormat.format(JAVASCRIPT_INIT_TEMPLATE, getProperties().get(PROPERTY_SEARCHBOX_CONTAINER_ID), getRelativePath(file, getSiteOutputFolder()), JAVASCRIPT_VARIABLE_NAME_INDEX_DATA)));
+
+
+            }
 
             FileUtils.writeStringToFile(file, content.toString());
         } catch (IOException e) {
@@ -274,21 +289,22 @@ public class SiteIndexerPlugin extends AbstractMojo {
         return new File(getSiteOutputFolder(), STYLESHEET_FILE_NAME);
     }
 
-    private void modifyStringBuilder(final StringBuilder sb, final Pattern insertionPointPattern, final ModifyAction modifyAction, final String text) {
+    private boolean modifyStringBuilder(final StringBuilder sb, final Pattern insertionPointPattern, final ModifyAction modifyAction, final String text) {
         Matcher matcher = insertionPointPattern.matcher(sb);
         if (matcher.find()) {
             switch (modifyAction) {
                 case APPEND:
                     sb.insert(matcher.end(), text);
-                    break;
+                    return true;
                 case PREPEND:
                     sb.insert(matcher.start(), text);
-                    break;
+                    return true;
                 case REPLACE:
                     sb.replace(matcher.start(), matcher.end(), text);
-                    break;
+                    return true;
             }
         }
+        return false;
     }
 
     private String getScriptFileElement(final String fileName) {
