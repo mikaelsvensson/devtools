@@ -7,10 +7,10 @@
 }
 .siteindexer-result {
 	position: absolute;
-	border: 1px solid blue;
-	border-radius: 3px;
+	border: 1px solid #999;
+	border-radius: 2px;
 	background-color: #fff;
-	padding: 0.5em;
+	padding: 0;
 }
 .siteindexer-result ul {
 	margin: 0;
@@ -19,13 +19,16 @@
 .siteindexer-result li {
 	list-style-type: none;
 	margin: 0;
-	padding: 0;
+	padding: 0.2em;
 	white-space: nowrap;
 }
 .siteindexer-result li.selected {
-	background-color: blue;
+	background-color: #3366AA;
 	color: #fff;
 }
+.siteindexer-result li:hover {
+	text-decoration: underline;
+}
 .siteindexer-form input {
-	width: 100%;
+	width: 8em;
 }

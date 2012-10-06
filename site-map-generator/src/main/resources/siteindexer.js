@@ -23,41 +23,70 @@
 
 		this.resultElement = $(document.createElement("div")).addClass("siteindexer-result");
 		this.resultContainerElement = $(document.createElement("div")).addClass("siteindexer-resultwrapper");
+		this.resultContainerElement.mousedown(this, this.onResultMouseDown);
+		this.resultContainerElement.click(this, this.onResultClick);
 		
 		this.resultContainerElement.append(this.resultElement);
-//		$("#" + name).append(this.resultContainerElement);
 		$(document.body).append(this.resultContainerElement);
 
 		var field = $("#" + name + "-searchfield");
-		field.focus(this, function(e) {
-			var indexer = e.data;
-
-			var xy = $(this).offset();
-			var h = $("#" + name + "-field").height();
-			indexer.resultContainerElement.css("top", xy.top + h).css("left", xy.left);
-
-			indexer.toggleResult(true);
-		});
-		field.blur(this, function(e) {
-			var indexer = e.data;
-			indexer.toggleResult(false);
-		});
-		field.keyup(this, function(e) {
-			var indexer = e.data;
-			if (e.keyCode == indexer.KEY_DOWN) {
-				indexer.moveSelectionDown();
-			} else if (e.keyCode == indexer.KEY_UP) {
-				indexer.moveSelectionUp();
-			} else if (e.keyCode == indexer.KEY_ENTER) {
-				indexer.acceptSelection();
-			} else {
-				var query = this.value;
-				indexer.performSearch(query);
-			}
-		});
-		console.log("OK");
+		field.focus(this, this.onSearchFieldFocus);
+		field.blur(this, this.onSearchFieldBlur);
+		field.keyup(this, this.onSearchFieldKeyUp);
     }
 	
+	SiteIndexer.prototype.onResultMouseDown = function (e) {
+		clearTimeout(this.pendingResultClose);
+	};
+	
+	SiteIndexer.prototype.onResultClick = function (e) {
+        var indexer = e.data;
+        indexer.setSelectedIndex($(e.target).index());
+		indexer.acceptSelection();
+	};
+	
+	SiteIndexer.prototype.onSearchFieldFocus = function (e) {
+        var indexer = e.data;
+
+        indexer.repositionResultElement();
+        indexer.toggleResult(true);
+	};
+
+	SiteIndexer.prototype.repositionResultElement = function () {
+        var xy = $("#" + this.name + "-searchfield").offset();
+        var h = $("#" + this.name + "-field").height();
+        this.resultContainerElement.css("top", xy.top + h).css("left", xy.left);
+	};
+
+	SiteIndexer.prototype.onSearchFieldBlur = function (e) {
+        var indexer = e.data;
+        // Delay the closing of the results to prevent the results from been hidden before
+        // the browser has time to fire the onClick event, in case the onBlur is triggered by
+        // a mouse click on one of the result items.
+		indexer.delayedResultClose();
+	};
+
+	SiteIndexer.prototype.delayedResultClose = function () {
+		var indexer = this;
+		this.pendingResultClose = setTimeout( function () {
+			indexer.toggleResult(false);
+		}, 100);
+	};
+	
+	SiteIndexer.prototype.onSearchFieldKeyUp = function (e) {
+        var indexer = e.data;
+        if (e.keyCode == indexer.KEY_DOWN) {
+            indexer.moveSelectionDown();
+        } else if (e.keyCode == indexer.KEY_UP) {
+            indexer.moveSelectionUp();
+        } else if (e.keyCode == indexer.KEY_ENTER) {
+            indexer.acceptSelection();
+        } else {
+            var query = this.value;
+            indexer.performSearch(query);
+        }
+	};
+
 	SiteIndexer.prototype.setSelectedIndex = function (index) {
         if (this.selectedIndex != -1) {
             this.resultElement.children().eq(0).children().eq(this.selectedIndex).removeClass("selected");
@@ -80,6 +109,7 @@
 	
 	SiteIndexer.prototype.acceptSelection = function () {
 		location.href = this.lastResult[this.selectedIndex].link;
+		this.toggleResult(false);
 	};
 	
     SiteIndexer.prototype.performSearch = function (query) {
@@ -88,16 +118,16 @@
 		var html = [];
 		html.push("<ul>");
 		for (var i in result) {
-			var uri = result[i].link;
+			var title = result[i].title;
 			var points = result[i].points;
-			html.push("<li>" + uri + " (" + points + ")</li>");
+			html.push("<li>" + title + " (" + points + " p)</li>");
 		}
 		html.push("</ul>");
 		
 		this.toggleResult(result.length > 0);
 		
-		this.resultElement.html(html.join(""));
-		
+		this.resultElement.get(0).innerHTML = html.join("");
+
 		this.setSelectedIndex(result.length > 0 ? 0 : -1);
 		
 		this.lastResult = result;
@@ -115,9 +145,13 @@
 				var entry = this.index[i];
 				for (var word in entry.wordCount) {
 					var count = entry.wordCount[word];
+					
 					if (word.indexOf(query) != -1) {
 						if (!tempResult[entry.uri]) {
-							tempResult[entry.uri] = { points: count };
+							tempResult[entry.uri] = { 
+									points: count,
+									title: entry.title ? entry.title : entry.uri
+									};
 						} else {
 							tempResult[entry.uri].points += count ;
 						}
@@ -125,7 +159,11 @@
 				}
 			}
 			for (var uri in tempResult) {
-				result.push({ "link": this.rootFolder + uri, "points": tempResult[uri].points });
+				result.push({ 
+						"link": this.rootFolder + uri, 
+						"title": tempResult[uri].title,
+						"points": tempResult[uri].points
+						});
 			}
 		}
 		return result;
