@@ -1,6 +1,6 @@
 package info.mikaelsvensson.doctools.report.siteindexerplugin;
 
-import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.doxia.site.decoration.DecorationModel;
@@ -45,17 +45,30 @@ public class SiteIndexerPlugin extends AbstractMojo {
         }
     };
     private static final String SEARCH_FORM_TEMPLATE = "" +
-            "<div id=\"{1}\">" +
+            "<div id=\"{1}\" class=\"siteindexer-form\">" +
             "   <div id=\"{1}-title\">" +
             "       {0}" +
             "   </div>" +
             "   <div id=\"{1}-field\">" +
             "       <input type=\"text\" id=\"{1}-searchfield\" />" +
             "   </div>" +
-            "   <div>" +
-            "       <button type=\"button\" id=\"{1}-button\">{2}</button>" +
-            "   </div>" +
             "</div>";
+    private static final String SCRIPT_FILE_ELEMENT_TEMPLATE = "<script src=\"{0}\" type=\"text/javascript\"></script>";
+    private static final String STYLESHEET_FILE_ELEMENT_TEMPLATE = "<link href=\"{0}\" type=\"text/css\" rel=\"stylesheet\">";
+    private static final String SCRIPT_ELEMENT_TEMPLATE = "<script type=\"text/javascript\">{0}</script>";
+    private static final String JAVASCRIPT_LIBRARY_FILE_NAME = "siteindexer.js";
+    private static final String JAVASCRIPT_DATABASE_FILE_NAME = "siteindexer-data.js";
+    private static final String STYLESHEET_FILE_NAME = "siteindexer.css";
+    private static final Pattern END_OF_HEAD_PATTERN = Pattern.compile("</(head|HEAD)>");
+    private static final String JAVASCRIPT_VARIABLE_NAME_INDEX_DATA = "SiteIndexerData";
+    private static final String JAVASCRIPT_DATA_TEMPLATE = "var " + JAVASCRIPT_VARIABLE_NAME_INDEX_DATA + " = {0};";
+    private static final String JAVASCRIPT_INIT_TEMPLATE = "" +
+            "$(document).ready(" +
+            "   function () '{' " +
+            "       var si = new SiteIndexer(\"{1}\", {2}, \"{0}\"); " +
+            "       si.init(); " +
+            "   '}'" +
+            ");";
     /**
      * Directory where reports will go.
      *
@@ -92,48 +105,50 @@ public class SiteIndexerPlugin extends AbstractMojo {
             }
         }
     };
-    private static final WordEntryFilter MORE_THAN_ONE_OCCURRENCE = new WordEntryFilter() {
+    private static final WordEntryFilter MORE_THAN_ONE_OCCURRENCE = new AbstractWordEntryFilter() {
         @Override
-        public boolean accept(final Map.Entry<String, Integer> entry) {
-            return entry.getValue() > 1;
+        public boolean accept(final WordCount entry) {
+            return entry.getCount() > 1;
         }
     };
 
-    private static final WordEntryFilter LONGER_THAN_2_CHARS = new WordEntryFilter() {
+    private static final WordEntryFilter LONGER_THAN_2_CHARS = new AbstractWordEntryFilter() {
         @Override
-        public boolean accept(final Map.Entry<String, Integer> entry) {
-            return entry.getKey().length() > 2;
+        public boolean accept(final WordCount entry) {
+            return entry.getWord().length() > 2;
         }
     };
     private HashMap<String, String> properties;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        File buildFolder = new File(buildDirectoryPath);
-        File siteFolder = new File(buildFolder, "site");
+        File siteFolder = getSiteOutputFolder();
 
         Map<String, String> properties = getProperties();
 
         getLog().info(properties.get(PROPERTY_SEARCHBOX_TITLE_LABEL));
 
-        HashMap<String, Map<String, Integer>> result = new HashMap<String, Map<String, Integer>>();
+        Collection<IndexEntry> result = new LinkedList<IndexEntry>();
 
         processFolder(siteFolder, result);
 
-        writeIndexFile(result, new File(siteFolder, "index.js"));
+        createJavascriptDatabaseFile(result);
 
-        addJavascriptFile(siteFolder);
+        saveResourceAsFile(JAVASCRIPT_LIBRARY_FILE_NAME, getJavascriptLibraryFile());
+        saveResourceAsFile(STYLESHEET_FILE_NAME, getStylesheetFile());
 
         addSearchFormToPagesInFolder(siteFolder);
     }
 
-    private void addJavascriptFile(final File folder) {
-        InputStream stream = getClass().getClassLoader().getResourceAsStream("test.js");
-        InputStreamReader reader = new InputStreamReader(stream);
+    private File getSiteOutputFolder() {
+        return new File(buildDirectoryPath, "site");
+    }
 
+    private void saveResourceAsFile(final String resourceName, final File file) {
         try {
+            InputStream stream = getClass().getClassLoader().getResourceAsStream(resourceName);
             byte[] bytes = IOUtils.toByteArray(stream);
-            FileUtils.writeByteArrayToFile(new File(folder, "test-copy.js"), bytes);
+            FileUtils.writeByteArrayToFile(file, bytes);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -162,24 +177,24 @@ public class SiteIndexerPlugin extends AbstractMojo {
         return new DecorationXpp3Reader().read(new FileReader(file));
     }
 
-    private void writeIndexFile(final HashMap<String, Map<String, Integer>> result, final File file) {
+    private void createJavascriptDatabaseFile(Collection<IndexEntry> result) {
         try {
-            String jsonRepresentation = JSONObject.fromObject(result).toString();
-            FileUtils.writeStringToFile(file, jsonRepresentation);
+            String jsonRepresentation = JSONArray.fromObject(result).toString();
+            FileUtils.writeStringToFile(getJavascriptDatabaseFile(), MessageFormat.format(JAVASCRIPT_DATA_TEMPLATE, jsonRepresentation));
         } catch (IOException e) {
             getLog().error(e);
         }
     }
 
-    private void processFolder(final File folder, Map<String, Map<String, Integer>> result) {
+    private void processFolder(final File folder, Collection<IndexEntry> result) {
         File[] items = folder.listFiles(HTML_FILES_FILTER);
         if (items != null) {
             for (File item : items) {
                 if (item.isDirectory()) {
                     processFolder(item, result);
                 } else {
-                    Map<String, Integer> words = processFile(item);
-                    result.put(item.getName(), words);
+                    Collection<WordCount> words = processFile(item);
+                    result.add(new IndexEntry(getRelativePath(getSiteOutputFolder(), item), words));
                 }
             }
         }
@@ -198,12 +213,12 @@ public class SiteIndexerPlugin extends AbstractMojo {
         }
     }
 
-    private Map<String, Integer> processFile(final File file) {
+    private Collection<WordCount> processFile(final File file) {
         try {
             Document document = Jsoup.parse(file, "UTF-8", "http://invalid.host");
-            String text = Jsoup.clean(document.body().html(), Whitelist.simpleText());
-            Map<String, Integer> wordCount = getWordCount(text);
-            Map<String, Integer> filteredWordCount = filterWordCount(wordCount);
+            String text = Jsoup.clean(document.getElementById("contentBox").html(), Whitelist.simpleText());
+            Collection<WordCount> wordCount = getWordCount(text);
+            Collection<WordCount> filteredWordCount = filterWordCount(wordCount);
 
             return filteredWordCount;
         } catch (IOException e) {
@@ -216,26 +231,86 @@ public class SiteIndexerPlugin extends AbstractMojo {
         try {
             StringBuilder content = new StringBuilder(FileUtils.readFileToString(file));
 
-            Matcher endOfHeadMatcher = Pattern.compile("</(head|HEAD)>").matcher(content);
-            if (endOfHeadMatcher.find()) {
-                content.insert(endOfHeadMatcher.start(), "<script src=\"test-copy.js\"></script>");
-            }
-            String findExpr = getProperties().get(PROPERTY_SEARCHBOX_CONTAINER_INSERTAT);
-            Matcher matcher = Pattern.compile(findExpr).matcher(content);
-            if (matcher.find()) {
-                if ("append".equals(getProperties().get(PROPERTY_SEARCHBOX_CONTAINER_INSERTACTION))) {
-                    content.insert(matcher.end(), getSearchForm());
-                } else if ("prepend".equals(getProperties().get(PROPERTY_SEARCHBOX_CONTAINER_INSERTACTION))) {
-                    content.insert(matcher.start(), getSearchForm());
-                } else if ("replace".equals(getProperties().get(PROPERTY_SEARCHBOX_CONTAINER_INSERTACTION))) {
-                    content.replace(matcher.start(), matcher.end(), getSearchForm());
-                }
-            }
+            modifyStringBuilder(content,
+                    END_OF_HEAD_PATTERN,
+                    ModifyAction.PREPEND,
+                    getScriptFileElement(getRelativePath(file, getJavascriptLibraryFile())));
+
+            modifyStringBuilder(content,
+                    END_OF_HEAD_PATTERN,
+                    ModifyAction.PREPEND,
+                    getScriptFileElement(getRelativePath(file, getJavascriptDatabaseFile()).toString()));
+
+            modifyStringBuilder(content,
+                    END_OF_HEAD_PATTERN,
+                    ModifyAction.PREPEND,
+                    getStylesheetFileElement(getRelativePath(file, getStylesheetFile()).toString()));
+
+            modifyStringBuilder(content,
+                    END_OF_HEAD_PATTERN,
+                    ModifyAction.PREPEND,
+                    getScriptElement(MessageFormat.format(JAVASCRIPT_INIT_TEMPLATE, getProperties().get(PROPERTY_SEARCHBOX_CONTAINER_ID), getRelativePath(file, getSiteOutputFolder()), JAVASCRIPT_VARIABLE_NAME_INDEX_DATA)));
+
+            Map<String, String> props = getProperties();
+            String findExpr = props.get(PROPERTY_SEARCHBOX_CONTAINER_INSERTAT);
+            Pattern insertionPointPattern = Pattern.compile(findExpr);
+
+            ModifyAction modifyAction = ModifyAction.valueOf(props.get(PROPERTY_SEARCHBOX_CONTAINER_INSERTACTION).toUpperCase());
+            String html = getSearchForm();
+            modifyStringBuilder(content,
+                    insertionPointPattern,
+                    modifyAction,
+                    html);
 
             FileUtils.writeStringToFile(file, content.toString());
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+    }
+
+    private String getRelativePath(final File currentFile, final File linkTargetFile) {
+        return PathUtils.getRelativePath(currentFile, linkTargetFile);
+    }
+
+    private File getJavascriptLibraryFile() {
+        return new File(getSiteOutputFolder(), JAVASCRIPT_LIBRARY_FILE_NAME);
+    }
+
+    private File getJavascriptDatabaseFile() {
+        return new File(getSiteOutputFolder(), JAVASCRIPT_DATABASE_FILE_NAME);
+    }
+
+    private File getStylesheetFile() {
+        return new File(getSiteOutputFolder(), STYLESHEET_FILE_NAME);
+    }
+
+    private void modifyStringBuilder(final StringBuilder sb, final Pattern insertionPointPattern, final ModifyAction modifyAction, final String text) {
+        Matcher matcher = insertionPointPattern.matcher(sb);
+        if (matcher.find()) {
+            switch (modifyAction) {
+                case APPEND:
+                    sb.insert(matcher.end(), text);
+                    break;
+                case PREPEND:
+                    sb.insert(matcher.start(), text);
+                    break;
+                case REPLACE:
+                    sb.replace(matcher.start(), matcher.end(), text);
+                    break;
+            }
+        }
+    }
+
+    private String getScriptFileElement(final String fileName) {
+        return MessageFormat.format(SCRIPT_FILE_ELEMENT_TEMPLATE, fileName);
+    }
+
+    private String getStylesheetFileElement(final String fileName) {
+        return MessageFormat.format(STYLESHEET_FILE_ELEMENT_TEMPLATE, fileName);
+    }
+
+    private String getScriptElement(final String script) {
+        return MessageFormat.format(SCRIPT_ELEMENT_TEMPLATE, script);
     }
 
     private String getSearchForm() {
@@ -246,29 +321,21 @@ public class SiteIndexerPlugin extends AbstractMojo {
                 getProperties().get(PROPERTY_SEARCHBOX_BUTTON_LABEL));
     }
 
-    private Map<String, Integer> filterWordCount(final Map<String, Integer> wordCount) {
-        SortedSet<Map.Entry<String, Integer>> words = new TreeSet(DESCENDING_VALUE_ORDER);
-        for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
-            if (MORE_THAN_ONE_OCCURRENCE.accept(entry)) {
-                words.add(entry);
-            }
-        }
-        LinkedHashMap<String, Integer> map = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> word : words) {
-            map.put(word.getKey(), word.getValue());
-        }
-        return map;
+    private Collection<WordCount> filterWordCount(final Collection<WordCount> wordCount) {
+//        CollectionUtils.filter(wordCount, MORE_THAN_ONE_OCCURRENCE);
+        return wordCount;
     }
 
-    private Map<String, Integer> getWordCount(final String text) {
-        Map<String, Integer> words = new HashMap<String, Integer>();
+    private Collection<WordCount> getWordCount(final String text) {
+        List<WordCount> words = new ArrayList<WordCount>();
         StringTokenizer tokenizer = new StringTokenizer(text);
         while (tokenizer.hasMoreTokens()) {
-            String token = tokenizer.nextToken();
-            if (words.containsKey(token)) {
-                words.put(token, words.get(token) + 1);
+            String token = tokenizer.nextToken().toLowerCase();
+            WordCount wordCount = new WordCount(token, 1);
+            if (words.contains(wordCount)) {
+                words.get(words.indexOf(wordCount)).increaseCount();
             } else {
-                words.put(token, 1);
+                words.add(wordCount);
             }
         }
         return words;

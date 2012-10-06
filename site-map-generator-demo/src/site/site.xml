@@ -10,8 +10,8 @@
     </skin>
     <custom>
         <siteIndexerPlugin>
-            <searchboxContainerInsertat>&lt;div id="breadcrumbs"&gt;</searchboxContainerInsertat>
-            <searchboxContainerInsertaction>prepend</searchboxContainerInsertaction>
+            <searchboxContainerInsertat>&lt;div id="navcolumn"&gt;</searchboxContainerInsertat>
+            <searchboxContainerInsertaction>append</searchboxContainerInsertaction>
             <searchboxContainerId>search-form</searchboxContainerId>
             <searchboxButtonLabel>Search</searchboxButtonLabel>
             <searchboxTitleLabel>Search Site</searchboxTitleLabel>
@@ -22,6 +22,9 @@
         </siteIndexerPlugin>
     </custom>
     <body>
+        <head>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        </head>
         <menu name="Group">
             <item name="A Simple Document" href="simple.html"/>
         </menu>

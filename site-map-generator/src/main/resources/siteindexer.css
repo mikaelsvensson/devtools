@@ -1,0 +1,31 @@
+.siteindexer-resultwrapper {
+	position: absolute;
+	display: none;
+}
+.siteindexer-resultwrapper.show {
+	display: block;
+}
+.siteindexer-result {
+	position: absolute;
+	border: 1px solid blue;
+	border-radius: 3px;
+	background-color: #fff;
+	padding: 0.5em;
+}
+.siteindexer-result ul {
+	margin: 0;
+	padding: 0;
+}
+.siteindexer-result li {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+}
+.siteindexer-result li.selected {
+	background-color: blue;
+	color: #fff;
+}
+.siteindexer-form input {
+	width: 100%;
+}

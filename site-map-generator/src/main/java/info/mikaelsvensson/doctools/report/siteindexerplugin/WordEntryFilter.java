@@ -1,7 +1,7 @@
 package info.mikaelsvensson.doctools.report.siteindexerplugin;
 
-import java.util.Map;
+import org.apache.commons.collections.Predicate;
 
-public interface WordEntryFilter {
-    boolean accept(Map.Entry<String, Integer> entry);
+public interface WordEntryFilter extends Predicate {
+    boolean accept(WordCount entry);
 }
