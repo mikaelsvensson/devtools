@@ -193,8 +193,7 @@ public class SiteIndexerPlugin extends AbstractMojo {
                 if (item.isDirectory()) {
                     processFolder(item, result);
                 } else {
-                    Collection<WordCount> words = processFile(item);
-                    result.add(new IndexEntry(getRelativePath(getSiteOutputFolder(), item), words));
+                    result.add(createIndexEntry(item));
                 }
             }
         }
@@ -213,14 +212,13 @@ public class SiteIndexerPlugin extends AbstractMojo {
         }
     }
 
-    private Collection<WordCount> processFile(final File file) {
+    private IndexEntry createIndexEntry(final File file) {
         try {
             Document document = Jsoup.parse(file, "UTF-8", "http://invalid.host");
             String text = Jsoup.clean(document.getElementById("contentBox").html(), Whitelist.simpleText());
             Collection<WordCount> wordCount = getWordCount(text);
             Collection<WordCount> filteredWordCount = filterWordCount(wordCount);
-
-            return filteredWordCount;
+            return new IndexEntry(document.title(), getRelativePath(getSiteOutputFolder(), file), filteredWordCount);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

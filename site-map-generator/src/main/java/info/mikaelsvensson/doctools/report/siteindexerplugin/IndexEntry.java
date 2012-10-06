@@ -9,8 +9,8 @@ public class IndexEntry {
     private String title;
     private Map<String, Integer> wordCount;
 
-    public IndexEntry(final String uri, final Collection<WordCount> words) {
-        this.title = null;
+    public IndexEntry(final String title, final String uri, final Collection<WordCount> words) {
+        this.title = title;
         this.uri = uri;
         this.wordCount = new HashMap<String, Integer>();
         for (WordCount word : words) {
