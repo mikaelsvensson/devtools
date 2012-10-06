@@ -15,7 +15,7 @@
             <searchboxContainerId>search-form</searchboxContainerId>
             <searchboxButtonLabel>Search</searchboxButtonLabel>
             <searchboxTitleLabel>Search Site</searchboxTitleLabel>
-            <searchboxIndexExcludecommonwords>true</searchboxIndexExcludecommonwords>
+            <searchboxIndexExcludecommonwords>en</searchboxIndexExcludecommonwords>
             <searchboxIndexExcludenumbers>false</searchboxIndexExcludenumbers>
             <searchboxIndexMinwordlength>3</searchboxIndexMinwordlength>
             <searchboxIndexExcludefolder>apidocs</searchboxIndexExcludefolder>

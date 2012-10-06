@@ -1,8 +1,12 @@
 package info.mikaelsvensson.doctools.report.siteindexerplugin;
 
 import net.sf.json.JSONArray;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.functors.AllPredicate;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.doxia.site.decoration.DecorationModel;
 import org.apache.maven.doxia.site.decoration.io.xpp3.DecorationXpp3Reader;
 import org.apache.maven.doxia.tools.SiteTool;
@@ -105,19 +109,7 @@ public class SiteIndexerPlugin extends AbstractMojo {
             }
         }
     };
-    private static final WordEntryFilter MORE_THAN_ONE_OCCURRENCE = new AbstractWordEntryFilter() {
-        @Override
-        public boolean accept(final WordCount entry) {
-            return entry.getCount() > 1;
-        }
-    };
 
-    private static final WordEntryFilter LONGER_THAN_2_CHARS = new AbstractWordEntryFilter() {
-        @Override
-        public boolean accept(final WordCount entry) {
-            return entry.getWord().length() > 2;
-        }
-    };
     private HashMap<String, String> properties;
 
     @Override
@@ -320,8 +312,34 @@ public class SiteIndexerPlugin extends AbstractMojo {
     }
 
     private Collection<WordCount> filterWordCount(final Collection<WordCount> wordCount) {
-//        CollectionUtils.filter(wordCount, MORE_THAN_ONE_OCCURRENCE);
+        CollectionUtils.filter(wordCount, getWordFilters());
         return wordCount;
+    }
+
+    private Predicate getWordFilters() {
+        Collection<Predicate> predicates = new LinkedList<Predicate>();
+
+        try {
+            int minWordLength = Integer.parseInt(getProperties().get(PROPERTY_SEARCHBOX_INDEX_MINWORDLENGTH));
+            if (minWordLength > 0) {
+                predicates.add(new WordEntryLengthFilter(minWordLength));
+            }
+        } catch (NumberFormatException e) {
+            getLog().info("Could not convert value of " + PROPERTY_SEARCHBOX_INDEX_MINWORDLENGTH + " to a number.", e);
+        }
+
+        boolean excludeNumbers = Boolean.getBoolean(getProperties().get(PROPERTY_SEARCHBOX_INDEX_EXCLUDENUMBERS));
+        if (excludeNumbers) {
+            predicates.add(new WordEntryNoNumbersFilter());
+        }
+
+        String excludeCommonWords = getProperties().get(PROPERTY_SEARCHBOX_INDEX_EXCLUDECOMMONWORDS);
+        if (!StringUtils.isEmpty(excludeCommonWords)) {
+            String[] localeNames = StringUtils.split(excludeCommonWords, ',');
+            predicates.add(new WordEntryBlackListFilter(localeNames));
+        }
+
+        return new AllPredicate(predicates.toArray(new Predicate[predicates.size()]));
     }
 
     private Collection<WordCount> getWordCount(final String text) {
