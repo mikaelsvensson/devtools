@@ -16,16 +16,45 @@
     <name>doctools</name>
 
     <distributionManagement>
-        <site>
-            <id>website</id>
-            <url>scp://webhost.company.com/www/website</url>
-        </site>
+        <repository>
+            <id>mikaelsvensson-doctools</id>
+            <url>ftp://ftp.mikaelsvensson.info/doctools/repository/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>mikaelsvensson-doctools</id>
+            <url>ftp://ftp.mikaelsvensson.info/doctools/repository/snapshots</url>
+        </snapshotRepository>
+        <downloadUrl>https://github.com/mikaelsvensson/doctools/downloads</downloadUrl>
+        <!--
+                    <site>
+                        <id>website</id>
+                        <url>scp://webhost.company.com/www/website</url>
+                    </site>
+        -->
     </distributionManagement>
 
+    <scm>
+        <connection>scm:git:git://github.com/mikaelsvensson/doctools.git</connection>
+        <url>https://github.com/mikaelsvensson/doctools</url>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/mikaelsvensson/doctools/issues</url>
+    </issueManagement>
+
     <properties>
+        <github.global.server>github</github.global.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-alpha-6</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -52,6 +81,9 @@
                             <reports>
                                 <report>index</report>
                                 <report>modules</report>
+                                <report>distribution-management</report>
+                                <report>scm</report>
+                                <report>issue-tracking</report>
                             </reports>
                         </plugin>
                         <plugin>
@@ -65,6 +97,26 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
+<!--
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>downloads-maven-plugin</artifactId>
+                <version>0.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <description>${project.version} release of ${project.name}</description>
+                    <override>true</override>
+                    <includeAttached>false</includeAttached>
+                </configuration>
+            </plugin>
+-->
         </plugins>
     </build>
 

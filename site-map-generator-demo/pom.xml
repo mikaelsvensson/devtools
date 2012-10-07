@@ -13,15 +13,6 @@
     <name>site-map-generator-demo</name>
     <url>http://doctools.mikaelsvensson.info/site-map-generator-demo</url>
 
-
-    <!--
-        <distributionManagement>
-                <id>website</id>
-                <url>scp://webhost.company.com/www/website</url>
-            </site>
-        </distributionManagement>
-    -->
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
