@@ -9,6 +9,7 @@
 
     <artifactId>doctools-skin</artifactId>
     <name>doctools-skin</name>
+    <url>http://doctools.mikaelsvensson.info/doctools-skin</url>
     <packaging>jar</packaging>
 
 <!--

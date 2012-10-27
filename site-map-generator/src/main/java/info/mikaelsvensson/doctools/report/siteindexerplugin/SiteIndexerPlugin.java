@@ -42,6 +42,8 @@ public class SiteIndexerPlugin extends AbstractMojo {
     private static final String PROPERTY_SEARCHBOX_INDEX_EXCLUDENUMBERS = "searchboxIndexExcludenumbers";
     private static final String PROPERTY_SEARCHBOX_INDEX_MINWORDLENGTH = "searchboxIndexMinwordlength";
     private static final String PROPERTY_SEARCHBOX_INDEX_EXCLUDEFOLDER = "searchboxIndexExcludefolder";
+    private static final String PROPERTY_SKIP_AUTO_JQUERY_INCLUSION = "skipAutoJqueryInclusion";
+    private static final String PROPERTY_ADDITIONAL_MODULES_FOLDERS = "additionalModulesFolders";
 
     private static final Comparator<Map.Entry<String, Integer>> DESCENDING_VALUE_ORDER = new Comparator<Map.Entry<String, Integer>>() {
         @Override
@@ -62,11 +64,14 @@ public class SiteIndexerPlugin extends AbstractMojo {
     private static final String STYLESHEET_FILE_ELEMENT_TEMPLATE = "<link href=\"{0}\" type=\"text/css\" rel=\"stylesheet\">";
     private static final String SCRIPT_ELEMENT_TEMPLATE = "<script type=\"text/javascript\">{0}</script>";
     private static final String JAVASCRIPT_LIBRARY_FILE_NAME = "siteindexer.js";
+    private static final String JAVASCRIPT_JQUERY_FILE_NAME = "jquery-1.8.2.min.js";
     private static final String JAVASCRIPT_DATABASE_FILE_NAME = "siteindexer-data.js";
     private static final String STYLESHEET_FILE_NAME = "siteindexer.css";
     private static final Pattern END_OF_HEAD_PATTERN = Pattern.compile("</(head|HEAD)>");
     private static final String JAVASCRIPT_VARIABLE_NAME_INDEX_DATA = "SiteIndexerData";
-    private static final String JAVASCRIPT_DATA_TEMPLATE = "var " + JAVASCRIPT_VARIABLE_NAME_INDEX_DATA + " = {0};";
+    private static final String JAVASCRIPT_DATA_TEMPLATE = "" +
+            "var " + JAVASCRIPT_VARIABLE_NAME_INDEX_DATA + " = " + JAVASCRIPT_VARIABLE_NAME_INDEX_DATA + " || [];" +
+            JAVASCRIPT_VARIABLE_NAME_INDEX_DATA + ".push('{' baseUrl: \"{2}\", data: {0} '}');";
     private static final String JAVASCRIPT_INIT_TEMPLATE = "" +
             "$(document).ready(" +
             "   function () '{' " +
@@ -129,6 +134,9 @@ public class SiteIndexerPlugin extends AbstractMojo {
 
         saveResourceAsFile(JAVASCRIPT_LIBRARY_FILE_NAME, getJavascriptLibraryFile());
         saveResourceAsFile(STYLESHEET_FILE_NAME, getStylesheetFile());
+        if (shouldJqueryLibraryFileBeIncluded()) {
+            saveResourceAsFile(JAVASCRIPT_JQUERY_FILE_NAME, getJqueryLibraryFile());
+        }
 
         addSearchFormToPagesInFolder(siteFolder);
     }
@@ -151,29 +159,55 @@ public class SiteIndexerPlugin extends AbstractMojo {
         if (null == properties) {
             properties = new HashMap<String, String>();
             try {
-                DecorationModel decorationModel = getDecorationModel();
-                Xpp3Dom[] propertyElements = ((Xpp3Dom) decorationModel.getCustom()).getChild("siteIndexerPlugin").getChildren();
-                for (Xpp3Dom propertyElement : propertyElements) {
-                    properties.put(propertyElement.getName(), propertyElement.getValue());
+                File dir = baseDirectory;
+                MavenProject proj = project;
+                while (proj != null) {
+                    File file = siteTool.getSiteDescriptorFromBasedir(siteDirectory, dir, null);
+                    if (file.exists() && file.isFile()) {
+                        DecorationModel decorationModel = getDecorationModel(file);
+                        Xpp3Dom custom = (Xpp3Dom) decorationModel.getCustom();
+                        if (custom != null) {
+                            Xpp3Dom siteIndexerPluginElement = custom.getChild("siteIndexerPlugin");
+                            if (null != siteIndexerPluginElement) {
+                                Xpp3Dom[] propertyElements = siteIndexerPluginElement.getChildren();
+                                for (Xpp3Dom propertyElement : propertyElements) {
+                                    if (!properties.containsKey(propertyElement.getName())) {
+                                        properties.put(propertyElement.getName(), propertyElement.getValue());
+                                    }
+                                }
+                                getLog().info("Loaded configuration parameters from " + file.getAbsolutePath() + ".");
+                            } else {
+                                getLog().info("No site indexer configuration parameters defined in " + file.getAbsolutePath() + ".");
+                            }
+                        }
+                    } else {
+                        getLog().info("Looked for " + file.getAbsolutePath() + " but couldn't find it.");
+                    }
+                    proj = proj.getParent();
+                    dir = proj != null ? proj.getBasedir() : null;
                 }
             } catch (XmlPullParserException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                getLog().warn(e);
             } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                getLog().warn(e);
             }
         }
         return properties;
     }
 
-    private DecorationModel getDecorationModel() throws IOException, XmlPullParserException {
-        File file = siteTool.getSiteDescriptorFromBasedir(siteDirectory, baseDirectory, null);
+    private DecorationModel getDecorationModel(final File file) throws IOException, XmlPullParserException {
         return new DecorationXpp3Reader().read(new FileReader(file));
     }
 
     private void createJavascriptDatabaseFile(Collection<IndexEntry> result) {
         try {
             String jsonRepresentation = JSONArray.fromObject(result).toString();
-            FileUtils.writeStringToFile(getJavascriptDatabaseFile(), MessageFormat.format(JAVASCRIPT_DATA_TEMPLATE, jsonRepresentation));
+            String projectUrl = project.getUrl();
+            FileUtils.writeStringToFile(getJavascriptDatabaseFile(), MessageFormat.format(
+                    JAVASCRIPT_DATA_TEMPLATE,
+                    jsonRepresentation,
+                    project.getArtifactId(),
+                    PathUtils.trailingSlash(projectUrl)));
         } catch (IOException e) {
             getLog().error(e);
         }
@@ -244,27 +278,68 @@ public class SiteIndexerPlugin extends AbstractMojo {
                     modifyAction,
                     html);
             if (isFormInserted) {
+                if (shouldJqueryLibraryFileBeIncluded()) {
+                    modifyStringBuilder(content,
+                            END_OF_HEAD_PATTERN,
+                            ModifyAction.PREPEND,
+                            getScriptFileElement(getRelativePath(file, getJqueryLibraryFile())));
+                }
+
                 modifyStringBuilder(content,
                         END_OF_HEAD_PATTERN,
                         ModifyAction.PREPEND,
                         getScriptFileElement(getRelativePath(file, getJavascriptLibraryFile())));
 
+                String additionalModuleFolders = props.get(PROPERTY_ADDITIONAL_MODULES_FOLDERS);
+                String pathToProjectRoot = getRelativePath(file, getSiteOutputFolder());
+                if (StringUtils.isNotEmpty(additionalModuleFolders)) {
+                    StringTokenizer tokenizer = new StringTokenizer(additionalModuleFolders);
+                    while (tokenizer.hasMoreTokens()) {
+                        String additionalModuleFolder = tokenizer.nextToken();
+
+                        modifyStringBuilder(content,
+                                END_OF_HEAD_PATTERN,
+                                ModifyAction.PREPEND,
+                                getScriptFileElement(PathUtils.trailingSlash(pathToProjectRoot) + PathUtils.trailingSlash(additionalModuleFolder) + JAVASCRIPT_DATABASE_FILE_NAME));
+                    }
+                }
+
+                String pathToAncestorProjectRoot = pathToProjectRoot;
+                MavenProject ancestorProject = project;
+                while (true) {
+                    if (ancestorProject.getParent() != null) {
+                        pathToAncestorProjectRoot = "../" + pathToAncestorProjectRoot;
+                        ancestorProject = ancestorProject.getParent();
+                    } else {
+                        break;
+                    }
+                }
+                MavenProject proj = ancestorProject;
+                for (Object module : proj.getModules()) {
+                    getLog().info(module.toString());
+                }
+
+/*
                 modifyStringBuilder(content,
                         END_OF_HEAD_PATTERN,
                         ModifyAction.PREPEND,
-                        getScriptFileElement(getRelativePath(file, getJavascriptDatabaseFile()).toString()));
+                        getScriptFileElement(getRelativePath(new File(pathToAncestorProjectRoot), getJavascriptDatabaseFile())));
+*/
 
                 modifyStringBuilder(content,
                         END_OF_HEAD_PATTERN,
                         ModifyAction.PREPEND,
-                        getStylesheetFileElement(getRelativePath(file, getStylesheetFile()).toString()));
+                        getScriptFileElement(getRelativePath(file, getJavascriptDatabaseFile())));
+
+                modifyStringBuilder(content,
+                        END_OF_HEAD_PATTERN,
+                        ModifyAction.PREPEND,
+                        getStylesheetFileElement(getRelativePath(file, getStylesheetFile())));
 
                 modifyStringBuilder(content,
                         END_OF_HEAD_PATTERN,
                         ModifyAction.PREPEND,
                         getScriptElement(MessageFormat.format(JAVASCRIPT_INIT_TEMPLATE, getProperties().get(PROPERTY_SEARCHBOX_CONTAINER_ID), getRelativePath(file, getSiteOutputFolder()), JAVASCRIPT_VARIABLE_NAME_INDEX_DATA)));
-
-
             }
 
             FileUtils.writeStringToFile(file, content.toString());
@@ -273,12 +348,20 @@ public class SiteIndexerPlugin extends AbstractMojo {
         }
     }
 
+    private boolean shouldJqueryLibraryFileBeIncluded() {
+        return !Boolean.parseBoolean(properties.get(PROPERTY_SKIP_AUTO_JQUERY_INCLUSION));
+    }
+
     private String getRelativePath(final File currentFile, final File linkTargetFile) {
         return PathUtils.getRelativePath(currentFile, linkTargetFile);
     }
 
     private File getJavascriptLibraryFile() {
         return new File(getSiteOutputFolder(), JAVASCRIPT_LIBRARY_FILE_NAME);
+    }
+
+    private File getJqueryLibraryFile() {
+        return new File(getSiteOutputFolder(), JAVASCRIPT_JQUERY_FILE_NAME);
     }
 
     private File getJavascriptDatabaseFile() {
@@ -334,6 +417,8 @@ public class SiteIndexerPlugin extends AbstractMojo {
 
     private Predicate getWordFilters() {
         Collection<Predicate> predicates = new LinkedList<Predicate>();
+
+        predicates.add(new WordEntryNotNullFilter());
 
         try {
             int minWordLength = Integer.parseInt(getProperties().get(PROPERTY_SEARCHBOX_INDEX_MINWORDLENGTH));

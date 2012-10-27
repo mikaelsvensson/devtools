@@ -142,25 +142,30 @@
 		if (query.length > 0) {
 			var tempResult = {};
 			for (var i in this.index) {
-				var entry = this.index[i];
-				for (var word in entry.wordCount) {
-					var count = entry.wordCount[word];
-					
-					if (word.indexOf(query) != -1) {
-						if (!tempResult[entry.uri]) {
-							tempResult[entry.uri] = { 
-									points: count,
-									title: entry.title ? entry.title : entry.uri
-									};
-						} else {
-							tempResult[entry.uri].points += count ;
-						}
-					}
+				var moduleIndex = this.index[i];
+				var entries = moduleIndex.data;
+				for (var x in entries) {
+				    var entry = entries[x];
+                    for (var word in entry.wordCount) {
+                        var count = entry.wordCount[word];
+
+                        if (word.indexOf(query) != -1) {
+                            var uri = (moduleIndex.baseUrl ? moduleIndex.baseUrl : this.rootFolder) + entry.uri;
+                            if (!tempResult[uri]) {
+                                tempResult[uri] = {
+                                        points: count,
+                                        title: entry.title ? entry.title : entry.uri
+                                        };
+                            } else {
+                                tempResult[uri].points += count ;
+                            }
+                        }
+                    }
 				}
 			}
 			for (var uri in tempResult) {
 				result.push({ 
-						"link": this.rootFolder + uri, 
+						"link": uri,
 						"title": tempResult[uri].title,
 						"points": tempResult[uri].points
 						});

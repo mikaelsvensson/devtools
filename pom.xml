@@ -14,6 +14,7 @@
     </modules>
 
     <name>doctools</name>
+    <url>http://doctools.mikaelsvensson.info</url>
 
     <distributionManagement>
         <repository>
@@ -25,12 +26,10 @@
             <url>ftp://ftp.mikaelsvensson.info/doctools/repository/snapshots</url>
         </snapshotRepository>
         <downloadUrl>https://github.com/mikaelsvensson/doctools/downloads</downloadUrl>
-        <!--
-                    <site>
-                        <id>website</id>
-                        <url>scp://webhost.company.com/www/website</url>
-                    </site>
-        -->
+        <site>
+            <id>mikaelsvensson-doctools</id>
+            <url>ftp://ftp.mikaelsvensson.info/doctools</url>
+        </site>
     </distributionManagement>
 
     <scm>
@@ -52,10 +51,23 @@
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ftp</artifactId>
-                <version>1.0-alpha-6</version>
+                <version>1.0</version>
             </extension>
         </extensions>
         <plugins>
+            <plugin>
+                <groupId>info.mikaelsvensson.doctools</groupId>
+                <version>1.0-SNAPSHOT</version>
+                <artifactId>site-map-generator</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>siteindexer</goal>
+                        </goals>
+                        <phase>post-site</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -69,6 +81,8 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <stagingSiteURL>ftp://ftp.mikaelsvensson.info/doctools</stagingSiteURL>
+                    <stagingDirectory>D:/Dokument/Utveckling/doctools/target/staging</stagingDirectory>
                     <reportPlugins>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
@@ -97,26 +111,26 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
-<!--
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>downloads-maven-plugin</artifactId>
-                <version>0.6</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>upload</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <description>${project.version} release of ${project.name}</description>
-                    <override>true</override>
-                    <includeAttached>false</includeAttached>
-                </configuration>
-            </plugin>
--->
+            <!--
+                        <plugin>
+                            <groupId>com.github.github</groupId>
+                            <artifactId>downloads-maven-plugin</artifactId>
+                            <version>0.6</version>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>upload</goal>
+                                    </goals>
+                                    <phase>deploy</phase>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <description>${project.version} release of ${project.name}</description>
+                                <override>true</override>
+                                <includeAttached>false</includeAttached>
+                            </configuration>
+                        </plugin>
+            -->
         </plugins>
     </build>
 

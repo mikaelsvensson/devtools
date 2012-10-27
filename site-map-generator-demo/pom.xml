@@ -19,32 +19,6 @@
 
     <build>
         <plugins>
-<!--
-            <plugin>
-                <groupId>info.mikaelsvensson.doctools</groupId>
-                <version>1.0-SNAPSHOT</version>
-                <artifactId>site-map-generator</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>sitemap-standalone</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
--->
-            <plugin>
-                <groupId>info.mikaelsvensson.doctools</groupId>
-                <version>1.0-SNAPSHOT</version>
-                <artifactId>site-map-generator</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>siteindexer</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>

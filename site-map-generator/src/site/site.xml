@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <custom>
+        <siteIndexerPlugin>
+            <additionalModulesFolders>
+                ../
+                ../doclet
+                ../doctools-skin
+                ../site-map-generator-demo
+            </additionalModulesFolders>
+        </siteIndexerPlugin>
+    </custom>
+</project>

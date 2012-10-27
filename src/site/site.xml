@@ -5,6 +5,28 @@
         <artifactId>doctools-skin</artifactId>
         <version>1.0-SNAPSHOT</version>
     </skin>
+    <custom>
+        <siteIndexerPlugin>
+            <searchboxContainerInsertat>&lt;div id="navcolumn"&gt;</searchboxContainerInsertat>
+            <searchboxContainerInsertaction>append</searchboxContainerInsertaction>
+            <searchboxContainerId>search-form</searchboxContainerId>
+            <searchboxButtonLabel>Search</searchboxButtonLabel>
+            <searchboxTitleLabel>Search Site</searchboxTitleLabel>
+            <searchboxIndexExcludecommonwords>en</searchboxIndexExcludecommonwords>
+            <searchboxIndexExcludenumbers>false</searchboxIndexExcludenumbers>
+            <searchboxIndexMinwordlength>3</searchboxIndexMinwordlength>
+            <searchboxIndexExcludefolder>apidocs</searchboxIndexExcludefolder>
+            <additionalModulesFolders>
+                doclet
+                doctools-skin
+                site-map-generator
+                site-map-generator-demo
+            </additionalModulesFolders>
+            <!--<skipAutoJqueryInclusion>true</skipAutoJqueryInclusion>-->
+        </siteIndexerPlugin>
+    </custom>
+    <publishDate position="navigation-bottom" />
+    <version position="left"/>
     <body>
         <breadcrumbs>
             <item name="Home" href="./index.html" />

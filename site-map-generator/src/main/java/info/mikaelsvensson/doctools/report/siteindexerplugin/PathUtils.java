@@ -30,8 +30,12 @@ public class PathUtils {
 
         String toSharedRoot = StringUtils.repeat(".." + SEP, sourceParts.length - sharedParts - 1);
         String fromSharedRoot = StringUtils.join(targetParts, SEP, sharedParts + 1, targetParts.length);
+        if (StringUtils.isEmpty(toSharedRoot) && StringUtils.isEmpty(fromSharedRoot)) {
+            return "." + SEP;
+        } else {
+            return toSharedRoot + fromSharedRoot;
+        }
 
-        return toSharedRoot + fromSharedRoot;
     }
 
     private static String fixPath(final File source) {
@@ -39,9 +43,13 @@ public class PathUtils {
         if (File.separatorChar != SEP) {
             fixed = fixed.replace(File.separatorChar, SEP);
         }
-        if (source.isDirectory() && fixed.charAt(fixed.length()-1) != SEP) {
-            fixed += SEP;
+        return source.isDirectory() ? trailingSlash(fixed) : fixed;
+    }
+
+    public static String trailingSlash(String str) {
+        if (str.charAt(str.length() - 1) != SEP) {
+            return str + SEP;
         }
-        return fixed;
+        return str;
     }
 }
