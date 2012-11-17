@@ -75,7 +75,7 @@ public class EnumDocumentCreator extends AbstractDocumentCreator {
             doc.printWarning("Could not create URL class loader using (perhaps '" + classFolder.getAbsolutePath() + "' is not the correct the path to the class folder?). Detailed information about enum constants will not be available.");
         }
 
-        DocumentWrapper docEl = null;
+        DocumentWrapper docEl;
         try {
             docEl = new DocumentWrapper(createDocument("enumerations"));
         } catch (ParserConfigurationException e) {

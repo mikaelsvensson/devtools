@@ -48,7 +48,7 @@ public class ElementsOnlyDocumentCreator extends AbstractDocumentCreator {
     @Override
     public Document generateDocument(final RootDoc doc, final PropertySet properties) throws DocumentCreatorException {
 
-        DocumentWrapper documentWrapper = null;
+        DocumentWrapper documentWrapper;
         try {
             documentWrapper = new DocumentWrapper(createDocument("classes"));
         } catch (ParserConfigurationException e) {

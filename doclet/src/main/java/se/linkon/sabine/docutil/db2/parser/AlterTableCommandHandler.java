@@ -77,7 +77,7 @@ public class AlterTableCommandHandler extends AbstractCommandHandler {
             Matcher addPrimaryKeyMatcher = ADD_PRIMARY_KEY_PATTERN.matcher(fixSQL(sql));
             if (addPrimaryKeyMatcher.matches()) {
                 List<String> columns = getColumns(addPrimaryKeyMatcher.group(1));
-                db.getTable(table).setPrimaryKey(columns.toArray(new String[] {}));
+                db.getTable(table).setPrimaryKey(columns.toArray(new String[columns.size()]));
             } else {
                 Matcher addUniqueMatcher = ADD_UNIQUE_PATTERN.matcher(fixSQL(sql));
                 if (addUniqueMatcher.matches()) {

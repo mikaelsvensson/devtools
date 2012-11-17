@@ -76,7 +76,6 @@ public class SiteMapPlugin extends AbstractMojo {
 
         Writer writer = null;
         try {
-            File outputDirectory = siteFolder;// new File(getOutputDirectory());
 
             String filename = "sitemap-standalone.html";
 
@@ -90,15 +89,15 @@ public class SiteMapPlugin extends AbstractMojo {
 
             Map pluginContext = getPluginContext();
 
-            RenderingContext context = new RenderingContext(outputDirectory, filename);
+            RenderingContext context = new RenderingContext(siteFolder, filename);
 
             SiteRendererSink sink = new SiteRendererSink(context);
 
             new FolderSiteMapGenerator(sink, "SITE MAP TITLE").printFolderContent(siteFolder);
 
-            outputDirectory.mkdirs();
+            siteFolder.mkdirs();
 
-            writer = new OutputStreamWriter(new FileOutputStream(new File(outputDirectory, filename)), "UTF-8");
+            writer = new OutputStreamWriter(new FileOutputStream(new File(siteFolder, filename)), "UTF-8");
 
             siteRenderer.generateDocument(writer, sink, siteContext);
         } catch (RendererException e) {

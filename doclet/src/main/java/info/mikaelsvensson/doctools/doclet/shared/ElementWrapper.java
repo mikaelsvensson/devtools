@@ -210,6 +210,6 @@ public class ElementWrapper {
                 children.add(new ElementWrapper((Element) node));
             }
         }
-        return children.toArray(new ElementWrapper[]{});
+        return children.toArray(new ElementWrapper[children.size()]);
     }
 }

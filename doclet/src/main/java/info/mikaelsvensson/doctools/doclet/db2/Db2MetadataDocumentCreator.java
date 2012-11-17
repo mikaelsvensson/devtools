@@ -76,7 +76,7 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
 
     @Override
     public Document generateDocument(RootDoc doc, final PropertySet properties) throws DocumentCreatorException {
-        DocumentWrapper dw = null;
+        DocumentWrapper dw;
         try {
             dw = new DocumentWrapper(createDocument("data"));
         } catch (ParserConfigurationException e) {

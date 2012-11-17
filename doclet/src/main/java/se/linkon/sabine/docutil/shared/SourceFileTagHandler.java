@@ -97,7 +97,7 @@ public class SourceFileTagHandler extends AbstractTagHandler {
     public String toString(final Tag tag) throws TagHandlerException {
         String text = tag.text();
         try {
-            File sourceFolder = null;
+            File sourceFolder;
             Doc holder = tag.holder();
             if (holder instanceof PackageDoc) {
                 sourceFolder = getSourceFolder((PackageDoc) holder, tag.position().file());

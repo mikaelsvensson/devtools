@@ -47,8 +47,8 @@ public abstract class AbstractDocumentCreatorTest {
         args[i++] = documentCreatorId;
         args[i++] = "-output";
         args[i++] = actualFile.getAbsolutePath();
-        for (int x = 0; x < documentCreatorArgs.length; x++) {
-            args[i++] = documentCreatorArgs[x];
+        for (String documentCreatorArg : documentCreatorArgs) {
+            args[i++] = documentCreatorArg;
         }
         args[i] = testClassFileName;
 

@@ -160,9 +160,7 @@ public class XmlDoclet extends AbstractDoclet {
     }
 
     public static int optionLength(String option) {
-        int len = XmlDocletOptions.optionLength(option);
-        return len;
-//        return len > 0 ? len : Standard.optionLength(option);
+        return XmlDocletOptions.optionLength(option);
     }
 
     public static void main(String[] args) {

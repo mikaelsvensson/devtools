@@ -86,7 +86,7 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
     public Document generateDocument(final RootDoc root, final PropertySet properties) throws DocumentCreatorException {
         Options options = convertProperties(properties);
 
-        DocumentWrapper dw = null;
+        DocumentWrapper dw;
         try {
             dw = new DocumentWrapper(createDocument("packages"));
         } catch (ParserConfigurationException e) {

@@ -62,9 +62,7 @@ public class ChainDocletTest {
         String[] args = new String[2 + options.length + 1];
         args[0] = "-doclet";
         args[1] = ChainDoclet.class.getName();
-        for (int i = 0; i < options.length; i++) {
-            args[i + 2] = options[i];
-        }
+        System.arraycopy(options, 0, args, 2, options.length);
         args[args.length - 1] = testClassFileName;
 
         com.sun.tools.javadoc.Main.execute(

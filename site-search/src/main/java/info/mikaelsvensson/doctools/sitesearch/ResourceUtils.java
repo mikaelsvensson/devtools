@@ -45,12 +45,12 @@ public class ResourceUtils {
 
         // First get all the common elements. Store them as a string,
         // and also count how many of them there are.
-        StringBuffer common = new StringBuffer();
+        StringBuilder common = new StringBuilder();
 
         int commonIndex = 0;
         while (commonIndex < target.length && commonIndex < base.length
                 && target[commonIndex].equals(base[commonIndex])) {
-            common.append(target[commonIndex] + pathSeparator);
+            common.append(target[commonIndex]).append(pathSeparator);
             commonIndex++;
         }
 
@@ -83,13 +83,13 @@ public class ResourceUtils {
             baseIsFile = false;
         }
 
-        StringBuffer relative = new StringBuffer();
+        StringBuilder relative = new StringBuilder();
 
         if (base.length != commonIndex) {
             int numDirsUp = baseIsFile ? base.length - commonIndex - 1 : base.length - commonIndex;
 
             for (int i = 0; i < numDirsUp; i++) {
-                relative.append(".." + pathSeparator);
+                relative.append("..").append(pathSeparator);
             }
         }
         if (FilenameUtils.normalizeNoEndSeparator(common.toString()).length() == normalizedTargetPath.length()) {

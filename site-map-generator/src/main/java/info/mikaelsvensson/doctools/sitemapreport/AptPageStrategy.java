@@ -28,8 +28,7 @@ public class AptPageStrategy implements PageStrategy {
             Matcher matcher = pattern.matcher(new String(content, Charset.forName("ISO-8859-1")));
 
             if (matcher.find()) {
-                String title = matcher.group(1);
-                return title;
+                return matcher.group(1);
             }
 
 //            if (scanner.hasNext()) {

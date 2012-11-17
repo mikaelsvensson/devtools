@@ -92,7 +92,7 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
                     "externalizable", Boolean.toString(doc.isExternalizable()),
                     "serializable", Boolean.toString(doc.isSerializable()));
 
-            String classMemberTypeFilter = null;
+            String classMemberTypeFilter;
             ClassType classType = ClassType.valueOf(doc);
             switch (classType) {
                 case ENUM:

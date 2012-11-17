@@ -54,6 +54,6 @@ class RootDocHandler extends DocHandler<RootDoc> {
         for (ClassDoc classDoc : doc.classes()) {
             packages.add(classDoc.containingPackage());
         }
-        handleDocImpl(el, packages.toArray(new PackageDoc[]{}), "packages", "package");
+        handleDocImpl(el, packages.toArray(new PackageDoc[packages.size()]), "packages", "package");
     }
 }

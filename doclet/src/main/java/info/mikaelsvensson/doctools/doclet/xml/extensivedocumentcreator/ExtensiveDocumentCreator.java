@@ -136,7 +136,7 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
 
     @Override
     public Document generateDocument(final RootDoc doc, final PropertySet properties) throws DocumentCreatorException {
-        DocumentWrapper dw = null;
+        DocumentWrapper dw;
         try {
             dw = new DocumentWrapper(createDocument("documentation"));
         } catch (ParserConfigurationException e) {

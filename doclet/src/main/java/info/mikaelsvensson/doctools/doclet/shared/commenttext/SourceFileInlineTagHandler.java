@@ -220,7 +220,7 @@ public class SourceFileInlineTagHandler extends AbstractInlineTagHandler {
     public String toString(final Tag tag) throws InlineTagHandlerException {
         String text = tag.text();
         try {
-            File sourceFolder = null;
+            File sourceFolder;
             Doc holder = tag.holder();
             if (holder instanceof PackageDoc) {
                 sourceFolder = getSourceFolder((PackageDoc) holder, tag.position().file());

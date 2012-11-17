@@ -58,7 +58,7 @@ public class DocletInvoker {
             if (optionLengthMethod != null && (!Modifier.isStatic(startMethod.getModifiers()) || !Modifier.isPublic(startMethod.getModifiers()))) {
                 throw new DocletWrapperException("Invalid Doclet. The optionLength(String) method in " + docletClass.getName() + " is not marked public static.");
             }
-            Method validOptionsMethod = null;
+            Method validOptionsMethod;
             try {
                 validOptionsMethod = docletClass.getMethod("validOptions", String[][].class, DocErrorReporter.class);
                 if (validOptionsMethod != null && (!Modifier.isStatic(validOptionsMethod.getModifiers()) || !Modifier.isPublic(validOptionsMethod.getModifiers()))) {
