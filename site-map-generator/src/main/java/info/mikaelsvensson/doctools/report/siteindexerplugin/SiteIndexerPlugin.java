@@ -10,6 +10,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.maven.doxia.site.decoration.DecorationModel;
 import org.apache.maven.doxia.site.decoration.io.xpp3.DecorationXpp3Reader;
 import org.apache.maven.doxia.tools.SiteTool;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.Plugin;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -33,6 +36,8 @@ import java.util.regex.Pattern;
  */
 public class SiteIndexerPlugin extends AbstractMojo {
 
+    private static final String PLUGIN_ARTIFACT_ID = "site-map-generator";
+
     private static final String PROPERTY_SEARCHBOX_CONTAINER_INSERTAT = "searchboxContainerInsertat";
     private static final String PROPERTY_SEARCHBOX_CONTAINER_INSERTACTION = "searchboxContainerInsertaction";
     private static final String PROPERTY_SEARCHBOX_CONTAINER_ID = "searchboxContainerId";
@@ -43,7 +48,8 @@ public class SiteIndexerPlugin extends AbstractMojo {
     private static final String PROPERTY_SEARCHBOX_INDEX_MINWORDLENGTH = "searchboxIndexMinwordlength";
     private static final String PROPERTY_SEARCHBOX_INDEX_EXCLUDEFOLDER = "searchboxIndexExcludefolder";
     private static final String PROPERTY_SKIP_AUTO_JQUERY_INCLUSION = "skipAutoJqueryInclusion";
-    private static final String PROPERTY_ADDITIONAL_MODULES_FOLDERS = "additionalModulesFolders";
+    private static final String PROPERTY_ADDITIONAL_MODULES_FOLDERS = "additionalIndexedModules";
+    private static final String PROPERTY_AUTO_EMBED_RELATED_INDEXED_MODULES = "autoEmbedRelatedIndexedModules";
 
     private static final Comparator<Map.Entry<String, Integer>> DESCENDING_VALUE_ORDER = new Comparator<Map.Entry<String, Integer>>() {
         @Override
@@ -265,6 +271,8 @@ public class SiteIndexerPlugin extends AbstractMojo {
 
     private void addSearchFormToPage(final File file) {
         try {
+            Set<String> relatedProjectPaths = getRelatedIndexedProjectPaths();
+
             StringBuilder content = new StringBuilder(FileUtils.readFileToString(file));
 
             Map<String, String> props = getProperties();
@@ -290,17 +298,14 @@ public class SiteIndexerPlugin extends AbstractMojo {
                         ModifyAction.PREPEND,
                         getScriptFileElement(getRelativePath(file, getJavascriptLibraryFile())));
 
-                String additionalModuleFolders = props.get(PROPERTY_ADDITIONAL_MODULES_FOLDERS);
                 String pathToProjectRoot = getRelativePath(file, getSiteOutputFolder());
-                if (StringUtils.isNotEmpty(additionalModuleFolders)) {
-                    StringTokenizer tokenizer = new StringTokenizer(additionalModuleFolders);
-                    while (tokenizer.hasMoreTokens()) {
-                        String additionalModuleFolder = tokenizer.nextToken();
 
+                for (String relatedProjectPath : relatedProjectPaths) {
+                    if (StringUtils.isNotBlank(relatedProjectPath)) {
                         modifyStringBuilder(content,
                                 END_OF_HEAD_PATTERN,
                                 ModifyAction.PREPEND,
-                                getScriptFileElement(PathUtils.trailingSlash(pathToProjectRoot) + PathUtils.trailingSlash(additionalModuleFolder) + JAVASCRIPT_DATABASE_FILE_NAME));
+                                getScriptFileElement(PathUtils.trailingSlash(pathToProjectRoot) + PathUtils.trailingSlash(relatedProjectPath) + JAVASCRIPT_DATABASE_FILE_NAME));
                     }
                 }
 
@@ -318,13 +323,6 @@ public class SiteIndexerPlugin extends AbstractMojo {
                 for (Object module : proj.getModules()) {
                     getLog().info(module.toString());
                 }
-
-/*
-                modifyStringBuilder(content,
-                        END_OF_HEAD_PATTERN,
-                        ModifyAction.PREPEND,
-                        getScriptFileElement(getRelativePath(new File(pathToAncestorProjectRoot), getJavascriptDatabaseFile())));
-*/
 
                 modifyStringBuilder(content,
                         END_OF_HEAD_PATTERN,
@@ -346,6 +344,70 @@ public class SiteIndexerPlugin extends AbstractMojo {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+    }
+
+    private Set<String> getRelatedIndexedProjectPaths() throws IOException {
+        final Map<String, String> props = getProperties();
+        Set<String> relatedProjectPaths = new HashSet<String>();
+
+        if (Boolean.parseBoolean(props.get(PROPERTY_AUTO_EMBED_RELATED_INDEXED_MODULES))) {
+            scanForProjectsInProjectHierarchyWithSiteIndexing(relatedProjectPaths);
+        }
+
+        String additionalModuleFolders = props.get(PROPERTY_ADDITIONAL_MODULES_FOLDERS);
+        if (StringUtils.isNotEmpty(additionalModuleFolders)) {
+            relatedProjectPaths.addAll(Arrays.asList(additionalModuleFolders.split("\\s")));
+        }
+        return relatedProjectPaths;
+    }
+
+    private void scanForProjectsInProjectHierarchyWithSiteIndexing(final Set<String> modulePaths) throws IOException {
+        scanForProjectsInProjectHierarchyWithSiteIndexing(getRootProject(), false, modulePaths);
+    }
+
+    private MavenProject getRootProject() {
+        MavenProject rootProject = project;
+        while (rootProject.getParent() != null) {
+            rootProject = rootProject.getParent();
+        }
+        return rootProject;
+    }
+
+    private void scanForProjectsInProjectHierarchyWithSiteIndexing(final MavenProject proj, boolean forceEmbed, Set<String> modulePaths) throws IOException {
+        forceEmbed |= isSiteIndexerPluginReferences(proj);
+        if (forceEmbed) {
+            String pathFromProjectRootToOtherProject = getRelativePath(project.getBasedir(), proj.getModel().getPomFile().getParentFile());
+            modulePaths.add(pathFromProjectRootToOtherProject);
+        }
+
+        for (Object moduleName : proj.getModules()) {
+            try {
+                File pomFile = new File(proj.getFile().getParentFile(), moduleName.toString() + File.separatorChar + "pom.xml");
+
+                MavenProject subModuleProj = loadPomFile(pomFile);
+
+                scanForProjectsInProjectHierarchyWithSiteIndexing(subModuleProj, forceEmbed, modulePaths);
+            } catch (XmlPullParserException e) {
+                getLog().warn("Could not read POM file for module '" + moduleName + "'.", e);
+            }
+        }
+    }
+
+    private static boolean isSiteIndexerPluginReferences(final MavenProject proj) {
+        for (Object o : proj.getBuildPlugins()) {
+            Plugin buildPlugin = (Plugin) o;
+            if (PLUGIN_ARTIFACT_ID.equals(buildPlugin.getArtifactId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private MavenProject loadPomFile(final File pomFile) throws IOException, XmlPullParserException {
+        MavenXpp3Reader mavenXpp3Reader = new MavenXpp3Reader();
+        Model model = mavenXpp3Reader.read(new FileReader(pomFile));
+        model.setPomFile(pomFile);
+        return new MavenProject(model);
     }
 
     private boolean shouldJqueryLibraryFileBeIncluded() {

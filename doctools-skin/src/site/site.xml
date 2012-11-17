@@ -2,12 +2,6 @@
 <project>
     <custom>
         <siteIndexerPlugin>
-            <additionalModulesFolders>
-                ../
-                ../doclet
-                ../site-map-generator
-                ../site-map-generator-demo
-            </additionalModulesFolders>
         </siteIndexerPlugin>
     </custom>
 </project>

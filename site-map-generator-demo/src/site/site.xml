@@ -10,12 +10,6 @@
     </skin>
     <custom>
         <siteIndexerPlugin>
-            <additionalModulesFolders>
-                ../
-                ../doclet
-                ../doctools-skin
-                ../site-map-generator
-            </additionalModulesFolders>
         </siteIndexerPlugin>
     </custom>
     <body>

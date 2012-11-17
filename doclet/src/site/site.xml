@@ -28,12 +28,6 @@
 <project name="Mikael Svensson's Doclet Collection">
     <custom>
         <siteIndexerPlugin>
-            <additionalModulesFolders>
-                ../
-                ../doctools-skin
-                ../site-map-generator
-                ../site-map-generator-demo
-            </additionalModulesFolders>
         </siteIndexerPlugin>
     </custom>
 </project>

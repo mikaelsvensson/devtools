@@ -16,12 +16,7 @@
             <searchboxIndexExcludenumbers>false</searchboxIndexExcludenumbers>
             <searchboxIndexMinwordlength>3</searchboxIndexMinwordlength>
             <searchboxIndexExcludefolder>apidocs</searchboxIndexExcludefolder>
-            <additionalModulesFolders>
-                doclet
-                doctools-skin
-                site-map-generator
-                site-map-generator-demo
-            </additionalModulesFolders>
+            <autoEmbedRelatedIndexedModules>true</autoEmbedRelatedIndexedModules>
             <!--<skipAutoJqueryInclusion>true</skipAutoJqueryInclusion>-->
         </siteIndexerPlugin>
     </custom>
