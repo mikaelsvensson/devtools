@@ -10,11 +10,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>site-map-generator</artifactId>
+    <artifactId>report</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
-    <name>site-map-generator</name>
-    <url>http://doctools.mikaelsvensson.info/site-map-generator</url>
+    <name>report</name>
+    <url>http://doctools.mikaelsvensson.info/report</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

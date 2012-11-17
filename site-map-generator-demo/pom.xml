@@ -55,7 +55,7 @@
                         <plugin>
                             <groupId>info.mikaelsvensson.doctools</groupId>
                             <version>1.0-SNAPSHOT</version>
-                            <artifactId>site-map-generator</artifactId>
+                            <artifactId>report</artifactId>
                             <reports>
                                 <report>sitemap</report>
                             </reports>
@@ -69,7 +69,7 @@
     <dependencies>
         <dependency>
             <groupId>info.mikaelsvensson.doctools</groupId>
-            <artifactId>site-map-generator</artifactId>
+            <artifactId>report</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
