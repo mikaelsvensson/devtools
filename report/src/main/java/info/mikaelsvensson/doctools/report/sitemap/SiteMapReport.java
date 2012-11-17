@@ -1,5 +1,8 @@
-package info.mikaelsvensson.doctools.report;
+package info.mikaelsvensson.doctools.report.sitemap;
 
+import info.mikaelsvensson.doctools.report.DoctoolsReport;
+import info.mikaelsvensson.doctools.report.HtmlFileCreator;
+import info.mikaelsvensson.doctools.report.HtmlFileCreatorFactory;
 import org.apache.maven.doxia.siterenderer.Renderer;
 
 import java.io.File;

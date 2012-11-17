@@ -1,4 +1,6 @@
-package info.mikaelsvensson.doctools.report;
+package info.mikaelsvensson.doctools.report.sitemap;
+
+import info.mikaelsvensson.doctools.report.HtmlPageStrategy;
 
 import java.io.File;
 

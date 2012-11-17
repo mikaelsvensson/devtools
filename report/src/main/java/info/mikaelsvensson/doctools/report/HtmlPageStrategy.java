@@ -1,5 +1,7 @@
 package info.mikaelsvensson.doctools.report;
 
+import info.mikaelsvensson.doctools.report.sitemap.PageStrategy;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

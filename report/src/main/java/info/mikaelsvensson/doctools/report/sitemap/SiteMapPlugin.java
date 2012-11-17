@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.report;
+package info.mikaelsvensson.doctools.report.sitemap;
 
 import org.apache.maven.doxia.sink.render.RenderingContext;
 import org.apache.maven.doxia.site.decoration.DecorationModel;
