@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  */
 public class SiteSearchPlugin extends AbstractMojo {
 
-    private static final String PLUGIN_ARTIFACT_ID = "site-map-generator";
+    private static final String PLUGIN_ARTIFACT_ID = "site-search";
 
     private static final String PROPERTY_SEARCHBOX_CONTAINER_INSERTAT = "searchboxContainerInsertat";
     private static final String PROPERTY_SEARCHBOX_CONTAINER_INSERTACTION = "searchboxContainerInsertaction";
