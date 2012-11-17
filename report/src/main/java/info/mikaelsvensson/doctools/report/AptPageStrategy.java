@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.sitemapreport;
+package info.mikaelsvensson.doctools.report;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,10 +9,10 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HtmlPageStrategy implements PageStrategy {
+public class AptPageStrategy implements PageStrategy {
     private File file;
 
-    public HtmlPageStrategy(File file) {
+    public AptPageStrategy(File file) {
         this.file = file;
     }
 
@@ -22,7 +22,7 @@ public class HtmlPageStrategy implements PageStrategy {
             FileInputStream fis = new FileInputStream(file);
             Scanner scanner = new Scanner(file);
 //            Pattern pattern = Pattern.compile("\\s+");
-            Pattern pattern = Pattern.compile("<title>([^<]+)</title>");
+            Pattern pattern = Pattern.compile("\\s+-{3,}\\s*\\r?\\n\\s+(.*?)\\s*\\r?\\n\\s+-{3,}");
             byte[] content = new byte[(int) file.length()];
             fis.read(content);
             Matcher matcher = pattern.matcher(new String(content, Charset.forName("ISO-8859-1")));
