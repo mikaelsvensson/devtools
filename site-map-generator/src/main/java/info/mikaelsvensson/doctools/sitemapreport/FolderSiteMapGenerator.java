@@ -1,16 +1,14 @@
 package info.mikaelsvensson.doctools.sitemapreport;
 
-import org.apache.maven.doxia.sink.Sink;
-
 import java.io.File;
 import java.net.URI;
 
 public class FolderSiteMapGenerator implements SiteMapGenerator {
-    private Sink sink;
+    private HtmlFileCreator fileCreator;
     private String title;
 
-    public FolderSiteMapGenerator(final Sink sink, final String title) {
-        this.sink = sink;
+    public FolderSiteMapGenerator(final HtmlFileCreator fileCreator, final String title) {
+        this.fileCreator = fileCreator;
         this.title = title;
     }
 
@@ -34,65 +32,26 @@ public class FolderSiteMapGenerator implements SiteMapGenerator {
         return folderEntry;
     }
     public void printFolderContent(File folder) {
-        printHead(title);
-
-        sink.body();
-
-        printHeading1(title);
+        fileCreator.printHeading1(title);
 
         printFolderContent(getRoot(folder), folder.toURI());
-
-        sink.body_();
-
-        sink.flush();
-        sink.close();
     }
     public void printFolderContent(SiteMapFolderEntry folder, final URI rootURI) {
-        sink.list();
+        fileCreator.listStart();
         for (SiteMapFolderEntry folderEntry : folder.getFolders()) {
-            sink.listItem();
-            sink.text(folderEntry.getFile().getName() + ":");
+            fileCreator.listItemStart();
+            fileCreator.printText(folderEntry.getFile().getName() + ":");
             printFolderContent(folderEntry, rootURI);
-            sink.listItem_();
+            fileCreator.listItemEnd();
         }
         for (SiteMapEntry fileEntry : folder.getFiles()) {
 
             PageStrategy pageStrategy = PageStrategyFactory.getInstance().createPageStrategy(fileEntry.getFile());
             if (pageStrategy != null) {
-                sink.listItem();
-
                 String href = rootURI.relativize(fileEntry.getFile().toURI()).toString();
-                sink.link("../" + href.substring(0, href.lastIndexOf('.')) + ".html");
-                sink.text(pageStrategy.getTitle());
-                sink.link_();
-                sink.listItem_();
+                fileCreator.printListItemLink(pageStrategy.getTitle(), "../" + href.substring(0, href.lastIndexOf('.')) + ".html");
             }
         }
-        sink.list_();
-    }
-    private void printHeading1(String text) {
-        sink.sectionTitle1();
-        sink.text(text);
-        sink.sectionTitle1_();
-    }
-
-    private void printHeading2(String text) {
-        sink.sectionTitle2();
-        sink.text(text);
-        sink.sectionTitle2_();
-    }
-
-    private void printParagraph(String text) {
-        sink.paragraph();
-        sink.text(text);
-        sink.paragraph();
-    }
-
-    private void printHead(String title) {
-        sink.head();
-        sink.title();
-        sink.text(title);
-        sink.title_();
-        sink.head_();
+        fileCreator.listEnd();
     }
 }
