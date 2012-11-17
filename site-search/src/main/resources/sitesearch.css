@@ -1,34 +1,34 @@
-.siteindexer-resultwrapper {
+.sitesearch-resultwrapper {
 	position: absolute;
 	display: none;
 }
-.siteindexer-resultwrapper.show {
+.sitesearch-resultwrapper.show {
 	display: block;
 }
-.siteindexer-result {
+.sitesearch-result {
 	position: absolute;
 	border: 1px solid #999;
 	border-radius: 2px;
 	background-color: #fff;
 	padding: 0;
 }
-.siteindexer-result ul {
+.sitesearch-result ul {
 	margin: 0;
 	padding: 0;
 }
-.siteindexer-result li {
+.sitesearch-result li {
 	list-style-type: none;
 	margin: 0;
 	padding: 0.2em;
 	white-space: nowrap;
 }
-.siteindexer-result li.selected {
+.sitesearch-result li.selected {
 	background-color: #3366AA;
 	color: #fff;
 }
-.siteindexer-result li:hover {
+.sitesearch-result li:hover {
 	text-decoration: underline;
 }
-.siteindexer-form input {
+.sitesearch-form input {
 	width: 8em;
 }

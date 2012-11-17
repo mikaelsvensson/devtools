@@ -6,7 +6,7 @@
         <version>1.0-SNAPSHOT</version>
     </skin>
     <custom>
-        <siteIndexerPlugin>
+        <siteSearchPlugin>
             <searchboxContainerInsertat>&lt;div id="navcolumn"&gt;</searchboxContainerInsertat>
             <searchboxContainerInsertaction>append</searchboxContainerInsertaction>
             <searchboxContainerId>search-form</searchboxContainerId>
@@ -18,7 +18,7 @@
             <searchboxIndexExcludefolder>apidocs</searchboxIndexExcludefolder>
             <autoEmbedRelatedIndexedModules>true</autoEmbedRelatedIndexedModules>
             <!--<skipAutoJqueryInclusion>true</skipAutoJqueryInclusion>-->
-        </siteIndexerPlugin>
+        </siteSearchPlugin>
     </custom>
     <publishDate position="navigation-bottom" />
     <version position="left"/>

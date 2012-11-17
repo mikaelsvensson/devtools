@@ -31,10 +31,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @goal siteindexer
+ * @goal sitesearch
  * @phase post-site
  */
-public class SiteIndexerPlugin extends AbstractMojo {
+public class SiteSearchPlugin extends AbstractMojo {
 
     private static final String PLUGIN_ARTIFACT_ID = "site-map-generator";
 
@@ -58,7 +58,7 @@ public class SiteIndexerPlugin extends AbstractMojo {
         }
     };
     private static final String SEARCH_FORM_TEMPLATE = "" +
-            "<div id=\"{1}\" class=\"siteindexer-form\">" +
+            "<div id=\"{1}\" class=\"sitesearch-form\">" +
             "   <div id=\"{1}-title\">" +
             "       {0}" +
             "   </div>" +
@@ -69,10 +69,10 @@ public class SiteIndexerPlugin extends AbstractMojo {
     private static final String SCRIPT_FILE_ELEMENT_TEMPLATE = "<script src=\"{0}\" type=\"text/javascript\"></script>";
     private static final String STYLESHEET_FILE_ELEMENT_TEMPLATE = "<link href=\"{0}\" type=\"text/css\" rel=\"stylesheet\">";
     private static final String SCRIPT_ELEMENT_TEMPLATE = "<script type=\"text/javascript\">{0}</script>";
-    private static final String JAVASCRIPT_LIBRARY_FILE_NAME = "siteindexer.js";
+    private static final String JAVASCRIPT_LIBRARY_FILE_NAME = "sitesearch.js";
     private static final String JAVASCRIPT_JQUERY_FILE_NAME = "jquery-1.8.2.min.js";
-    private static final String JAVASCRIPT_DATABASE_FILE_NAME = "siteindexer-data.js";
-    private static final String STYLESHEET_FILE_NAME = "siteindexer.css";
+    private static final String JAVASCRIPT_DATABASE_FILE_NAME = "sitesearch-index.js";
+    private static final String STYLESHEET_FILE_NAME = "sitesearch.css";
     private static final Pattern END_OF_HEAD_PATTERN = Pattern.compile("</(head|HEAD)>");
     private static final String JAVASCRIPT_VARIABLE_NAME_INDEX_DATA = "SiteIndexerData";
     private static final String JAVASCRIPT_DATA_TEMPLATE = "" +
@@ -173,9 +173,9 @@ public class SiteIndexerPlugin extends AbstractMojo {
                         DecorationModel decorationModel = getDecorationModel(file);
                         Xpp3Dom custom = (Xpp3Dom) decorationModel.getCustom();
                         if (custom != null) {
-                            Xpp3Dom siteIndexerPluginElement = custom.getChild("siteIndexerPlugin");
-                            if (null != siteIndexerPluginElement) {
-                                Xpp3Dom[] propertyElements = siteIndexerPluginElement.getChildren();
+                            Xpp3Dom siteSearchPluginElement = custom.getChild("siteSearchPlugin");
+                            if (null != siteSearchPluginElement) {
+                                Xpp3Dom[] propertyElements = siteSearchPluginElement.getChildren();
                                 for (Xpp3Dom propertyElement : propertyElements) {
                                     if (!properties.containsKey(propertyElement.getName())) {
                                         properties.put(propertyElement.getName(), propertyElement.getValue());

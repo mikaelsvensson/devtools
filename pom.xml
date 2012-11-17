@@ -63,7 +63,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>siteindexer</goal>
+                            <goal>sitesearch</goal>
                         </goals>
                         <phase>post-site</phase>
                     </execution>

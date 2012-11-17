@@ -27,7 +27,7 @@
 
 <project name="Mikael Svensson's Doclet Collection">
     <custom>
-        <siteIndexerPlugin>
-        </siteIndexerPlugin>
+        <siteSearchPlugin>
+        </siteSearchPlugin>
     </custom>
 </project>

@@ -21,8 +21,8 @@
     SiteIndexer.prototype.init = function () {
 		var name = this.name;
 
-		this.resultElement = $(document.createElement("div")).addClass("siteindexer-result");
-		this.resultContainerElement = $(document.createElement("div")).addClass("siteindexer-resultwrapper");
+		this.resultElement = $(document.createElement("div")).addClass("sitesearch-result");
+		this.resultContainerElement = $(document.createElement("div")).addClass("sitesearch-resultwrapper");
 		this.resultContainerElement.mousedown(this, this.onResultMouseDown);
 		this.resultContainerElement.click(this, this.onResultClick);
 		
