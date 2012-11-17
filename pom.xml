@@ -11,6 +11,7 @@
         <module>site-map-generator-demo</module>
         <module>doclet</module>
         <module>doctools-skin</module>
+        <module>site-search</module>
     </modules>
 
     <name>doctools</name>
