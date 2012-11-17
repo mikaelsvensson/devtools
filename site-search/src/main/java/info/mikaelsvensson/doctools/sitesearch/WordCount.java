@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.report.sitesearch;
+package info.mikaelsvensson.doctools.sitesearch;
 
 public class WordCount {
     private String word;

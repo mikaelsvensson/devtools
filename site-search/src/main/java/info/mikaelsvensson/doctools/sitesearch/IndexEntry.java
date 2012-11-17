@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.report.sitesearch;
+package info.mikaelsvensson.doctools.sitesearch;
 
 import java.util.Collection;
 import java.util.HashMap;

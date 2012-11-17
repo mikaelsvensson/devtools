@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.report.sitesearch;
+package info.mikaelsvensson.doctools.sitesearch;
 
 import net.sf.json.JSONArray;
 import org.apache.commons.collections.CollectionUtils;
