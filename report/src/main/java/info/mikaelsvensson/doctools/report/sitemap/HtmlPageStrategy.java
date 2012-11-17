@@ -1,6 +1,4 @@
-package info.mikaelsvensson.doctools.report;
-
-import info.mikaelsvensson.doctools.report.sitemap.PageStrategy;
+package info.mikaelsvensson.doctools.report.sitemap;
 
 import java.io.File;
 import java.io.FileInputStream;
