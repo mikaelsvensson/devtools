@@ -96,4 +96,12 @@ public class HtmlFileCreator {
     public File getFile() {
         return file;
     }
+
+    public void printParagraphLink(final String text, final String url) {
+        sink.paragraph();
+        sink.link(url);
+        sink.text(text);
+        sink.link_();
+        sink.paragraph_();
+    }
 }

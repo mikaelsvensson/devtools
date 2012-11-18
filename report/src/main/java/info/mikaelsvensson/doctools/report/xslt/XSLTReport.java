@@ -41,12 +41,12 @@ public class XSLTReport extends DoctoolsReport {
 
     @Override
     protected void render(final HtmlFileCreator defaultPageCreator, final HtmlFileCreatorFactory pageCreatorFactory, final Locale locale) {
-        Map<File, String> reportTitles = renderReports(pageCreatorFactory);
+        Map<File, String> reportTitles = renderReports(pageCreatorFactory, defaultPageCreator.getFile());
 
         renderIndexPage(defaultPageCreator, reportTitles, getName(locale), getDescription(locale));
     }
 
-    private Map<File, String> renderReports(final HtmlFileCreatorFactory pageCreatorFactory) {
+    private Map<File, String> renderReports(final HtmlFileCreatorFactory pageCreatorFactory, final File indexPageFile) {
         Map<File, String> reportTitles = new TreeMap<File, String>();
         for (int i = 0, reportsLength = reports.length; i < reportsLength; i++) {
             Report report = reports[i];
@@ -66,7 +66,7 @@ public class XSLTReport extends DoctoolsReport {
                 String title = getTitle(tempDefaultFile, report.getName());
                 reportTitles.put(defaultFile, title);
 
-                createAndWrapReportPages(pageCreatorFactory, tempDir, reportFolder);
+                createAndWrapReportPages(pageCreatorFactory, tempDir, reportFolder, indexPageFile);
 
                 FileUtils.deleteDirectory(tempDir);
             } catch (TransformerException e) {
@@ -95,14 +95,14 @@ public class XSLTReport extends DoctoolsReport {
         pageCreator.listEnd();
     }
 
-    private void createAndWrapReportPages(final HtmlFileCreatorFactory pageCreatorFactory, final File sourceFolder, final File targetFolder) throws IOException {
+    private void createAndWrapReportPages(final HtmlFileCreatorFactory pageCreatorFactory, final File sourceFolder, final File targetFolder, final File indexPageFile) throws IOException {
         Collection<File> allFiles = FileUtils.listFiles(sourceFolder, new String[]{"html", "htm"}, true);
         for (File file : allFiles) {
             String fileName = file.getAbsolutePath().substring(sourceFolder.getAbsolutePath().length() + 1);
             File mergedFile = new File(targetFolder, fileName);
             HtmlFileCreator htmlFileCreator = pageCreatorFactory.createNewHtmlPage(mergedFile, getTitle(file, "Title"));
-            // TODO: Add link back to start page (as per yet-to-be-added report configuration option)
             htmlFileCreator.printRaw(FileUtils.readFileToString(file));
+            htmlFileCreator.printParagraphLink("Back", PathUtils.getRelativePath(mergedFile, indexPageFile));
         }
     }
 
