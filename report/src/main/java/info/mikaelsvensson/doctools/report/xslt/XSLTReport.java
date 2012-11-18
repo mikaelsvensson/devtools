@@ -83,16 +83,17 @@ public class XSLTReport extends DoctoolsReport {
     }
 
     private void renderIndexPage(final HtmlFileCreator pageCreator, final Map<File, String> links, final String header, final String body) {
-        pageCreator.printHeading1(header);
+        pageCreator.printSectionStart(1, header);
         if (StringUtils.isNotEmpty(body)) {
             pageCreator.printParagraph(body);
         }
         pageCreator.listStart(SIMPLE_REPORT_NAME + "-list");
         for (Map.Entry<File, String> entry : links.entrySet()) {
-            pageCreator.printListItemLink(entry.getValue(), PathUtils.getRelativePath(pageCreator.getFile(), entry.getKey()));
+            pageCreator.printLinkListItem(entry.getValue(), PathUtils.getRelativePath(pageCreator.getFile(), entry.getKey()));
 
         }
         pageCreator.listEnd();
+        pageCreator.printSectionEnd(1);
     }
 
     private void createAndWrapReportPages(final HtmlFileCreatorFactory pageCreatorFactory, final File sourceFolder, final File targetFolder, final File indexPageFile) throws IOException {
@@ -102,7 +103,7 @@ public class XSLTReport extends DoctoolsReport {
             File mergedFile = new File(targetFolder, fileName);
             HtmlFileCreator htmlFileCreator = pageCreatorFactory.createNewHtmlPage(mergedFile, getTitle(file, "Title"));
             htmlFileCreator.printRaw(FileUtils.readFileToString(file));
-            htmlFileCreator.printParagraphLink("Back", PathUtils.getRelativePath(mergedFile, indexPageFile));
+            htmlFileCreator.printLinkParagraph("Back", PathUtils.getRelativePath(mergedFile, indexPageFile));
         }
     }
 

@@ -34,9 +34,11 @@ public class FolderSiteMapGenerator implements SiteMapGenerator {
         return folderEntry;
     }
     public void printFolderContent(File folder) {
-        fileCreator.printHeading1(title);
+        fileCreator.printSectionStart(1, title);
 
         printFolderContent(getRoot(folder), folder.toURI());
+
+        fileCreator.printSectionEnd(1);
     }
     public void printFolderContent(SiteMapFolderEntry folder, final URI rootURI) {
         fileCreator.listStart();
@@ -51,7 +53,7 @@ public class FolderSiteMapGenerator implements SiteMapGenerator {
             PageStrategy pageStrategy = PageStrategyFactory.getInstance().createPageStrategy(fileEntry.getFile());
             if (pageStrategy != null) {
                 String href = rootURI.relativize(fileEntry.getFile().toURI()).toString();
-                fileCreator.printListItemLink(pageStrategy.getTitle(), "../" + href.substring(0, href.lastIndexOf('.')) + ".html");
+                fileCreator.printLinkListItem(pageStrategy.getTitle(), "../" + href.substring(0, href.lastIndexOf('.')) + ".html");
             }
         }
         fileCreator.listEnd();

@@ -19,39 +19,36 @@ public class HtmlFileCreator {
     private void init(final String documentTitle) {
         sink.head();
         sink.title();
-        sink.text(documentTitle);
+        printText(documentTitle);
         sink.title_();
         sink.head_();
         sink.body();
     }
 
-    public void printHeading1(final String text) {
-        sink.sectionTitle1();
-        sink.text(text);
-        sink.sectionTitle1_();
+    public void printSectionStart(final int level, final String text) {
+        sink.section(level, null);
+        sink.sectionTitle(level, null);
+        printText(text);
+        sink.sectionTitle_();
     }
 
-    public void printHeading2(final String text) {
-        sink.sectionTitle2();
-        sink.text(text);
-        sink.sectionTitle2_();
+    public void printSectionEnd(final int level) {
+        sink.section_(level);
     }
 
     public void printParagraph(final String text) {
         sink.paragraph();
-        sink.text(text);
-        sink.paragraph();
+        printText(text);
+        sink.paragraph_();
     }
 
     public void printText(final String text) {
         sink.text(text);
     }
 
-    public void printListItemLink(final String text, final String url) {
+    public void printLinkListItem(final String text, final String url) {
         sink.listItem();
-        sink.link(url);
-        sink.text(text);
-        sink.link_();
+        printLink(text, url);
         sink.listItem_();
     }
 
@@ -97,11 +94,15 @@ public class HtmlFileCreator {
         return file;
     }
 
-    public void printParagraphLink(final String text, final String url) {
+    public void printLinkParagraph(final String text, final String url) {
         sink.paragraph();
-        sink.link(url);
-        sink.text(text);
-        sink.link_();
+        printLink(text, url);
         sink.paragraph_();
+    }
+
+    private void printLink(final String text, final String url) {
+        sink.link(url);
+        printText(text);
+        sink.link_();
     }
 }
