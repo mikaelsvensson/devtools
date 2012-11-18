@@ -41,14 +41,19 @@ public class XSLTReport extends DoctoolsReport {
 
     @Override
     protected void render(final HtmlFileCreator defaultPageCreator, final HtmlFileCreatorFactory pageCreatorFactory, final Locale locale) {
-        getLog().info("XSLTReport does nothing at this point.");
-        defaultPageCreator.listStart();
+        Map<File, String> reportTitles = renderReports(pageCreatorFactory);
+
+        renderIndexPage(defaultPageCreator, reportTitles, getName(locale), getDescription(locale));
+    }
+
+    private Map<File, String> renderReports(final HtmlFileCreatorFactory pageCreatorFactory) {
+        Map<File, String> reportTitles = new TreeMap<File, String>();
         for (int i = 0, reportsLength = reports.length; i < reportsLength; i++) {
             Report report = reports[i];
             if (StringUtils.isEmpty(report.getName())) {
                 report.setName("report-" + i);
             }
-            getLog().info("  Report: " + report.getName());
+            getLog().info("Rendering report '" + report.getName() + "'.");
             try {
                 File tempDir = createTempDir();
                 File tempDefaultFile = new File(tempDir, report.getOutputFile());
@@ -58,7 +63,9 @@ public class XSLTReport extends DoctoolsReport {
                 reportFolder.mkdirs();
 
                 File defaultFile = new File(reportFolder, report.getOutputFile());
-                defaultPageCreator.printListItemLink(getTitle(tempDefaultFile, report.getName()), PathUtils.getRelativePath(defaultPageCreator.getFile(), defaultFile));
+                String title = getTitle(tempDefaultFile, report.getName());
+                reportTitles.put(defaultFile, title);
+
                 createAndWrapReportPages(pageCreatorFactory, tempDir, reportFolder);
 
                 FileUtils.deleteDirectory(tempDir);
@@ -72,7 +79,20 @@ public class XSLTReport extends DoctoolsReport {
                 getLog().warn(e);
             }
         }
-        defaultPageCreator.listEnd();
+        return reportTitles;
+    }
+
+    private void renderIndexPage(final HtmlFileCreator pageCreator, final Map<File, String> links, final String header, final String body) {
+        pageCreator.printHeading1(header);
+        if (StringUtils.isNotEmpty(body)) {
+            pageCreator.printParagraph(body);
+        }
+        pageCreator.listStart();
+        for (Map.Entry<File, String> entry : links.entrySet()) {
+            pageCreator.printListItemLink(entry.getValue(), PathUtils.getRelativePath(pageCreator.getFile(), entry.getKey()));
+
+        }
+        pageCreator.listEnd();
     }
 
     private void createAndWrapReportPages(final HtmlFileCreatorFactory pageCreatorFactory, final File sourceFolder, final File targetFolder) throws IOException {
@@ -81,6 +101,7 @@ public class XSLTReport extends DoctoolsReport {
             String fileName = file.getAbsolutePath().substring(sourceFolder.getAbsolutePath().length() + 1);
             File mergedFile = new File(targetFolder, fileName);
             HtmlFileCreator htmlFileCreator = pageCreatorFactory.createNewHtmlPage(mergedFile, getTitle(file, "Title"));
+            // TODO: Add link back to start page (as per yet-to-be-added report configuration option)
             htmlFileCreator.printRaw(FileUtils.readFileToString(file));
         }
     }
