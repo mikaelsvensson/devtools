@@ -2,11 +2,15 @@ package info.mikaelsvensson.doctools.report;
 
 import org.apache.maven.doxia.sink.Sink;
 
+import java.io.File;
+
 public class HtmlFileCreator {
     private Sink sink;
+    private File file;
 
-    public HtmlFileCreator(final Sink sink, final String documentTitle) {
+    public HtmlFileCreator(final Sink sink, final String documentTitle, final File file) {
         this.sink = sink;
+        this.file = file;
         init(documentTitle);
     }
 
@@ -69,5 +73,14 @@ public class HtmlFileCreator {
 
     public void listItemEnd() {
         sink.listItem_();
+    }
+
+    public void printRaw(final String content) {
+        // TODO: rawText is deprecated (see http://maven.apache.org/doxia/developers/sink.html#Avoid_sink.rawText)
+        sink.rawText(content);
+    }
+
+    public File getFile() {
+        return file;
     }
 }

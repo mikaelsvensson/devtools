@@ -42,7 +42,7 @@ public abstract class DoctoolsReport extends AbstractMavenReport implements Html
         htmlFileCreators = new LinkedList<HtmlFileCreator>();
 
         render(
-                createHtmlFileCreator(getDefaultPageTitle(locale), getSink()),
+                createHtmlFileCreator(getDefaultPageTitle(locale), getSink(), getDefaultPageFile()),
                 this,
                 locale);
 
@@ -55,20 +55,18 @@ public abstract class DoctoolsReport extends AbstractMavenReport implements Html
 
     protected abstract String getDefaultPageTitle(final Locale locale);
 
-    @Override
-    public HtmlFileCreator createNewHtmlPage(final String fileName, final String documentTitle) throws IOException {
-        String outputName = getOutputName();
-        String subFolder = "";
-        int pos = outputName.lastIndexOf('/');
-        if (pos >= 0) {
-            subFolder = outputName.substring(0, pos + 1);
-        }
-        Sink sink = getSinkFactory().createSink(new File(getOutputDirectory()), subFolder + File.separatorChar + fileName);
-        return createHtmlFileCreator(documentTitle, sink);
+    protected File getDefaultPageFile() {
+        return new File(getOutputDirectory(), getOutputName() + ".html");
     }
 
-    private HtmlFileCreator createHtmlFileCreator(final String documentTitle, final Sink sink) {
-        HtmlFileCreator creator = new HtmlFileCreator(sink, documentTitle);
+    @Override
+    public HtmlFileCreator createNewHtmlPage(final File fileName, final String documentTitle) throws IOException {
+        Sink sink = getSinkFactory().createSink(fileName.getParentFile(), fileName.getName());
+        return createHtmlFileCreator(documentTitle, sink, fileName);
+    }
+
+    private HtmlFileCreator createHtmlFileCreator(final String documentTitle, final Sink sink, final File defaultPageFile) {
+        HtmlFileCreator creator = new HtmlFileCreator(sink, documentTitle, defaultPageFile);
         htmlFileCreators.add(creator);
         return creator;
     }
