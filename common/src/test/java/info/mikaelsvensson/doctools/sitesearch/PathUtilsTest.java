@@ -32,7 +32,6 @@ public class PathUtilsTest {
         }
     }
 
-    @Test
     public void testTwoPaths(final String[] sourcePath, final String[] targetPath) {
 
         Collection<String> errors = new LinkedList<String>();
