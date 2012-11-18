@@ -1,6 +1,8 @@
 package info.mikaelsvensson.doctools.report;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.doxia.sink.Sink;
+import org.apache.maven.doxia.sink.SinkEventAttributeSet;
 
 import java.io.File;
 
@@ -54,7 +56,18 @@ public class HtmlFileCreator {
     }
 
     public void listStart() {
-        sink.list();
+        listStart(null);
+    }
+    public void listStart(final String cssClass) {
+        sink.list(createAttributeSet(cssClass));
+    }
+
+    private SinkEventAttributeSet createAttributeSet(final String cssClass) {
+        SinkEventAttributeSet set = new SinkEventAttributeSet();
+        if (StringUtils.isNotEmpty(cssClass)) {
+            set.addAttribute(SinkEventAttributeSet.CLASS, cssClass);
+        }
+        return set;
     }
 
     public void listEnd() {

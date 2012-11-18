@@ -87,7 +87,7 @@ public class XSLTReport extends DoctoolsReport {
         if (StringUtils.isNotEmpty(body)) {
             pageCreator.printParagraph(body);
         }
-        pageCreator.listStart();
+        pageCreator.listStart(SIMPLE_REPORT_NAME + "-list");
         for (Map.Entry<File, String> entry : links.entrySet()) {
             pageCreator.printListItemLink(entry.getValue(), PathUtils.getRelativePath(pageCreator.getFile(), entry.getKey()));
 
