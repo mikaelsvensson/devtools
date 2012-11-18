@@ -1,14 +1,18 @@
 package info.mikaelsvensson.doctools.sitesearch;
 
-import junit.framework.TestCase;
-import org.apache.commons.lang.StringUtils;
+import info.mikaelsvensson.doctools.common.PathUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class PathUtilsTest extends TestCase {
+import static org.junit.Assert.assertTrue;
 
+public class PathUtilsTest {
+
+    @Test
     public void testGetRelativePath() throws Exception {
         String[] CHAIN_DOCLETINVOKER_JAVA = /*                      */ {"D:", "Dokument", "Utveckling", "doctools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "doctools", "doclet", "chain", "DocletInvoker.java"};
         String[] CHAIN_DOCROOTWRAPPER_JAVA = /*                     */ {"D:", "Dokument", "Utveckling", "doctools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "doctools", "doclet", "chain", "DocRootWrapper.java"};
@@ -28,7 +32,8 @@ public class PathUtilsTest extends TestCase {
         }
     }
 
-    private void testTwoPaths(final String[] sourcePath, final String[] targetPath) {
+    @Test
+    public void testTwoPaths(final String[] sourcePath, final String[] targetPath) {
 
         Collection<String> errors = new LinkedList<String>();
 

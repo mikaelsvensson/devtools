@@ -1,6 +1,6 @@
-package info.mikaelsvensson.doctools.sitesearch;
+package info.mikaelsvensson.doctools.common;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 

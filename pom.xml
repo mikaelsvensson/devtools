@@ -12,6 +12,7 @@
         <module>doclet</module>
         <module>doctools-skin</module>
         <module>site-search</module>
+        <module>common</module>
     </modules>
 
     <name>doctools</name>
@@ -47,6 +48,13 @@
         <github.global.server>github</github.global.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+        </dependency>
+    </dependencies>
     <build>
         <extensions>
             <extension>
@@ -96,7 +104,7 @@
                             <reports>
                                 <report>index</report>
                                 <report>modules</report>
-                                <report>distribution-management</report>
+                                <!--<report>distribution-management</report>-->
                                 <report>scm</report>
                                 <report>issue-tracking</report>
                             </reports>
@@ -134,5 +142,4 @@
             -->
         </plugins>
     </build>
-
 </project>
