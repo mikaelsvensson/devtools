@@ -319,10 +319,6 @@ public class SiteSearchPlugin extends AbstractMojo {
                         break;
                     }
                 }
-                MavenProject proj = ancestorProject;
-                for (Object module : proj.getModules()) {
-                    getLog().info(module.toString());
-                }
 
                 modifyStringBuilder(content,
                         END_OF_HEAD_PATTERN,
