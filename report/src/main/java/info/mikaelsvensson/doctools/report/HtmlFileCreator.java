@@ -29,7 +29,7 @@ public class HtmlFileCreator {
         sink.section(level, null);
         sink.sectionTitle(level, null);
         printText(text);
-        sink.sectionTitle_();
+        sink.sectionTitle_(level);
     }
 
     public void printSectionEnd(final int level) {
