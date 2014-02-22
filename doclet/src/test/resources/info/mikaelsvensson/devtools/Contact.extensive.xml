@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documentation>
+    <java>
+        <packages>
+            <package name="info.mikaelsvensson.devtools">
+                <classes>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Truck" qualified-name="info.mikaelsvensson.devtools.Truck" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Vehicle"/>
+                        <constructors>
+                            <constructor access="default" final="false" name="Truck" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                        <interfaces>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Motorized"/>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.HasItems">
+                                <type-arguments>
+                                    <type-argument dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Trailer"/>
+                                </type-arguments>
+                            </interface>
+                        </interfaces>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="TrainCar" qualified-name="info.mikaelsvensson.devtools.TrainCar" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Pullable"/>
+                        <constructors>
+                            <constructor access="default" final="false" name="TrainCar" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Train" qualified-name="info.mikaelsvensson.devtools.Train" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Vehicle"/>
+                        <constructors>
+                            <constructor access="default" final="false" name="Train" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                        <interfaces>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Motorized"/>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.HasItems">
+                                <type-arguments>
+                                    <type-argument dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TrainCar"/>
+                                </type-arguments>
+                            </interface>
+                        </interfaces>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Trailer" qualified-name="info.mikaelsvensson.devtools.Trailer" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Pullable"/>
+                        <constructors>
+                            <constructor access="default" final="false" name="Trailer" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="Texts" qualified-name="info.mikaelsvensson.devtools.Texts" serializable="false" static="false" type="annotation">
+                        <annotations>
+                            <annotation>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.annotation.Target"/>
+                                <element-values>
+                                    <element-value element-name="value" type="values">
+                                        <value type="enum-constant">
+                                            <enum-constant access="public" final="true" name="FIELD" static="true" synthetic="false" transient="false" volatile="false">
+                                                <type dimension="0" primitive="false" qualified-name="java.lang.annotation.ElementType"/>
+                                            </enum-constant>
+                                        </value>
+                                    </element-value>
+                                </element-values>
+                            </annotation>
+                        </annotations>
+                        <elements>
+                            <element abstract="false" access="public" final="false" name="value" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
+                                <return-type dimension="1" primitive="false" qualified-name="info.mikaelsvensson.devtools.Text"/>
+                            </element>
+                        </elements>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="true" name="TextConditionType" qualified-name="info.mikaelsvensson.devtools.TextConditionType" serializable="true" static="false" type="enum">
+                        <enum-constants>
+                            <enum-constant access="public" final="true" name="EQUALS" static="true" synthetic="false" transient="false" volatile="false">
+                                <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                            </enum-constant>
+                            <enum-constant access="public" final="true" name="STARTS_WITH" static="true" synthetic="false" transient="false" volatile="false">
+                                <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                            </enum-constant>
+                            <enum-constant access="public" final="true" name="REGEXP" static="true" synthetic="false" transient="false" volatile="false">
+                                <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                            </enum-constant>
+                        </enum-constants>
+                        <methods>
+                            <method abstract="false" access="public" final="false" name="values" native="false" static="true" synchronized="false" synthetic="false" varargs="false">
+                                <return-type dimension="1" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                            </method>
+                            <method abstract="false" access="public" final="false" name="valueOf" native="false" static="true" synchronized="false" synthetic="false" varargs="false">
+                                <parameters>
+                                    <parameter name="name">
+                                        <type dimension="0" primitive="false" qualified-name="java.lang.String"/>
+                                    </parameter>
+                                </parameters>
+                                <return-type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                            </method>
+                        </methods>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="Text" qualified-name="info.mikaelsvensson.devtools.Text" serializable="false" static="false" type="annotation">
+                        <annotations>
+                            <annotation>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.annotation.Target"/>
+                                <element-values>
+                                    <element-value element-name="value" type="values">
+                                        <value type="enum-constant">
+                                            <enum-constant access="public" final="true" name="FIELD" static="true" synthetic="false" transient="false" volatile="false">
+                                                <type dimension="0" primitive="false" qualified-name="java.lang.annotation.ElementType"/>
+                                            </enum-constant>
+                                        </value>
+                                    </element-value>
+                                </element-values>
+                            </annotation>
+                        </annotations>
+                        <elements>
+                            <element abstract="false" access="public" final="false" name="condition" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
+                                <return-type dimension="0" primitive="false" qualified-name="java.lang.String"/>
+                            </element>
+                            <element abstract="false" access="public" final="false" name="conditionType" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
+                                <return-type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                                <default-value type="enum-constant">
+                                    <enum-constant access="public" final="true" name="EQUALS" static="true" synthetic="false" transient="false" volatile="false">
+                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                                    </enum-constant>
+                                </default-value>
+                            </element>
+                        </elements>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="Required" qualified-name="info.mikaelsvensson.devtools.Required" serializable="false" static="false" type="annotation"/>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Pullable" qualified-name="info.mikaelsvensson.devtools.Pullable" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Vehicle"/>
+                        <constructors>
+                            <constructor access="default" final="false" name="Pullable" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="Pojo" qualified-name="info.mikaelsvensson.devtools.Pojo" serializable="false" static="false" type="annotation">
+                        <annotations>
+                            <annotation>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.annotation.Target"/>
+                                <element-values>
+                                    <element-value element-name="value" type="values">
+                                        <value type="enum-constant">
+                                            <enum-constant access="public" final="true" name="TYPE" static="true" synthetic="false" transient="false" volatile="false">
+                                                <type dimension="0" primitive="false" qualified-name="java.lang.annotation.ElementType"/>
+                                            </enum-constant>
+                                        </value>
+                                    </element-value>
+                                </element-values>
+                            </annotation>
+                        </annotations>
+                        <elements>
+                            <element abstract="false" access="public" final="false" name="name" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
+                                <return-type dimension="0" primitive="false" qualified-name="java.lang.String"/>
+                            </element>
+                        </elements>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="NumericRange" qualified-name="info.mikaelsvensson.devtools.NumericRange" serializable="false" static="false" type="annotation">
+                        <annotations>
+                            <annotation>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.annotation.Target"/>
+                                <element-values>
+                                    <element-value element-name="value" type="values">
+                                        <value type="enum-constant">
+                                            <enum-constant access="public" final="true" name="FIELD" static="true" synthetic="false" transient="false" volatile="false">
+                                                <type dimension="0" primitive="false" qualified-name="java.lang.annotation.ElementType"/>
+                                            </enum-constant>
+                                        </value>
+                                    </element-value>
+                                </element-values>
+                            </annotation>
+                        </annotations>
+                        <elements>
+                            <element abstract="false" access="public" final="false" name="min" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
+                                <return-type dimension="0" primitive="true" qualified-name="long"/>
+                                <default-value type="single-object">-9223372036854775808</default-value>
+                            </element>
+                            <element abstract="false" access="public" final="false" name="max" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
+                                <return-type dimension="0" primitive="true" qualified-name="long"/>
+                                <default-value type="single-object">9223372036854775807</default-value>
+                            </element>
+                        </elements>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="Motorized" qualified-name="info.mikaelsvensson.devtools.Motorized" serializable="false" static="false" type="interface"/>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Metro" qualified-name="info.mikaelsvensson.devtools.Metro" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Train"/>
+                        <constructors>
+                            <constructor access="default" final="false" name="Metro" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                    </class>
+                    <class abstract="true" access="default" externalizable="false" final="false" name="HasItems" qualified-name="info.mikaelsvensson.devtools.HasItems" serializable="false" static="false" type="interface">
+                        <type-parameters>
+                            <type-parameter dimension="0" primitive="false" qualified-name="Pullable"/>
+                        </type-parameters>
+                    </class>
+                    <class abstract="false" access="public" externalizable="false" final="false" name="Contact" qualified-name="info.mikaelsvensson.devtools.Contact" serializable="false" static="false" type="class">
+                        <annotations>
+                            <annotation>
+                                <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Pojo"/>
+                                <element-values>
+                                    <element-value element-name="name" type="single-object">ca</element-value>
+                                </element-values>
+                            </annotation>
+                        </annotations>
+                        <superclass dimension="0" primitive="false" qualified-name="java.lang.Object"/>
+                        <constructors>
+                            <constructor access="public" final="false" name="Contact" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                        <fields>
+                            <field access="private" final="false" name="emailAddress" static="false" synthetic="false" transient="false" volatile="false">
+                                <annotations>
+                                    <annotation>
+                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Required"/>
+                                    </annotation>
+                                </annotations>
+                                <type dimension="0" primitive="false" qualified-name="javax.mail.internet.InternetAddress"/>
+                            </field>
+                            <field access="private" final="false" name="name" static="false" synthetic="false" transient="false" volatile="false">
+                                <annotations>
+                                    <annotation>
+                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Required"/>
+                                    </annotation>
+                                </annotations>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.String"/>
+                            </field>
+                            <field access="private" final="false" name="birthYear" static="false" synthetic="false" transient="false" volatile="false">
+                                <annotations>
+                                    <annotation>
+                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.NumericRange"/>
+                                        <element-values>
+                                            <element-value element-name="min" type="single-object">1900</element-value>
+                                        </element-values>
+                                    </annotation>
+                                </annotations>
+                                <type dimension="0" primitive="true" qualified-name="int"/>
+                            </field>
+                            <field access="private" final="false" name="zipCode" static="false" synthetic="false" transient="false" volatile="false">
+                                <annotations>
+                                    <annotation>
+                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Text"/>
+                                        <element-values>
+                                            <element-value element-name="condition" type="single-object">^[0-9\s]+$</element-value>
+                                            <element-value element-name="conditionType" type="enum-constant">
+                                                <enum-constant access="public" final="true" name="REGEXP" static="true" synthetic="false" transient="false" volatile="false">
+                                                    <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                                                </enum-constant>
+                                            </element-value>
+                                        </element-values>
+                                    </annotation>
+                                    <annotation>
+                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Required"/>
+                                    </annotation>
+                                </annotations>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.String"/>
+                            </field>
+                            <field access="private" final="false" name="preferredLocale" static="false" synthetic="false" transient="false" volatile="false">
+                                <annotations>
+                                    <annotation>
+                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Texts"/>
+                                        <element-values>
+                                            <element-value element-name="value" type="values">
+                                                <value type="single-annotation">
+                                                    <single-annotation>
+                                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Text"/>
+                                                        <element-values>
+                                                            <element-value element-name="condition" type="single-object">sv_SE</element-value>
+                                                            <element-value element-name="conditionType" type="enum-constant">
+                                                                <enum-constant access="public" final="true" name="EQUALS" static="true" synthetic="false" transient="false" volatile="false">
+                                                                    <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                                                                </enum-constant>
+                                                            </element-value>
+                                                        </element-values>
+                                                    </single-annotation>
+                                                </value>
+                                                <value type="single-annotation">
+                                                    <single-annotation>
+                                                        <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Text"/>
+                                                        <element-values>
+                                                            <element-value element-name="condition" type="single-object">en</element-value>
+                                                            <element-value element-name="conditionType" type="enum-constant">
+                                                                <enum-constant access="public" final="true" name="STARTS_WITH" static="true" synthetic="false" transient="false" volatile="false">
+                                                                    <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.TextConditionType"/>
+                                                                </enum-constant>
+                                                            </element-value>
+                                                        </element-values>
+                                                    </single-annotation>
+                                                </value>
+                                            </element-value>
+                                        </element-values>
+                                    </annotation>
+                                </annotations>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.String"/>
+                            </field>
+                        </fields>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Car" qualified-name="info.mikaelsvensson.devtools.Car" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Vehicle"/>
+                        <constructors>
+                            <constructor access="default" final="false" name="Car" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                    </class>
+                    <class abstract="false" access="default" externalizable="false" final="false" name="Bicycle" qualified-name="info.mikaelsvensson.devtools.Bicycle" serializable="false" static="false" type="class">
+                        <superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Vehicle"/>
+                        <constructors>
+                            <constructor access="default" final="false" name="Bicycle" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
+                        </constructors>
+                        <interfaces>
+                            <interface dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Motorized"/>
+                        </interfaces>
+                    </class>
+                </classes>
+            </package>
+        </packages>
+    </java>
+</documentation>
