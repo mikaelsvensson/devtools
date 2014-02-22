@@ -31,6 +31,7 @@ package se.linkon.sabine.docutil.db2.parser;
 import se.linkon.sabine.docutil.db2.metadata.Database;
 import se.linkon.sabine.docutil.db2.metadata.ForeignKey;
 import se.linkon.sabine.docutil.db2.metadata.Index;
+import se.linkon.sabine.docutil.db2.metadata.Table;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -61,28 +62,31 @@ public class AlterTableCommandHandler extends AbstractCommandHandler {
 
     @Override
     public void execute(Database db, String sql) {
-        String table = getAffectedTableName(fixSQL(sql));
+        String correctedSQL = fixSQL(sql);
+        String tableName = getAffectedTableName(correctedSQL);
 
-        db.getTable(table).addSqlCommand(sql);
+        Table table = db.getTable(tableName);
 
-        Matcher addConstraintMatcher = ADD_CONSTRAINT_PATTERN.matcher(fixSQL(sql));
+        table.addSqlCommand(sql);
+
+        Matcher addConstraintMatcher = ADD_CONSTRAINT_PATTERN.matcher(correctedSQL);
         if (addConstraintMatcher.matches()) {
             String name = addConstraintMatcher.group(1);
             String col = addConstraintMatcher.group(2);
             String refSchema = addConstraintMatcher.group(3);
             String refTable = addConstraintMatcher.group(4);
             String refCol = addConstraintMatcher.group(5);
-            db.getTable(table).addForeignKey(new ForeignKey(name, col, refSchema, refTable, refCol));
+            table.addForeignKey(new ForeignKey(name, col, refSchema, refTable, refCol));
         } else {
-            Matcher addPrimaryKeyMatcher = ADD_PRIMARY_KEY_PATTERN.matcher(fixSQL(sql));
+            Matcher addPrimaryKeyMatcher = ADD_PRIMARY_KEY_PATTERN.matcher(correctedSQL);
             if (addPrimaryKeyMatcher.matches()) {
                 List<String> columns = getColumns(addPrimaryKeyMatcher.group(1));
-                db.getTable(table).setPrimaryKey(columns.toArray(new String[columns.size()]));
+                table.setPrimaryKey(columns.toArray(new String[]{}));
             } else {
-                Matcher addUniqueMatcher = ADD_UNIQUE_PATTERN.matcher(fixSQL(sql));
+                Matcher addUniqueMatcher = ADD_UNIQUE_PATTERN.matcher(correctedSQL);
                 if (addUniqueMatcher.matches()) {
                     List<String> columns = getColumns(addUniqueMatcher.group(1));
-                    db.getTable(table).addIndex(new Index("", true, columns));
+                    table.addIndex(new Index("", true, columns));
                 } else {
 //                    System.out.println("Unknown ALTER TABLE command: " + sql);
                 }

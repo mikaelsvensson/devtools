@@ -53,6 +53,6 @@ public abstract class AbstractCommandHandler implements CommandHandler {
     }
 
     protected String fixSQL(String sql) {
-        return sql.replaceAll("\n", "");
+        return sql.replaceAll("\n", " ");
     }
 }

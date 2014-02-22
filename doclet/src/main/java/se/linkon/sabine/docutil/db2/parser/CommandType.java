@@ -33,6 +33,7 @@ public enum CommandType {
     TERMINATE("TERMINATE", new UnrelatedCommandHandler()),
     CREATE_SEQUENCE("CREATE SEQUENCE", new UnrelatedCommandHandler()),
     ALTER_SEQUENCE("ALTER SEQUENCE", new UnrelatedCommandHandler()),
+    CREATE_SCHEMA("CREATE SCHEMA", new UnrelatedCommandHandler()),
 
     ALTER_TABLE("ALTER TABLE", new AlterTableCommandHandler()),
     CREATE_TABLE("CREATE TABLE", new CreateTableCommandHandler()),
