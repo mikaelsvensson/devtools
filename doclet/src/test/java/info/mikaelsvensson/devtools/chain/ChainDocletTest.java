@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import static org.junit.Assert.assertArrayEquals;
+
 public class ChainDocletTest {
     @Test
     public void testAliceAndBob() throws Exception {

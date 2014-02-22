@@ -28,6 +28,7 @@
 package info.mikaelsvensson.devtools.doclet.db2;
 
 import com.sun.javadoc.*;
+import info.mikaelsvensson.devtools.doclet.db2.metadata.*;
 import info.mikaelsvensson.devtools.doclet.db2.parser.CommandType;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactory;
