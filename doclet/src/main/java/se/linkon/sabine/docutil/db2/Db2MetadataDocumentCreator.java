@@ -60,6 +60,7 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
     private static final String ATTR_QUALIFIED_NAME = "qualified-name";
     private static final String ATTR_TYPE = "type";
     public static final String PROPERTY_DATABASE_NAME = "Database Name";
+    private static final String ATTR_UNIQUE = "unique";
 
 //    private Db2ConverterDocletAction options;
 
@@ -104,7 +105,7 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
             ClassDoc fieldsClass = classDoc;
 
             addComment(clsEl, classDoc.inlineTags(), doc);
-            
+
             do {
                 for (FieldDoc field : fieldsClass.fields(false)) {
                     if (!isAnnotated(field, Transient.class) && !field.isStatic()) {
@@ -192,7 +193,7 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
 //                System.out.println(sqlCommand);
                 sqlCmdsEl.addChild("sql-command").setText(sqlCommand);
             }
-            
+
             for (Column column : table.getColumns()) {
                 ElementWrapper columnEl = tableEl.addChild("column", ATTR_NAME, column.getName()).setText(column.getDefinition());
                 if (null != column.getDb2Datatype()) {
@@ -221,9 +222,12 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
             }
 
             for (Index index : table.getIndexes()) {
-                ElementWrapper indexEl = tableEl.addChild("index", ATTR_NAME, index.getName(), "unique", Boolean.toString(index.isUnique()));
-                for (String columnName : index.getColumns()) {
-                    indexEl.addChild("column", ATTR_NAME, columnName);
+                ElementWrapper indexEl = tableEl.addChild("index", ATTR_NAME, index.getName(), ATTR_UNIQUE, Boolean.toString(index.isUnique()));
+                for (String columnName : index.getIndexColumns()) {
+                    indexEl.addChild("index-column", ATTR_NAME, columnName);
+                }
+                for (String columnName : index.getIncludedColumns()) {
+                    indexEl.addChild("included-column", ATTR_NAME, columnName);
                 }
             }
         }

@@ -32,29 +32,43 @@ import java.util.List;
 
 public class Index extends DatabaseObject {
 
-    private List<String> columns = new ArrayList<String>();
+    private List<String> indexColumns = new ArrayList<String>();
+    private List<String> includedColumns = new ArrayList<String>();
 
     private boolean unique;
 
-    public Index(String name, boolean unique, List<String> columns) {
-        super(name);
-        setColumns(columns);
-        this.unique = unique;
+    public Index(String name, boolean unique, List<String> indexColumns) {
+        this(name, unique, indexColumns, null);
     }
 
-    public List<String> getColumns() {
-        return columns;
+    public Index(String name, boolean unique, List<String> indexColumns, List<String> includedColumns) {
+        super(name);
+        setIndexColumns(indexColumns);
+        setIncludedColumns(includedColumns);
+        this.unique = unique;
     }
 
     public boolean isUnique() {
         return unique;
     }
 
-    public void setColumns(List<String> columns) {
-        this.columns = columns;
+    public List<String> getIndexColumns() {
+        return indexColumns;
     }
 
-    public void addColumn(String column) {
-        this.columns.add(column);
+    public void setIndexColumns(List<String> indexColumns) {
+        this.indexColumns = indexColumns;
+    }
+
+    public List<String> getIncludedColumns() {
+        return includedColumns;
+    }
+
+    public void setIncludedColumns(List<String> includedColumns) {
+        if (includedColumns != null) {
+            this.includedColumns = includedColumns;
+        } else {
+            this.includedColumns.clear();
+        }
     }
 }

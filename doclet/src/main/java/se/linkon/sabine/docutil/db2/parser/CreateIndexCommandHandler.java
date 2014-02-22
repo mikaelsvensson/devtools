@@ -52,9 +52,13 @@ public class CreateIndexCommandHandler extends AbstractCommandHandler {
      - look for UNIQUE INDEX schema.name ON schema.name ( [name ASC|DESC]* )
      */
     private static final Pattern CREATE_INDEX_PATTERN = Pattern.compile(".*" +
-            "(UNIQUE INDEX)\\s*" + REGEXP_QUOTED_NAME + "." + REGEXP_QUOTED_NAME + "\\s*" +
-            "ON\\s*\\" + REGEXP_QUOTED_NAME + "." + REGEXP_QUOTED_NAME + "\\s*" + REGEXP_QUOTED_NAMES_IN_PARENTHESIS + "\\s*" +
-            "INCLUDE\\s*"+REGEXP_QUOTED_NAMES_IN_PARENTHESIS+".*");
+            "(UNIQUE INDEX|INDEX)\\s*" + REGEXP_QUOTED_NAME + "." + REGEXP_QUOTED_NAME + "\\s*" +
+            "ON\\s*\\" + REGEXP_QUOTED_NAME + "." + REGEXP_QUOTED_NAME + "\\s*" + REGEXP_QUOTED_NAMES_IN_PARENTHESIS +
+            ".*");
+
+    private static final Pattern INCLUDE_PATTERN = Pattern.compile(".*" +
+            "INCLUDE\\s*" + REGEXP_QUOTED_NAMES_IN_PARENTHESIS +
+            ".*");
 
     @Override
     public void execute(Database db, String sql) {
@@ -66,11 +70,14 @@ public class CreateIndexCommandHandler extends AbstractCommandHandler {
 
             db.getTable(table).addSqlCommand(sql);
 
-            List<String> columns = getColumns(addUniqueMatcher.group(6));
-            List<String> inludeColumns = getColumns(addUniqueMatcher.group(9));
-            columns.addAll(inludeColumns);
+            List<String> indexColumns = getColumns(addUniqueMatcher.group(6));
+            List<String> includedColumns = null;
+            Matcher includeMatcher = INCLUDE_PATTERN.matcher(fixSQL(sql));
+            if (includeMatcher.matches()) {
+                includedColumns = getColumns(includeMatcher.group(1));
+            }
 
-            db.getTable(table).addIndex(new Index(name, isUnique, columns));
+            db.getTable(table).addIndex(new Index(name, isUnique, indexColumns, includedColumns));
         } else {
 //            System.out.println("Unknown CREATE INDEX command: " + sql);
         }
