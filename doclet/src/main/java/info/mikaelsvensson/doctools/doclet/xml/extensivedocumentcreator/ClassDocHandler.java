@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
 
 import com.sun.javadoc.ClassDoc;
-import info.mikaelsvensson.doctools.doclet.shared.ElementWrapper;
+import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
     public static final char FILTER_TYPE_SUPER_CLASS = 's';

@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.sitesearch;
+package info.mikaelsvensson.devtools.sitesearch;
 
 public class WordEntryNoNumbersFilter extends AbstractWordEntryFilter {
     @Override

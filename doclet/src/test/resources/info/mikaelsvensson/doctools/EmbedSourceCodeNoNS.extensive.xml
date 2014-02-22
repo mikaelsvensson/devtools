@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><documentation>
 <java>
 <packages>
-<package name="info.mikaelsvensson.doctools">
+<package name="info.mikaelsvensson.devtools">
 <classes>
 <class abstract="false" access="public" externalizable="false" final="false"
-       name="EmbedSourceCodeNoNS" qualified-name="info.mikaelsvensson.doctools.EmbedSourceCodeNoNS"
+       name="EmbedSourceCodeNoNS" qualified-name="info.mikaelsvensson.devtools.EmbedSourceCodeNoNS"
        serializable="false" static="false" type="class">
 <comment format="html">
 <p>The <code>@embed</code> tag can be used to include XML documents into the documentation.
@@ -45,20 +45,20 @@
 <constructor access="public" final="false" name="EmbedSourceCodeNoNS" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
 </constructors>
 </class>
-<class abstract="true" access="default" externalizable="false" final="false" name="Texts" qualified-name="info.mikaelsvensson.doctools.Texts" serializable="false" static="false" type="annotation">
+<class abstract="true" access="default" externalizable="false" final="false" name="Texts" qualified-name="info.mikaelsvensson.devtools.Texts" serializable="false" static="false" type="annotation">
 <elements>
 <element abstract="false" access="public" final="false" name="value" native="false" static="false" synchronized="false" synthetic="false" varargs="false">
-<return-type dimension="1" primitive="false" qualified-name="info.mikaelsvensson.doctools.Text"/>
+<return-type dimension="1" primitive="false" qualified-name="info.mikaelsvensson.devtools.Text"/>
 </element>
 </elements>
 </class>
-<class abstract="false" access="default" externalizable="false" final="false" name="Trailer" qualified-name="info.mikaelsvensson.doctools.Trailer" serializable="false" static="false" type="class">
-<superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.doctools.Pullable"/>
+<class abstract="false" access="default" externalizable="false" final="false" name="Trailer" qualified-name="info.mikaelsvensson.devtools.Trailer" serializable="false" static="false" type="class">
+<superclass dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Pullable"/>
 <constructors>
 <constructor access="default" final="false" name="Trailer" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
 </constructors>
 </class>
-<class abstract="true" access="default" externalizable="false" final="false" name="Motorized" qualified-name="info.mikaelsvensson.doctools.Motorized" serializable="false" static="false" type="interface"/>
+<class abstract="true" access="default" externalizable="false" final="false" name="Motorized" qualified-name="info.mikaelsvensson.devtools.Motorized" serializable="false" static="false" type="interface"/>
 </classes>
 </package>
 </packages>

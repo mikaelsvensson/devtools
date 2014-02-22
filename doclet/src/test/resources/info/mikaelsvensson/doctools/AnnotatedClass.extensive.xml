@@ -2,9 +2,9 @@
 <documentation>
 <java>
 <packages>
-<package name="info.mikaelsvensson.doctools">
+<package name="info.mikaelsvensson.devtools">
 <classes>
-<class abstract="false" access="public" externalizable="false" final="false" name="AnnotatedClass" qualified-name="info.mikaelsvensson.doctools.AnnotatedClass" serializable="false" static="false" type="class">
+<class abstract="false" access="public" externalizable="false" final="false" name="AnnotatedClass" qualified-name="info.mikaelsvensson.devtools.AnnotatedClass" serializable="false" static="false" type="class">
 <superclass dimension="0" primitive="false" qualified-name="java.lang.Object"/>
 <constructors>
 <constructor access="public" final="false" name="AnnotatedClass" native="false" static="false" synchronized="false" synthetic="false" varargs="false"/>
@@ -13,7 +13,7 @@
 <field access="public" constant-value="testing" final="true" name="TEST" static="true" synthetic="false" transient="false" volatile="false">
 <annotations>
 <annotation>
-<type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.doctools.doclet.xml.FormatProperty"/>
+<type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.doclet.xml.FormatProperty"/>
 </annotation>
 </annotations>
 <type dimension="0" primitive="false" qualified-name="java.lang.String"/>

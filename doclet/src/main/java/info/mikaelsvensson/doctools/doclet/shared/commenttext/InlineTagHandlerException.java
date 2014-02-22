@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.shared.commenttext;
+package info.mikaelsvensson.devtools.doclet.shared.commenttext;
 
 public class InlineTagHandlerException extends Exception {
     public InlineTagHandlerException() {

@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools;
+package info.mikaelsvensson.devtools;
 
 public class Vehicle {
 }

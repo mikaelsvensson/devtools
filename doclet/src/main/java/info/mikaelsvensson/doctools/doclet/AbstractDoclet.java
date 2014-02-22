@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet;
+package info.mikaelsvensson.devtools.doclet;
 
 import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;

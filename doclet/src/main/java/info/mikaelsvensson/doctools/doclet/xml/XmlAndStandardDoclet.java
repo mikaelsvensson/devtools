@@ -25,12 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.xml;
+package info.mikaelsvensson.devtools.doclet.xml;
 
 import com.sun.javadoc.RootDoc;
 import com.sun.tools.doclets.standard.Standard;
-import info.mikaelsvensson.doctools.doclet.shared.propertyset.PropertySet;
-import info.mikaelsvensson.doctools.doclet.shared.propertyset.PropertySetException;
+import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySetException;
 
 /**
  * Depcrated. Use ChainDoclet and XmlDoclet instead.

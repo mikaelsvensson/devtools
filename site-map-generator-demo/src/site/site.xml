@@ -4,8 +4,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
     <skin>
-        <groupId>info.mikaelsvensson.doctools</groupId>
-        <artifactId>doctools-skin</artifactId>
+        <groupId>info.mikaelsvensson.devtools</groupId>
+        <artifactId>devtools-skin</artifactId>
         <version>1.0-SNAPSHOT</version>
     </skin>
     <custom>

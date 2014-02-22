@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.report;
+package info.mikaelsvensson.devtools.report;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.doxia.sink.Sink;

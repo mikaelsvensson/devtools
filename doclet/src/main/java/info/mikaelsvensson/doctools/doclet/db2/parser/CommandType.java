@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.db2.parser;
+package info.mikaelsvensson.devtools.doclet.db2.parser;
 
 public enum CommandType {
     CONNECT("CONNECT", new UnrelatedCommandHandler()),

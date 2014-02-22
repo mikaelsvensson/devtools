@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <artifactId>doctools</artifactId>
-        <groupId>info.mikaelsvensson.doctools</groupId>
+        <artifactId>devtools</artifactId>
+        <groupId>info.mikaelsvensson.devtools</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,7 +14,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <name>${project.artifactId}</name>
-    <url>http://doctools.mikaelsvensson.info/${project.artifactId}</url>
+    <url>http://devtools.mikaelsvensson.info/${project.artifactId}</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -65,7 +65,7 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>info.mikaelsvensson.doctools</groupId>
+            <groupId>info.mikaelsvensson.devtools</groupId>
             <artifactId>common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

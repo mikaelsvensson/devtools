@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.shared.propertyset;
+package info.mikaelsvensson.devtools.doclet.shared.propertyset;
 
 public class PropertySetException extends Exception {
     public PropertySetException() {

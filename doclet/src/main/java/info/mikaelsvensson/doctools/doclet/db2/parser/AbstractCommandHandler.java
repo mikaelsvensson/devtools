@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.db2.parser;
+package info.mikaelsvensson.devtools.doclet.db2.parser;
 
 import java.util.LinkedList;
 import java.util.List;

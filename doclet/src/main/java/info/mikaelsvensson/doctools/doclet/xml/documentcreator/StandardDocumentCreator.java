@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.xml.documentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator;
 
 import com.sun.javadoc.*;
-import info.mikaelsvensson.doctools.doclet.shared.DocumentCreatorException;
-import info.mikaelsvensson.doctools.doclet.shared.DocumentWrapper;
-import info.mikaelsvensson.doctools.doclet.shared.ElementWrapper;
-import info.mikaelsvensson.doctools.doclet.shared.propertyset.PropertySet;
-import info.mikaelsvensson.doctools.doclet.xml.FormatProperty;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentWrapper;
+import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
+import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.xml.FormatProperty;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;

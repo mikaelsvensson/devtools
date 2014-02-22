@@ -1,4 +1,4 @@
 /**
  * Package comment
  */
-package info.mikaelsvensson.doctools;
+package info.mikaelsvensson.devtools;

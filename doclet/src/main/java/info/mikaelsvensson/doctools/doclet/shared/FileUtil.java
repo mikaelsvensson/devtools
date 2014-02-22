@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.shared;
+package info.mikaelsvensson.devtools.doclet.shared;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

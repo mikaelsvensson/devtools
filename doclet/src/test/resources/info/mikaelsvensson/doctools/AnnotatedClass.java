@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools;
+package info.mikaelsvensson.devtools;
 
-import info.mikaelsvensson.doctools.doclet.xml.FormatProperty;
+import info.mikaelsvensson.devtools.doclet.xml.FormatProperty;
 
 public class AnnotatedClass {
     @FormatProperty

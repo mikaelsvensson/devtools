@@ -2,9 +2,9 @@
 <documentation>
     <java>
         <packages>
-            <package name="info.mikaelsvensson.doctools">
+            <package name="info.mikaelsvensson.devtools">
                 <classes>
-                    <class abstract="false" access="public" externalizable="false" final="false" name="ClassA" qualified-name="info.mikaelsvensson.doctools.ClassA" serializable="false" static="false" type="class">
+                    <class abstract="false" access="public" externalizable="false" final="false" name="ClassA" qualified-name="info.mikaelsvensson.devtools.ClassA" serializable="false" static="false" type="class">
                         <comment format="html">
                             <p>Class comment</p>
                         </comment>

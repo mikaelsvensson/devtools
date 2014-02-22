@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.sitesearch;
+package info.mikaelsvensson.devtools.sitesearch;
 
 import org.apache.commons.collections.Predicate;
 

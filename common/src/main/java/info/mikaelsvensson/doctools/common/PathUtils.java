@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.common;
+package info.mikaelsvensson.devtools.common;
 
 import org.apache.commons.lang3.StringUtils;
 

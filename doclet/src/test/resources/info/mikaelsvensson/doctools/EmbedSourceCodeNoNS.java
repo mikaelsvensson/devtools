@@ -1,16 +1,16 @@
-package info.mikaelsvensson.doctools;
+package info.mikaelsvensson.devtools;
 
 /**
  * The {@code @embed} tag can be used to include XML documents into the documentation.
  *
  * Like this:
  *
- * {@embed xml resources/info/mikaelsvensson/doctools/EmbedSourceCodeNoNS.data.xml}
+ * {@embed xml resources/info/mikaelsvensson/devtools/EmbedSourceCodeNoNS.data.xml}
  *
  * As an added bonus it is possible to only include a part of the XML document by specifying an XPath expression after
  * the file name:
  *
- * {@embed xml resources/info/mikaelsvensson/doctools/EmbedSourceCodeNoNS.data.xml //member[role/text() = 'father']}
+ * {@embed xml resources/info/mikaelsvensson/devtools/EmbedSourceCodeNoNS.data.xml //member[role/text() = 'father']}
  */
 public class EmbedSourceCodeNoNS {
 }

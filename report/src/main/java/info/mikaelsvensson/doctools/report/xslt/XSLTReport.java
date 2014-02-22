@@ -1,9 +1,9 @@
-package info.mikaelsvensson.doctools.report.xslt;
+package info.mikaelsvensson.devtools.report.xslt;
 
-import info.mikaelsvensson.doctools.common.PathUtils;
-import info.mikaelsvensson.doctools.report.DoctoolsReport;
-import info.mikaelsvensson.doctools.report.HtmlFileCreator;
-import info.mikaelsvensson.doctools.report.HtmlFileCreatorFactory;
+import info.mikaelsvensson.devtools.common.PathUtils;
+import info.mikaelsvensson.devtools.report.DoctoolsReport;
+import info.mikaelsvensson.devtools.report.HtmlFileCreator;
+import info.mikaelsvensson.devtools.report.HtmlFileCreatorFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;

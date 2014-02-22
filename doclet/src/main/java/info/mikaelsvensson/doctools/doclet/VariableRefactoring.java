@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.doclet;
+package info.mikaelsvensson.devtools.doclet;
 
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class VariableRefactoring {
     public static void main (String[] args) {
         try {
-            String path = "/home/mikael/Development/doclet/src/main/java/info/mikaelsvensson/doctools/VariableRefactoringTest.java";
+            String path = "/home/mikael/Development/doclet/src/main/java/info/mikaelsvensson/devtools/VariableRefactoringTest.java";
             CompilationUnit compilationUnit = JavaParser.parse(new File(path));
             Map<String, List<String>> privateFields = new HashMap<String, List<String>>();
 

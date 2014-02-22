@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.xml.documentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator;
 
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
-import info.mikaelsvensson.doctools.doclet.shared.DocumentCreator;
-import info.mikaelsvensson.doctools.doclet.shared.DocumentCreatorException;
-import info.mikaelsvensson.doctools.doclet.shared.ElementWrapper;
-import info.mikaelsvensson.doctools.doclet.xml.extensivedocumentcreator.JavadocItemHandlerException;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreator;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
+import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
+import info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator.JavadocItemHandlerException;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;

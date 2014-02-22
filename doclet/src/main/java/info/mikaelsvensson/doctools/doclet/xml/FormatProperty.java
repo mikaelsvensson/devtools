@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.xml;
+package info.mikaelsvensson.devtools.doclet.xml;
 
 //TODO Create more generic "ConfigurationProperty" annotation?
 public @interface FormatProperty {

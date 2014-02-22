@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools;
+package info.mikaelsvensson.devtools;
 
 import java.util.List;
 import java.util.Map;

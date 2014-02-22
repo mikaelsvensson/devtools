@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.doclet;
+package info.mikaelsvensson.devtools.doclet;
 
 //TODO Remove class
 public class VariableRefactoringTest {

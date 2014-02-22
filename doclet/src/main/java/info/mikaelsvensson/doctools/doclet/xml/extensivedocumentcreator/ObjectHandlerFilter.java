@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
 
 public interface ObjectHandlerFilter<T extends Object> {
 // -------------------------- OTHER METHODS --------------------------

@@ -1,9 +1,9 @@
-package info.mikaelsvensson.doctools;
+package info.mikaelsvensson.devtools;
 
 /**
- * {@embed xml resources/info/mikaelsvensson/doctools/EmbedSourceCodeDefaultNS.data.xml}
+ * {@embed xml resources/info/mikaelsvensson/devtools/EmbedSourceCodeDefaultNS.data.xml}
  *
- * {@embed xml resources/info/mikaelsvensson/doctools/EmbedSourceCodeDefaultNS.data.xml //:member[:role/text() = 'father']}
+ * {@embed xml resources/info/mikaelsvensson/devtools/EmbedSourceCodeDefaultNS.data.xml //:member[:role/text() = 'father']}
  *
  */
 public class EmbedSourceCodeDefaultNS {

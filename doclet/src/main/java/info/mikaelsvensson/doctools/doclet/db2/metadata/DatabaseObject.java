@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.db2.metadata;
+package info.mikaelsvensson.devtools.doclet.db2.metadata;
 
 public class DatabaseObject {
     private String name;

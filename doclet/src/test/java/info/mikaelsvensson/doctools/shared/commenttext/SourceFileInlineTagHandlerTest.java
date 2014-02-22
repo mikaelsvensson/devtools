@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.shared.commenttext;
+package info.mikaelsvensson.devtools.shared.commenttext;
 
 /**
  * Created with IntelliJ IDEA.

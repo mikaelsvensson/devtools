@@ -1,8 +1,8 @@
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.devtools.xml.documentcreator;
 
-import info.mikaelsvensson.doctools.doclet.shared.DocumentCreator;
-import info.mikaelsvensson.doctools.doclet.shared.DocumentCreatorFactory;
-import info.mikaelsvensson.doctools.doclet.xml.XmlDoclet;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreator;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactory;
+import info.mikaelsvensson.devtools.doclet.xml.XmlDoclet;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;

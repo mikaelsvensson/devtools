@@ -1,6 +1,6 @@
-package info.mikaelsvensson.doctools.report.sitemap;
+package info.mikaelsvensson.devtools.report.sitemap;
 
-import info.mikaelsvensson.doctools.report.HtmlFileCreator;
+import info.mikaelsvensson.devtools.report.HtmlFileCreator;
 
 import java.io.File;
 import java.net.URI;

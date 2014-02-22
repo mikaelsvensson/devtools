@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.report.sitemap;
+package info.mikaelsvensson.devtools.report.sitemap;
 
 import java.io.File;
 import java.util.Collection;

@@ -1,8 +1,8 @@
-package info.mikaelsvensson.doctools.chain;
+package info.mikaelsvensson.devtools.chain;
 
 import com.sun.tools.doclets.standard.Standard;
-import info.mikaelsvensson.doctools.ClassA;
-import info.mikaelsvensson.doctools.doclet.chain.ChainDoclet;
+import info.mikaelsvensson.devtools.ClassA;
+import info.mikaelsvensson.devtools.doclet.chain.ChainDoclet;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -11,8 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-import static org.junit.Assert.assertArrayEquals;
 
 public class ChainDocletTest {
     @Test

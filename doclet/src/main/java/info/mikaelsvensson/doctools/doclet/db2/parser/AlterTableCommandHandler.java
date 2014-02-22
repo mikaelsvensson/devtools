@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.db2.parser;
+package info.mikaelsvensson.devtools.doclet.db2.parser;
 
-import info.mikaelsvensson.doctools.doclet.db2.metadata.Database;
-import info.mikaelsvensson.doctools.doclet.db2.metadata.ForeignKey;
-import info.mikaelsvensson.doctools.doclet.db2.metadata.Index;
+import info.mikaelsvensson.devtools.doclet.db2.metadata.Database;
+import info.mikaelsvensson.devtools.doclet.db2.metadata.ForeignKey;
+import info.mikaelsvensson.devtools.doclet.db2.metadata.Index;
 
 import java.util.List;
 import java.util.regex.Matcher;

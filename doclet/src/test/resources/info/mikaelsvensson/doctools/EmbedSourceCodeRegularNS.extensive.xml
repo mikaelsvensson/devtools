@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><documentation>
 <java>
 <packages>
-<package name="info.mikaelsvensson.doctools">
+<package name="info.mikaelsvensson.devtools">
 <classes>
-<class abstract="false" access="public" externalizable="false" final="false" name="EmbedSourceCodeRegularNS" qualified-name="info.mikaelsvensson.doctools.EmbedSourceCodeRegularNS" serializable="false" static="false" type="class">
+<class abstract="false" access="public" externalizable="false" final="false" name="EmbedSourceCodeRegularNS" qualified-name="info.mikaelsvensson.devtools.EmbedSourceCodeRegularNS" serializable="false" static="false" type="class">
 <comment format="html">
 <p/>
 <pre class="embedded-xml-file"><![CDATA[<family xmlns:esc="http://docutil.mikaelsvensson.info/EmbedSourceCode/sample">

@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.chain;
+package info.mikaelsvensson.devtools.chain;
 
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.RootDoc;

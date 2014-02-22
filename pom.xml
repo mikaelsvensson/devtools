@@ -2,46 +2,46 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>info.mikaelsvensson.doctools</groupId>
-    <artifactId>doctools</artifactId>
+    <groupId>info.mikaelsvensson.devtools</groupId>
+    <artifactId>devtools</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>report</module>
         <module>site-map-generator-demo</module>
         <module>doclet</module>
-        <module>doctools-skin</module>
+        <module>devtools-skin</module>
         <module>site-search</module>
         <module>common</module>
     </modules>
 
-    <name>doctools</name>
-    <url>http://doctools.mikaelsvensson.info</url>
+    <name>devtools</name>
+    <url>http://devtools.mikaelsvensson.info</url>
 
     <distributionManagement>
         <repository>
-            <id>mikaelsvensson-doctools</id>
-            <url>ftp://ftp.mikaelsvensson.info/doctools/repository/releases</url>
+            <id>mikaelsvensson-devtools</id>
+            <url>ftp://ftp.mikaelsvensson.info/devtools/repository/releases</url>
         </repository>
         <snapshotRepository>
-            <id>mikaelsvensson-doctools</id>
-            <url>ftp://ftp.mikaelsvensson.info/doctools/repository/snapshots</url>
+            <id>mikaelsvensson-devtools</id>
+            <url>ftp://ftp.mikaelsvensson.info/devtools/repository/snapshots</url>
         </snapshotRepository>
-        <downloadUrl>https://github.com/mikaelsvensson/doctools/downloads</downloadUrl>
+        <downloadUrl>https://github.com/mikaelsvensson/devtools/downloads</downloadUrl>
         <site>
-            <id>mikaelsvensson-doctools</id>
-            <url>ftp://ftp.mikaelsvensson.info/doctools</url>
+            <id>mikaelsvensson-devtools</id>
+            <url>ftp://ftp.mikaelsvensson.info/devtools</url>
         </site>
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/mikaelsvensson/doctools.git</connection>
-        <url>https://github.com/mikaelsvensson/doctools</url>
+        <connection>scm:git:git://github.com/mikaelsvensson/devtools.git</connection>
+        <url>https://github.com/mikaelsvensson/devtools</url>
     </scm>
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/mikaelsvensson/doctools/issues</url>
+        <url>https://github.com/mikaelsvensson/devtools/issues</url>
     </issueManagement>
 
     <properties>
@@ -65,7 +65,7 @@
         </extensions>
         <plugins>
             <plugin>
-                <groupId>info.mikaelsvensson.doctools</groupId>
+                <groupId>info.mikaelsvensson.devtools</groupId>
                 <version>1.0-SNAPSHOT</version>
                 <artifactId>site-search</artifactId>
                 <executions>
@@ -90,8 +90,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <stagingSiteURL>ftp://ftp.mikaelsvensson.info/doctools</stagingSiteURL>
-                    <stagingDirectory>D:/Dokument/Utveckling/doctools/target/staging</stagingDirectory>
+                    <stagingSiteURL>ftp://ftp.mikaelsvensson.info/devtools</stagingSiteURL>
+                    <stagingDirectory>D:/Dokument/Utveckling/devtools/target/staging</stagingDirectory>
                     <reportPlugins>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
@@ -110,7 +110,7 @@
                             </reports>
                         </plugin>
                         <plugin>
-                            <groupId>info.mikaelsvensson.doctools</groupId>
+                            <groupId>info.mikaelsvensson.devtools</groupId>
                             <version>1.0-SNAPSHOT</version>
                             <artifactId>report</artifactId>
                             <reports>

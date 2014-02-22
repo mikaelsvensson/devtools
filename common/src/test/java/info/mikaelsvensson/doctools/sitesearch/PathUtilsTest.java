@@ -1,6 +1,6 @@
-package info.mikaelsvensson.doctools.sitesearch;
+package info.mikaelsvensson.devtools.sitesearch;
 
-import info.mikaelsvensson.doctools.common.PathUtils;
+import info.mikaelsvensson.devtools.common.PathUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
@@ -14,10 +14,10 @@ public class PathUtilsTest {
 
     @Test
     public void testGetRelativePath() throws Exception {
-        String[] CHAIN_DOCLETINVOKER_JAVA = /*                      */ {"D:", "Dokument", "Utveckling", "doctools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "doctools", "doclet", "chain", "DocletInvoker.java"};
-        String[] CHAIN_DOCROOTWRAPPER_JAVA = /*                     */ {"D:", "Dokument", "Utveckling", "doctools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "doctools", "doclet", "chain", "DocRootWrapper.java"};
-        String[] XML_DOCUMENTCREATOR_ENUMDOCUMENTCREATOR_JAVA = /*  */ {"D:", "Dokument", "Utveckling", "doctools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "doctools", "doclet", "xml", "documentcreator", "EnumDocumentCreator.java"};
-        String[] XML_FORMATPROPERTY_JAVA = /*                       */ {"D:", "Dokument", "Utveckling", "doctools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "doctools", "doclet", "xml", "FormatProperty.java"};
+        String[] CHAIN_DOCLETINVOKER_JAVA = /*                      */ {"D:", "Dokument", "Utveckling", "devtools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "devtools", "doclet", "chain", "DocletInvoker.java"};
+        String[] CHAIN_DOCROOTWRAPPER_JAVA = /*                     */ {"D:", "Dokument", "Utveckling", "devtools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "devtools", "doclet", "chain", "DocRootWrapper.java"};
+        String[] XML_DOCUMENTCREATOR_ENUMDOCUMENTCREATOR_JAVA = /*  */ {"D:", "Dokument", "Utveckling", "devtools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "devtools", "doclet", "xml", "documentcreator", "EnumDocumentCreator.java"};
+        String[] XML_FORMATPROPERTY_JAVA = /*                       */ {"D:", "Dokument", "Utveckling", "devtools", "doclet", "src", "main", "java", "info", "mikaelsvensson", "devtools", "doclet", "xml", "FormatProperty.java"};
 
         String[][] all = new String[][]{CHAIN_DOCLETINVOKER_JAVA, CHAIN_DOCROOTWRAPPER_JAVA, XML_DOCUMENTCREATOR_ENUMDOCUMENTCREATOR_JAVA, XML_FORMATPROPERTY_JAVA};
 

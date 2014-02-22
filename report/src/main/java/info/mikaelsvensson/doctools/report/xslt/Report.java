@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.report.xslt;
+package info.mikaelsvensson.devtools.report.xslt;
 
 public class Report {
     private String name;

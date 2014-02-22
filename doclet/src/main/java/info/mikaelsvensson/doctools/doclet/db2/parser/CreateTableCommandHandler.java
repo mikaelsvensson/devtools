@@ -25,12 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.db2.parser;
+package info.mikaelsvensson.devtools.doclet.db2.parser;
 
 
-import info.mikaelsvensson.doctools.doclet.db2.metadata.Column;
-import info.mikaelsvensson.doctools.doclet.db2.metadata.Database;
-import info.mikaelsvensson.doctools.doclet.db2.metadata.Table;
+import info.mikaelsvensson.devtools.doclet.db2.metadata.Column;
+import info.mikaelsvensson.devtools.doclet.db2.metadata.Database;
+import info.mikaelsvensson.devtools.doclet.db2.metadata.Table;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

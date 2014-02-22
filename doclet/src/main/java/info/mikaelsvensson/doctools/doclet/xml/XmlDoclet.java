@@ -25,16 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.xml;
+package info.mikaelsvensson.devtools.doclet.xml;
 
 import com.sun.javadoc.RootDoc;
-import info.mikaelsvensson.doctools.doclet.AbstractDoclet;
-import info.mikaelsvensson.doctools.doclet.shared.DocumentCreator;
-import info.mikaelsvensson.doctools.doclet.shared.DocumentCreatorException;
-import info.mikaelsvensson.doctools.doclet.shared.DocumentCreatorFactory;
-import info.mikaelsvensson.doctools.doclet.shared.FileUtil;
-import info.mikaelsvensson.doctools.doclet.shared.propertyset.PropertySet;
-import info.mikaelsvensson.doctools.doclet.shared.propertyset.PropertySetException;
+import info.mikaelsvensson.devtools.doclet.AbstractDoclet;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreator;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactory;
+import info.mikaelsvensson.devtools.doclet.shared.FileUtil;
+import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySetException;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.*;

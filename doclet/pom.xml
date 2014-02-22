@@ -3,15 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>doctools</artifactId>
-        <groupId>info.mikaelsvensson.doctools</groupId>
+        <artifactId>devtools</artifactId>
+        <groupId>info.mikaelsvensson.devtools</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>doclet</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>doclet</name>
-    <url>http://doctools.mikaelsvensson.info/doclet</url>
+    <url>http://devtools.mikaelsvensson.info/doclet</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,10 +56,10 @@
                             </reports>
                             <configuration>
                                 <docfilessubdirs>true</docfilessubdirs>
-                                <doclet>info.mikaelsvensson.doctools.doclet.chain.ChainDoclet</doclet>
+                                <doclet>info.mikaelsvensson.devtools.doclet.chain.ChainDoclet</doclet>
                                 <docletArtifacts>
                                     <docletArtifact>
-                                        <groupId>info.mikaelsvensson.doctools</groupId>
+                                        <groupId>info.mikaelsvensson.devtools</groupId>
                                         <artifactId>doclet</artifactId>
                                         <version>1.0-SNAPSHOT</version>
                                     </docletArtifact>
@@ -71,14 +71,14 @@
                                 </docletArtifacts>
                                 <show>private</show>
                                 <additionalparam>
-                                    -chain:c:info.mikaelsvensson.doctools.doclet.xml.XmlDoclet
+                                    -chain:c:info.mikaelsvensson.devtools.doclet.xml.XmlDoclet
                                     -c:format.name extensive
                                     -c:format.property.wrapListElements true
                                     -c:format.property.showAnnotations true
                                     -c:transformer ${project.build.sourceDirectory}/../../site/index.xslt
                                     -c:output ./index.html
 
-                                    -chain:x:info.mikaelsvensson.doctools.doclet.xml.XmlDoclet
+                                    -chain:x:info.mikaelsvensson.devtools.doclet.xml.XmlDoclet
                                     -x:format.name extensive
                                     -x:format.property.wrapListElements true
                                     -x:format.property.showAnnotations true

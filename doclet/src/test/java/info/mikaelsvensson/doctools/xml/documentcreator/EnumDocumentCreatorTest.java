@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.devtools.xml.documentcreator;
 
 import enumeration.Fruit;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.EnumDocumentCreator;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.EnumDocumentCreator;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -44,7 +44,7 @@ public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
      * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
      * <p/>
      * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
+     * {@embed class info.mikaelsvensson.devtools.ClassA}
      *
      * Result:
      * {@embed file resources/ClassA.standard.xml}

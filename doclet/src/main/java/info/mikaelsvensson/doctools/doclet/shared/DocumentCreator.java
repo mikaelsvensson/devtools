@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.shared;
+package info.mikaelsvensson.devtools.doclet.shared;
 
 import com.sun.javadoc.RootDoc;
-import info.mikaelsvensson.doctools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
 import org.w3c.dom.Document;
 
 public interface DocumentCreator {

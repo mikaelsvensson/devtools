@@ -1,7 +1,7 @@
-package info.mikaelsvensson.doctools.xml.documentcreator;
+package info.mikaelsvensson.devtools.xml.documentcreator;
 
-import info.mikaelsvensson.doctools.ClassA;
-import info.mikaelsvensson.doctools.doclet.xml.documentcreator.StandardDocumentCreator;
+import info.mikaelsvensson.devtools.ClassA;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.StandardDocumentCreator;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -12,7 +12,7 @@ public class StandardDocumentCreatorTest extends AbstractDocumentCreatorTest {
      * Sample comment with a nice picture of a cloud: {@image resources/cloud.png}.
      * <p/>
      * Class:
-     * {@embed class info.mikaelsvensson.doctools.ClassA}
+     * {@embed class info.mikaelsvensson.devtools.ClassA}
      *
      * Result:
      * {@embed file resources/ClassA.standard.xml}

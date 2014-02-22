@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools;
+package info.mikaelsvensson.devtools;
 
 import javax.mail.internet.InternetAddress;
 import java.lang.annotation.ElementType;

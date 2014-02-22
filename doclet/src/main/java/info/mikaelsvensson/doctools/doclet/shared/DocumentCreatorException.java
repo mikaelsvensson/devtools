@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.shared;
+package info.mikaelsvensson.devtools.doclet.shared;
 
 public class DocumentCreatorException extends Exception {
     public DocumentCreatorException() {

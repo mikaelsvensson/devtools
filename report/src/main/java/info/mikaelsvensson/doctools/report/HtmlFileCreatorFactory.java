@@ -1,4 +1,4 @@
-package info.mikaelsvensson.doctools.report;
+package info.mikaelsvensson.devtools.report;
 
 import java.io.File;
 import java.io.IOException;

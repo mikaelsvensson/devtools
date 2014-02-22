@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package info.mikaelsvensson.doctools.doclet.chain;
+package info.mikaelsvensson.devtools.doclet.chain;
 
 import com.sun.javadoc.DocErrorReporter;
 import com.sun.javadoc.RootDoc;
