@@ -118,7 +118,8 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
                         boolean isList = field.type().simpleTypeName().equals(List.class.getSimpleName());
                         boolean isMap = field.type().simpleTypeName().equals(Map.class.getSimpleName());
                         boolean isGeneric = null != parameterizedType;
-                        if (isGeneric && (isList || isMap)) {
+                        final boolean isJava15TypeArgumentListPresent = isGeneric && parameterizedType.typeArguments().length > 0;
+                        if (isGeneric && (isList || isMap) && isJava15TypeArgumentListPresent) {
                             ClassDoc targetClass = parameterizedType.typeArguments()[isList ? 0 : 1].asClassDoc();
                             String targetTableName = getTranslatedName(targetClass);
                             String sourceTableName = getTranslatedName(classDoc);
