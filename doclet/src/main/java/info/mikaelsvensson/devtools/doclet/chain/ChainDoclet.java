@@ -28,6 +28,7 @@
 package info.mikaelsvensson.devtools.doclet.chain;
 
 import com.sun.javadoc.DocErrorReporter;
+import com.sun.javadoc.LanguageVersion;
 import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.devtools.doclet.xml.FormatProperty;
 
@@ -145,8 +146,14 @@ public class ChainDoclet {
                     String id = opt.substring(0, pos);
                     String docletOption = "-" + opt.substring(pos + 1);
                     return docletWrappers.get(id).optionLength(docletOption);
-                } else {
-                    return 1;
+                } else
+                {
+                    int len = 0;
+                    for (DocletInvoker invoker : docletWrappers.values())
+                    {
+                        len = Math.max(len, invoker.optionLength(option));
+                    }
+                    return len;
                 }
             }
         }
@@ -164,5 +171,10 @@ public class ChainDoclet {
             result = result & invoker.validOptions(options, reporter);
         }
         return result;
+    }
+
+    public static LanguageVersion languageVersion()
+    {
+        return LanguageVersion.JAVA_1_5;
     }
 }

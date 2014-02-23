@@ -22,7 +22,7 @@ public class TestDocletBob {
 
     public static int optionLength(String option) {
 //        System.out.println("javadoc asked Bob about the length of the '" + option + "' option.");
-        return 2;
+        return "-shared".equals(option) ? 1 : 2;
     }
 
     public static boolean validOptions(String options[][], DocErrorReporter reporter) {
