@@ -63,6 +63,31 @@
                 <version>1.0</version>
             </extension>
         </extensions>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <!--
+                    https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven:
+
+                    Because maven-release-plugin will start a new Maven instance, -Dgpg.passphrase=PASSPHRASE won't work in
+                    this case, instead, you should use "mvn release:perform -Darguments=-Dgpg.passphrase=PASSPHRASE".
+
+                    If you are releasing your artifacts on OSSRH, you need to make one more configuration change. Because of
+                    the way the maven-release-plugin is configured in the OSS parent POM, you will have to edit the
+                    <pluginManagement> block of the ﻿<build> section of your POM so that it overrides the parent POM and
+                    honors the arguments you are passing in.
+                    -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.1</version>
+                    <configuration>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <arguments>${arguments} -Psonatype-oss-release</arguments> <!-- sonatype-oss-release? -->
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>info.mikaelsvensson.devtools</groupId>
@@ -166,4 +191,34 @@
             -->
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
