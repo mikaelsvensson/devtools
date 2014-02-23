@@ -41,23 +41,6 @@ public class AlterTableCommandHandler extends AbstractCommandHandler {
     private static final Pattern ADD_PRIMARY_KEY_PATTERN = Pattern.compile(".*ADD PRIMARY KEY\\s*" + REGEXP_QUOTED_NAMES_IN_PARENTHESIS + ".*");
     private static final Pattern ADD_UNIQUE_PATTERN = Pattern.compile(".*ADD UNIQUE\\s*" + REGEXP_QUOTED_NAMES_IN_PARENTHESIS + ".*");
 
-
-    /*
-    Add constraint:
-    ADD CONSTRAINT "FK42E810292EC5ED3" FOREIGN KEY ("DEPARTUREREPORTMAILTIME_PK") REFERENCES "SPACELOADTEST"."DEPARTUREREPORTMAILTIME" ("PK")
-     -  look for "FOREIGN KEY", a column name, "REFERENCES", a table name and a column name
-
-    Add primary key:
-    ADD PRIMARY KEY ("PK");
-     - Look for single \"[a-zA-Z_]\"
-
-
-    Add unique index:
-    ADD UNIQUE ("USER_PK", "PRODUCER_PK", "ROLE");
-     - Look for multiple \"[a-zA-Z_]\"
-
-    */
-
     @Override
     public void execute(Database db, String sql) {
         String table = getAffectedTableName(fixSQL(sql));
