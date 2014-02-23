@@ -27,6 +27,7 @@
 
 package info.mikaelsvensson.devtools.doclet.shared;
 
+import info.mikaelsvensson.devtools.doclet.db2.Db2MetadataDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.ElementsOnlyDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.EnumDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.StandardDocumentCreator;
@@ -44,6 +45,7 @@ public final class DocumentCreatorFactory {
         DocumentCreatorFactory.registerDocumentCreatorFactory(StandardDocumentCreator.NAME, StandardDocumentCreator.class);
         DocumentCreatorFactory.registerDocumentCreatorFactory(ElementsOnlyDocumentCreator.NAME, ElementsOnlyDocumentCreator.class);
         DocumentCreatorFactory.registerDocumentCreatorFactory(ExtensiveDocumentCreator.NAME, ExtensiveDocumentCreator.class);
+        DocumentCreatorFactory.registerDocumentCreatorFactory(Db2MetadataDocumentCreator.NAME, Db2MetadataDocumentCreator.class);
     }
 
     private DocumentCreatorFactory() {
