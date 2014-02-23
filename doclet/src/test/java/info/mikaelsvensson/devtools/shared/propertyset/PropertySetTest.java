@@ -1,16 +1,16 @@
-package se.linkon.sabine.docutil.shared.propertyset;
+package info.mikaelsvensson.devtools.shared.propertyset;
 
+import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
 import org.junit.Test;
-import se.linkon.sabine.docutil.shared.propertyset.PropertySet;
-
-import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class PropertySetTest {
+public class PropertySetTest
+{
     @Test
-    public void testName() throws Exception {
+    public void testName() throws Exception
+    {
         PropertySet ps = new PropertySet();
         ps.setProperty("familyName", "Johnson");
         ps.setProperty("familyMember.alice.nickName", "alice");
