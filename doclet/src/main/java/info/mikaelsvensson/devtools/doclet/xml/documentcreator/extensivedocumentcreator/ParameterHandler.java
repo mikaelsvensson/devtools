@@ -14,31 +14,26 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.SeeTag;
+import com.sun.javadoc.Parameter;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class SeeTagHandler extends TagHandler<SeeTag> {
+class ParameterHandler extends Handler<Parameter> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    SeeTagHandler(final Dispatcher dispatcher) {
-        super(SeeTag.class, dispatcher);
+    ParameterHandler(final Dispatcher dispatcher) {
+        super(Parameter.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final SeeTag doc) throws JavadocItemHandlerException{
+    void handleImpl(final ElementWrapper el, final Parameter doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.setAttributes(
-                "label", doc.label(),
-                "referenced-class", doc.referencedClassName(),
-                "referenced-member", doc.referencedMemberName());
+        el.setAttributes("name", doc.name());
 
-        if (doc.referencedPackage() != null) {
-            el.setAttribute("referenced-package", String.valueOf(doc.referencedPackage()));
-        }
+        handleDocImpl(el, "type", doc.type());
     }
 }

@@ -14,35 +14,28 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.FieldDoc;
+import com.sun.javadoc.AnnotationDesc;
+import com.sun.javadoc.AnnotationValue;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class FieldDocHandler extends MemberDocHandler<FieldDoc> {
+class AnnotationDescElementValuePairHandler extends Handler<AnnotationDesc.ElementValuePair> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    FieldDocHandler(final Dispatcher dispatcher) {
-        super(FieldDoc.class, dispatcher);
+    AnnotationDescElementValuePairHandler(final Dispatcher dispatcher) {
+        super(AnnotationDesc.ElementValuePair.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final FieldDoc doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final AnnotationDesc.ElementValuePair doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.setAttributes(
-                "transient", Boolean.toString(doc.isTransient()),
-                "volatile", Boolean.toString(doc.isVolatile())
-        );
+        el.setAttribute("element-name", doc.element().name());
 
-        if (doc.constantValue() != null) {
-            el.setAttribute("constant-value", doc.constantValue().toString());
-        }
-
-        handleDocImpl(el, "type", doc.type());
-
-        handleDocImpl(el, doc.serialFieldTags(), "serial-field-tags", "serial-field-tag");
+        AnnotationValue annotationValue = doc.value();
+        handleValue(el, annotationValue);
     }
 }

@@ -14,35 +14,29 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.MemberDoc;
-import com.sun.javadoc.Tag;
+import com.sun.javadoc.ParamTag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class MemberDocHandler<T extends MemberDoc> extends ProgramElementDocHandler<T> {
+class ParamTagHandler extends TagHandler<ParamTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    MemberDocHandler(final Dispatcher dispatcher) {
-        super((Class<T>) MemberDoc.class, dispatcher);
-    }
-
-    public MemberDocHandler(final Class<T> docClass, final Dispatcher dispatcher) {
-        super(docClass, dispatcher);
-    }
-
-    public MemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
-        super(docClass, tagFilter, dispatcher);
+    ParamTagHandler(final Dispatcher dispatcher) {
+        super(ParamTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final ParamTag doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.removeAttributes(ELEMENT_QUALIFIED_NAME);
+        el.removeAttributes("name", "text");
 
-        el.setAttributes("synthetic", Boolean.toString(doc.isSynthetic()));
+        el.setAttributes(
+                "type-parameter", Boolean.toString(doc.isTypeParameter()),
+                "parameter-comment", doc.parameterComment(),
+                "parameter-name", doc.parameterName());
     }
 }

@@ -21,7 +21,7 @@ import com.sun.javadoc.Tag;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreator;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
-import info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator.JavadocItemHandlerException;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator.JavadocItemHandlerException;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;

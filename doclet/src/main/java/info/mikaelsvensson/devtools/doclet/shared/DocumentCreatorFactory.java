@@ -20,7 +20,7 @@ import info.mikaelsvensson.devtools.doclet.db2.Db2MetadataDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.ElementsOnlyDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.EnumDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.StandardDocumentCreator;
-import info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator.ExtensiveDocumentCreator;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator.ExtensiveDocumentCreator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;

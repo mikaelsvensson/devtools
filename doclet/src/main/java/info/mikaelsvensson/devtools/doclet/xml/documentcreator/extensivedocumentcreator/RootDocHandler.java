@@ -14,22 +14,35 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.SerialFieldTag;
+import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.PackageDoc;
+import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class SerialFieldTagHandler extends TagHandler<SerialFieldTag> {
+import java.util.HashSet;
+import java.util.Set;
+
+class RootDocHandler extends DocHandler<RootDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    SerialFieldTagHandler(final Dispatcher dispatcher) {
-        super(SerialFieldTag.class, dispatcher);
+    RootDocHandler(final Dispatcher dispatcher) {
+        super(RootDoc.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final SerialFieldTag doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final RootDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
+
+        el.removeAttributes(NAME);
+
+        Set<PackageDoc> packages = new HashSet<PackageDoc>();
+        for (ClassDoc classDoc : doc.classes()) {
+            packages.add(classDoc.containingPackage());
+        }
+        handleDocImpl(el, packages.toArray(new PackageDoc[packages.size()]), "packages", "package");
     }
 }

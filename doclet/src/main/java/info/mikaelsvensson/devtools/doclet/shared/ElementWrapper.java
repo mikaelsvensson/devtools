@@ -19,7 +19,7 @@ package info.mikaelsvensson.devtools.doclet.shared;
 import com.sun.javadoc.Doc;
 import com.sun.javadoc.Tag;
 import info.mikaelsvensson.devtools.doclet.shared.commenttext.*;
-import info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator.JavadocItemHandlerException;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator.JavadocItemHandlerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

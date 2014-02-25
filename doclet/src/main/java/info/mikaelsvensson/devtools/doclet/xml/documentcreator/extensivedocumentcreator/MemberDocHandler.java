@@ -14,32 +14,25 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.Doc;
+import com.sun.javadoc.MemberDoc;
 import com.sun.javadoc.Tag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-public class DocHandler<T extends Doc> extends Handler<T> {
-// ------------------------------ FIELDS ------------------------------
-
-    protected static final String NAME = "name";
-
-    private ObjectHandlerFilter<Tag> tagsFilter = ACCEPT_ALL_FILTER;
-
+class MemberDocHandler<T extends MemberDoc> extends ProgramElementDocHandler<T> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    public DocHandler(final Dispatcher dispatcher) {
-        super((Class<T>) Doc.class, dispatcher);
+    MemberDocHandler(final Dispatcher dispatcher) {
+        super((Class<T>) MemberDoc.class, dispatcher);
     }
 
-    DocHandler(final Class<T> handledClass, final Dispatcher dispatcher) {
-        super(handledClass, dispatcher);
-    }
-
-    public DocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
+    public MemberDocHandler(final Class<T> docClass, final Dispatcher dispatcher) {
         super(docClass, dispatcher);
-        this.tagsFilter = tagFilter;
+    }
+
+    public MemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
+        super(docClass, tagFilter, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
@@ -48,12 +41,8 @@ public class DocHandler<T extends Doc> extends Handler<T> {
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        String text = doc.commentText();
-        if (null != text && text.length() > 0) {
-            el.addCommentChild(doc);
-        }
-        el.setAttribute(NAME, doc.name());
+        el.removeAttributes(ELEMENT_QUALIFIED_NAME);
 
-        handleDocImpl(el, doc.tags(), tagsFilter, "tags", "tag");
+        el.setAttributes("synthetic", Boolean.toString(doc.isSynthetic()));
     }
 }

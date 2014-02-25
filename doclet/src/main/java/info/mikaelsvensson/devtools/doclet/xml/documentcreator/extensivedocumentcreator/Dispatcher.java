@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;

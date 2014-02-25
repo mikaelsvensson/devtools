@@ -14,22 +14,26 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.ConstructorDoc;
+import com.sun.javadoc.ParameterizedType;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class ConstructorDocHandler extends ExecutableMemberDocHandler<ConstructorDoc> {
+class ParameterizedTypeHandler extends TypeHandler<ParameterizedType> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ConstructorDocHandler(final Dispatcher dispatcher) {
-        super(ConstructorDoc.class, dispatcher);
+    ParameterizedTypeHandler(final Dispatcher dispatcher) {
+        super(ParameterizedType.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final ConstructorDoc doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final ParameterizedType doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
+
+        handleDocImpl(el, "superclass-type", doc.superclassType());
+
+        handleDocImpl(el, doc.typeArguments(), "type-arguments", "type-argument");
     }
 }

@@ -14,28 +14,31 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.ThrowsTag;
+import com.sun.javadoc.SeeTag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class ThrowsTagHandler extends TagHandler<ThrowsTag> {
+class SeeTagHandler extends TagHandler<SeeTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ThrowsTagHandler(final Dispatcher dispatcher) {
-        super(ThrowsTag.class, dispatcher);
+    SeeTagHandler(final Dispatcher dispatcher) {
+        super(SeeTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final ThrowsTag doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final SeeTag doc) throws JavadocItemHandlerException{
         super.handleImpl(el, doc);
 
-        el.removeAttributes("name", "text");
+        el.setAttributes(
+                "label", doc.label(),
+                "referenced-class", doc.referencedClassName(),
+                "referenced-member", doc.referencedMemberName());
 
-        el.setAttributes("exception-comment", doc.exceptionComment());
-
-        handleDocImpl(el, "exception-type", doc.exceptionType());
+        if (doc.referencedPackage() != null) {
+            el.setAttribute("referenced-package", String.valueOf(doc.referencedPackage()));
+        }
     }
 }

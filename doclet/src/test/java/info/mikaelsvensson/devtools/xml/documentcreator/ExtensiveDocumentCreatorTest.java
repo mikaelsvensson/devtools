@@ -2,7 +2,7 @@ package info.mikaelsvensson.devtools.xml.documentcreator;
 
 import enumeration.Fruit;
 import info.mikaelsvensson.devtools.*;
-import info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator.ExtensiveDocumentCreator;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator.ExtensiveDocumentCreator;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;

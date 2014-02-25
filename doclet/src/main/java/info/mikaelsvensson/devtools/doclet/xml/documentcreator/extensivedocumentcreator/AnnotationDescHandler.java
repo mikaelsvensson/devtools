@@ -14,24 +14,26 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.AnnotationValue;
+import com.sun.javadoc.AnnotationDesc;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class AnnotationValueHandler extends Handler<AnnotationValue> {
+class AnnotationDescHandler extends Handler<AnnotationDesc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    AnnotationValueHandler(final Dispatcher dispatcher) {
-        super(AnnotationValue.class, dispatcher);
+    AnnotationDescHandler(final Dispatcher dispatcher) {
+        super(AnnotationDesc.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final AnnotationValue doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final AnnotationDesc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        handleValue(el, doc);
+        handleDocImpl(el, doc.annotationType(), "type");
+
+        handleDocImpl(el, doc.elementValues(), "element-values", "element-value");
     }
 }

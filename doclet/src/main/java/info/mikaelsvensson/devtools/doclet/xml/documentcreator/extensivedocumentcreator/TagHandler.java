@@ -14,26 +14,31 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
 
-import com.sun.javadoc.Parameter;
+import com.sun.javadoc.Tag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class ParameterHandler extends Handler<Parameter> {
+class TagHandler<T extends Tag> extends Handler<T> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ParameterHandler(final Dispatcher dispatcher) {
-        super(Parameter.class, dispatcher);
+    TagHandler(final Dispatcher dispatcher) {
+        super((Class<T>) Tag.class, dispatcher);
+    }
+
+    public TagHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+        super(docClass, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final Parameter doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.setAttributes("name", doc.name());
-
-        handleDocImpl(el, "type", doc.type());
+        el.setAttributes(
+                "name", doc.name(),
+                "kind", doc.kind(),
+                "text", doc.text());
     }
 }
