@@ -14,20 +14,13 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.db2.metadata;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.parser;
 
-public class DatabaseObject {
-    private String name;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.metadata.Database;
 
-    public DatabaseObject(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+public class UnrelatedCommandHandler extends AbstractCommandHandler{
+    @Override
+    public void execute(Database db, String sql) {
+        // Do nothing.
     }
 }

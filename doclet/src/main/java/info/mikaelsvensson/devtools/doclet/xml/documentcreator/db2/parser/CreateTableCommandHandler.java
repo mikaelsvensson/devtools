@@ -14,12 +14,12 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.db2.parser;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.parser;
 
 
-import info.mikaelsvensson.devtools.doclet.db2.metadata.Column;
-import info.mikaelsvensson.devtools.doclet.db2.metadata.Database;
-import info.mikaelsvensson.devtools.doclet.db2.metadata.Table;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.metadata.Column;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.metadata.Database;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.metadata.Table;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -16,10 +16,10 @@
 
 package info.mikaelsvensson.devtools.doclet.shared;
 
-import info.mikaelsvensson.devtools.doclet.db2.Db2MetadataDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.ElementsOnlyDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.EnumDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.StandardDocumentCreator;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.Db2MetadataDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive.ExtensiveDocumentCreator;
 
 import java.lang.reflect.InvocationTargetException;

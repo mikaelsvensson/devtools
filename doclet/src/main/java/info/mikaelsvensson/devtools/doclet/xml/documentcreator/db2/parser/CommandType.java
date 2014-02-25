@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.db2.parser;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.parser;
 
 public enum CommandType {
     CONNECT("CONNECT", new UnrelatedCommandHandler()),

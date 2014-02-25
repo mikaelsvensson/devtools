@@ -14,17 +14,17 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.db2;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2;
 
 import com.sun.javadoc.*;
-import info.mikaelsvensson.devtools.doclet.db2.metadata.*;
-import info.mikaelsvensson.devtools.doclet.db2.parser.CommandType;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactory;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.AbstractDocumentCreator;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.metadata.*;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.parser.CommandType;
 import org.w3c.dom.Document;
 
 import javax.persistence.Entity;
