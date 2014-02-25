@@ -71,6 +71,12 @@ public class XmlDoclet extends AbstractDoclet {
     public static final String OUTPUT = XmlDocletAction.OUTPUT;
 
     /**
+     * Forces the Doclet to save the untransformed XML document as a separate file.
+     */
+    @FormatProperty
+    public static final String UNTRANSFORMED_OUTPUT = XmlDocletAction.UNTRANSFORMED_OUTPUT;
+
+    /**
      * Specifies an (optional) post processor to invoke after the document creator (i.e. the formatter) has
      * been invoked. This is, for example, useful when the formatter produces multiple files and these files
      * need to be "handled" in some way.
@@ -92,7 +98,7 @@ public class XmlDoclet extends AbstractDoclet {
         return new XmlDoclet(root).generate();
     }
 
-    public boolean generate() {
+    private boolean generate() {
         try {
             XmlDocletAction action = new XmlDocletAction(new PropertySet(root.options()));
 
@@ -102,7 +108,11 @@ public class XmlDoclet extends AbstractDoclet {
             Document document = documentCreator.generateDocument(root, action.getParameters());
             root.printNotice("Finished building XML document.");
 
-            generate(document, action.getOutput(), action.getTransformer(), action.getParameters().getProperties());
+            generate(document,
+                    action.getOutput(),
+                    action.getUntransformedOutput(),
+                    action.getTransformer(),
+                    action.getParameters().getProperties());
 
             postProcess(action);
         } catch (IOException e) {
@@ -147,12 +157,17 @@ public class XmlDoclet extends AbstractDoclet {
         }
     }
 
-    public void generate(Document doc, File outputFile, File xsltFile, Map<String, String> parameters) {
+    private void generate(Document doc, File outputFile, File untransformedOutput, File xsltFile, Map<String, String> parameters) {
         try {
             if (xsltFile != null) {
                 root.printNotice("Transforming XML document using XSLT");
                 writeFile(doc, outputFile, xsltFile, parameters);
                 root.printNotice("Transformed XML document saved as " + outputFile.getAbsolutePath());
+                if (untransformedOutput != null) {
+                    root.printNotice("Saving untransformed XML document");
+                    writeFile(doc, untransformedOutput);
+                    root.printNotice("XML document saved as " + untransformedOutput.getAbsolutePath());
+                }
             } else {
                 root.printNotice("Saving XML document");
                 writeFile(doc, outputFile);
@@ -163,7 +178,7 @@ public class XmlDoclet extends AbstractDoclet {
         }
     }
 
-    public static void writeFile(Document doc, File file, File xsltFile, Map<String, String> parameters) throws TransformerException {
+    private static void writeFile(Document doc, File file, File xsltFile, Map<String, String> parameters) throws TransformerException {
         Source xsltSource = new StreamSource(xsltFile);
         writeFile(doc, file, xsltSource, parameters);
     }
@@ -182,7 +197,7 @@ public class XmlDoclet extends AbstractDoclet {
         transformer.transform(xmlSource, outputTarget);
     }
 
-    public static void writeFile(Document doc, File file) throws TransformerException {
+    private static void writeFile(Document doc, File file) throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");

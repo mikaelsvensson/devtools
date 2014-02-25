@@ -28,16 +28,21 @@ public class XmlDocletAction {
     public static final String FORMAT = "format";
     public static final String FORMAT_NAME = "name";
     public static final String OUTPUT = "output";
+    public static final String UNTRANSFORMED_OUTPUT = "untransformedoutput";
     public static final String PROPERTY = "property";
     public static final String POSTPROCESSOR = "postprocessor";
     public static final String TRANSFORMER = "transformer";
-
     public XmlDocletAction(PropertySet propertySet) {
         this.format = propertySet.getProperty(FORMAT + "." + FORMAT_NAME);
 
         File outputPath = new File(propertySet.getProperty(OUTPUT));
         if (outputPath != null) {
             this.output = outputPath;
+        }
+
+        File untransformedOutput = propertySet.getProperty(UNTRANSFORMED_OUTPUT) != null ? new File(propertySet.getProperty(UNTRANSFORMED_OUTPUT)) : null;
+        if (untransformedOutput != null) {
+            this.untransformedOutput = untransformedOutput;
         }
 
         this.parameters = propertySet.getPropertySet(FORMAT + '.' + PROPERTY);
@@ -53,6 +58,7 @@ public class XmlDocletAction {
     }
 
     private File output;
+    private File untransformedOutput;
     private File transformer;
     protected String format;
 
@@ -104,9 +110,18 @@ public class XmlDocletAction {
         if (option.startsWith("-" + FORMAT) ||
                 option.startsWith("-" + OUTPUT) ||
                 option.startsWith("-" + POSTPROCESSOR) ||
+                option.startsWith("-" + UNTRANSFORMED_OUTPUT) ||
                 option.startsWith("-" + TRANSFORMER)) {
             return 2;
         }
         return 0;
+    }
+
+    public File getUntransformedOutput() {
+        return untransformedOutput;
+    }
+
+    public void setUntransformedOutput(File untransformedOutput) {
+        this.untransformedOutput = untransformedOutput;
     }
 }
