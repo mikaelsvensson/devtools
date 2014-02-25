@@ -14,26 +14,31 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.WildcardType;
+import com.sun.javadoc.Tag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class WildcardTypeHandler extends TypeHandler<WildcardType> {
+class TagHandler<T extends Tag> extends Handler<T> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    WildcardTypeHandler(final Dispatcher dispatcher) {
-        super(WildcardType.class, dispatcher);
+    TagHandler(final Dispatcher dispatcher) {
+        super((Class<T>) Tag.class, dispatcher);
+    }
+
+    public TagHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+        super(docClass, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final WildcardType doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        handleDocImpl(el, doc.extendsBounds(), "extends-bounds", "extends-bound");
-
-        handleDocImpl(el, doc.superBounds(), "super-bounds", "super-bound");
+        el.setAttributes(
+                "name", doc.name(),
+                "kind", doc.kind(),
+                "text", doc.text());
     }
 }

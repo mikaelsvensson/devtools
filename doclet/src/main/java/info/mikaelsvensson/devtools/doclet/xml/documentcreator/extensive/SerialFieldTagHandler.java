@@ -14,24 +14,22 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.PackageDoc;
+import com.sun.javadoc.SerialFieldTag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class PackageDocHandler extends DocHandler<PackageDoc> {
+class SerialFieldTagHandler extends TagHandler<SerialFieldTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    PackageDocHandler(final Dispatcher dispatcher) {
-        super(PackageDoc.class, dispatcher);
+    SerialFieldTagHandler(final Dispatcher dispatcher) {
+        super(SerialFieldTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final PackageDoc doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final SerialFieldTag doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
-
-        handleDocImpl(el, doc.allClasses(), "classes", CLASS, true);
     }
 }

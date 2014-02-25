@@ -14,29 +14,28 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.ParamTag;
+import com.sun.javadoc.ThrowsTag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class ParamTagHandler extends TagHandler<ParamTag> {
+class ThrowsTagHandler extends TagHandler<ThrowsTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ParamTagHandler(final Dispatcher dispatcher) {
-        super(ParamTag.class, dispatcher);
+    ThrowsTagHandler(final Dispatcher dispatcher) {
+        super(ThrowsTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final ParamTag doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final ThrowsTag doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
         el.removeAttributes("name", "text");
 
-        el.setAttributes(
-                "type-parameter", Boolean.toString(doc.isTypeParameter()),
-                "parameter-comment", doc.parameterComment(),
-                "parameter-name", doc.parameterName());
+        el.setAttributes("exception-comment", doc.exceptionComment());
+
+        handleDocImpl(el, "exception-type", doc.exceptionType());
     }
 }

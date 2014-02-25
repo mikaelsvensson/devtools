@@ -14,35 +14,29 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.FieldDoc;
+import com.sun.javadoc.ParamTag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class FieldDocHandler extends MemberDocHandler<FieldDoc> {
+class ParamTagHandler extends TagHandler<ParamTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    FieldDocHandler(final Dispatcher dispatcher) {
-        super(FieldDoc.class, dispatcher);
+    ParamTagHandler(final Dispatcher dispatcher) {
+        super(ParamTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final FieldDoc doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final ParamTag doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
+        el.removeAttributes("name", "text");
+
         el.setAttributes(
-                "transient", Boolean.toString(doc.isTransient()),
-                "volatile", Boolean.toString(doc.isVolatile())
-        );
-
-        if (doc.constantValue() != null) {
-            el.setAttribute("constant-value", doc.constantValue().toString());
-        }
-
-        handleDocImpl(el, "type", doc.type());
-
-        handleDocImpl(el, doc.serialFieldTags(), "serial-field-tags", "serial-field-tag");
+                "type-parameter", Boolean.toString(doc.isTypeParameter()),
+                "parameter-comment", doc.parameterComment(),
+                "parameter-name", doc.parameterName());
     }
 }

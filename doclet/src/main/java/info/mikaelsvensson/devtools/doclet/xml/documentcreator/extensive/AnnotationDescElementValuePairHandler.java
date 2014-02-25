@@ -14,22 +14,28 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.SerialFieldTag;
+import com.sun.javadoc.AnnotationDesc;
+import com.sun.javadoc.AnnotationValue;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class SerialFieldTagHandler extends TagHandler<SerialFieldTag> {
+class AnnotationDescElementValuePairHandler extends Handler<AnnotationDesc.ElementValuePair> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    SerialFieldTagHandler(final Dispatcher dispatcher) {
-        super(SerialFieldTag.class, dispatcher);
+    AnnotationDescElementValuePairHandler(final Dispatcher dispatcher) {
+        super(AnnotationDesc.ElementValuePair.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final SerialFieldTag doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final AnnotationDesc.ElementValuePair doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
+
+        el.setAttribute("element-name", doc.element().name());
+
+        AnnotationValue annotationValue = doc.value();
+        handleValue(el, annotationValue);
     }
 }

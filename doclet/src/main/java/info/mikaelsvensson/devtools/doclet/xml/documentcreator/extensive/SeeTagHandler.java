@@ -14,26 +14,31 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.AnnotationTypeDoc;
+import com.sun.javadoc.SeeTag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class AnnotationTypeDocHandler extends ClassDocHandler<AnnotationTypeDoc> {
+class SeeTagHandler extends TagHandler<SeeTag> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    AnnotationTypeDocHandler(final Dispatcher dispatcher/*, boolean referenceOnlyOutput, Callback callback*/) {
-        super(AnnotationTypeDoc.class, dispatcher/*, referenceOnlyOutput, callback*/);
+    SeeTagHandler(final Dispatcher dispatcher) {
+        super(SeeTag.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final AnnotationTypeDoc doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final SeeTag doc) throws JavadocItemHandlerException{
         super.handleImpl(el, doc);
 
-        if (isClassElement(el)) {
-            handleDocImpl(el, doc.elements(), "elements", "element");
+        el.setAttributes(
+                "label", doc.label(),
+                "referenced-class", doc.referencedClassName(),
+                "referenced-member", doc.referencedMemberName());
+
+        if (doc.referencedPackage() != null) {
+            el.setAttribute("referenced-package", String.valueOf(doc.referencedPackage()));
         }
     }
 }

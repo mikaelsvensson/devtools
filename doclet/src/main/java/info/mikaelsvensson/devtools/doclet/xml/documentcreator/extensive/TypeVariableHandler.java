@@ -14,10 +14,24 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-public interface ObjectHandlerFilter<T extends Object> {
+import com.sun.javadoc.TypeVariable;
+import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
+
+class TypeVariableHandler extends TypeHandler<TypeVariable> {
+// --------------------------- CONSTRUCTORS ---------------------------
+
+    TypeVariableHandler(final Dispatcher dispatcher) {
+        super(TypeVariable.class, dispatcher);
+    }
+
 // -------------------------- OTHER METHODS --------------------------
 
-    boolean accept(T object);
+    @Override
+    void handleImpl(final ElementWrapper el, final TypeVariable doc) throws JavadocItemHandlerException {
+        super.handleImpl(el, doc);
+
+        handleDocImpl(el, doc.bounds(), "bounds", "bound");
+    }
 }

@@ -14,24 +14,35 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.AnnotationTypeElementDoc;
+import com.sun.javadoc.FieldDoc;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class AnnotationTypeElementDocHandler extends MethodDocHandler<AnnotationTypeElementDoc> {
+class FieldDocHandler extends MemberDocHandler<FieldDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    AnnotationTypeElementDocHandler(final Dispatcher dispatcher) {
-        super(AnnotationTypeElementDoc.class, dispatcher);
+    FieldDocHandler(final Dispatcher dispatcher) {
+        super(FieldDoc.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final AnnotationTypeElementDoc doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final FieldDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        handleDocImpl(el, doc.defaultValue(), "default-value");
+        el.setAttributes(
+                "transient", Boolean.toString(doc.isTransient()),
+                "volatile", Boolean.toString(doc.isVolatile())
+        );
+
+        if (doc.constantValue() != null) {
+            el.setAttribute("constant-value", doc.constantValue().toString());
+        }
+
+        handleDocImpl(el, "type", doc.type());
+
+        handleDocImpl(el, doc.serialFieldTags(), "serial-field-tags", "serial-field-tag");
     }
 }

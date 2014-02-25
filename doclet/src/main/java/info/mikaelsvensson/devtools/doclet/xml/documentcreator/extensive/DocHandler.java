@@ -14,20 +14,32 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.Type;
+import com.sun.javadoc.Doc;
+import com.sun.javadoc.Tag;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class TypeHandler<T extends Type> extends Handler<T> {
+public class DocHandler<T extends Doc> extends Handler<T> {
+// ------------------------------ FIELDS ------------------------------
+
+    protected static final String NAME = "name";
+
+    private ObjectHandlerFilter<Tag> tagsFilter = ACCEPT_ALL_FILTER;
+
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    TypeHandler(final Dispatcher dispatcher) {
-        super((Class<T>) Type.class, dispatcher);
+    public DocHandler(final Dispatcher dispatcher) {
+        super((Class<T>) Doc.class, dispatcher);
     }
 
-    public TypeHandler(final Class<T> docClass, final Dispatcher dispatcher) {
+    DocHandler(final Class<T> handledClass, final Dispatcher dispatcher) {
+        super(handledClass, dispatcher);
+    }
+
+    public DocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
         super(docClass, dispatcher);
+        this.tagsFilter = tagFilter;
     }
 
 // -------------------------- OTHER METHODS --------------------------
@@ -36,6 +48,12 @@ class TypeHandler<T extends Type> extends Handler<T> {
     void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        setTypeAttributes(el, doc);
+        String text = doc.commentText();
+        if (null != text && text.length() > 0) {
+            el.addCommentChild(doc);
+        }
+        el.setAttribute(NAME, doc.name());
+
+        handleDocImpl(el, doc.tags(), tagsFilter, "tags", "tag");
     }
 }

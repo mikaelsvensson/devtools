@@ -14,28 +14,24 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.ThrowsTag;
+import com.sun.javadoc.AnnotationValue;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class ThrowsTagHandler extends TagHandler<ThrowsTag> {
+class AnnotationValueHandler extends Handler<AnnotationValue> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    ThrowsTagHandler(final Dispatcher dispatcher) {
-        super(ThrowsTag.class, dispatcher);
+    AnnotationValueHandler(final Dispatcher dispatcher) {
+        super(AnnotationValue.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final ThrowsTag doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final AnnotationValue doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.removeAttributes("name", "text");
-
-        el.setAttributes("exception-comment", doc.exceptionComment());
-
-        handleDocImpl(el, "exception-type", doc.exceptionType());
+        handleValue(el, doc);
     }
 }

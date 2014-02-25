@@ -14,31 +14,26 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.SeeTag;
+import com.sun.javadoc.WildcardType;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class SeeTagHandler extends TagHandler<SeeTag> {
+class WildcardTypeHandler extends TypeHandler<WildcardType> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    SeeTagHandler(final Dispatcher dispatcher) {
-        super(SeeTag.class, dispatcher);
+    WildcardTypeHandler(final Dispatcher dispatcher) {
+        super(WildcardType.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final SeeTag doc) throws JavadocItemHandlerException{
+    void handleImpl(final ElementWrapper el, final WildcardType doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.setAttributes(
-                "label", doc.label(),
-                "referenced-class", doc.referencedClassName(),
-                "referenced-member", doc.referencedMemberName());
+        handleDocImpl(el, doc.extendsBounds(), "extends-bounds", "extends-bound");
 
-        if (doc.referencedPackage() != null) {
-            el.setAttribute("referenced-package", String.valueOf(doc.referencedPackage()));
-        }
+        handleDocImpl(el, doc.superBounds(), "super-bounds", "super-bound");
     }
 }

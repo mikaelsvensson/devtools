@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.PackageDoc;

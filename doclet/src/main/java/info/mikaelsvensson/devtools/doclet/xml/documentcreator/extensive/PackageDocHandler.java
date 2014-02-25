@@ -14,35 +14,24 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.MemberDoc;
-import com.sun.javadoc.Tag;
+import com.sun.javadoc.PackageDoc;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class MemberDocHandler<T extends MemberDoc> extends ProgramElementDocHandler<T> {
+class PackageDocHandler extends DocHandler<PackageDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    MemberDocHandler(final Dispatcher dispatcher) {
-        super((Class<T>) MemberDoc.class, dispatcher);
-    }
-
-    public MemberDocHandler(final Class<T> docClass, final Dispatcher dispatcher) {
-        super(docClass, dispatcher);
-    }
-
-    public MemberDocHandler(final Class<T> docClass, final ObjectHandlerFilter<Tag> tagFilter, final Dispatcher dispatcher) {
-        super(docClass, tagFilter, dispatcher);
+    PackageDocHandler(final Dispatcher dispatcher) {
+        super(PackageDoc.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final T doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final PackageDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
 
-        el.removeAttributes(ELEMENT_QUALIFIED_NAME);
-
-        el.setAttributes("synthetic", Boolean.toString(doc.isSynthetic()));
+        handleDocImpl(el, doc.allClasses(), "classes", CLASS, true);
     }
 }

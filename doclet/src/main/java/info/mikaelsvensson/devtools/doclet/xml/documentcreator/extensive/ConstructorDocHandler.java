@@ -14,24 +14,22 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensivedocumentcreator;
+package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
-import com.sun.javadoc.TypeVariable;
+import com.sun.javadoc.ConstructorDoc;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 
-class TypeVariableHandler extends TypeHandler<TypeVariable> {
+class ConstructorDocHandler extends ExecutableMemberDocHandler<ConstructorDoc> {
 // --------------------------- CONSTRUCTORS ---------------------------
 
-    TypeVariableHandler(final Dispatcher dispatcher) {
-        super(TypeVariable.class, dispatcher);
+    ConstructorDocHandler(final Dispatcher dispatcher) {
+        super(ConstructorDoc.class, dispatcher);
     }
 
 // -------------------------- OTHER METHODS --------------------------
 
     @Override
-    void handleImpl(final ElementWrapper el, final TypeVariable doc) throws JavadocItemHandlerException {
+    void handleImpl(final ElementWrapper el, final ConstructorDoc doc) throws JavadocItemHandlerException {
         super.handleImpl(el, doc);
-
-        handleDocImpl(el, doc.bounds(), "bounds", "bound");
     }
 }
