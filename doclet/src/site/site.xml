@@ -25,9 +25,26 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<project name="Mikael Svensson's Doclet Collection">
+<project name="Doclets">
     <custom>
         <siteSearchPlugin>
         </siteSearchPlugin>
     </custom>
+    <body>
+        <menu name="Getting Started">
+            <item name="Using the Doclets" href="using-doclet.html"/>
+            <item name="Extending the Doclets" href="extending-doclet.html"/>
+        </menu>
+        <menu name="Chain Doclet">
+            <item name="Introduction" href="index-ChainDoclet.html"/>
+        </menu>
+        <menu name="XML Doclet">
+            <item name="Introduction" href="index-XmlDoclet.html"/>
+            <item name="Samples: All of them" href="xmldoclet-samples-allbyfile.html"/>
+            <item name="Samples: elementsonly formatter" href="xmldoclet-samples-elementsonly.html"/>
+            <item name="Samples: enum formatter" href="xmldoclet-samples-enum.html"/>
+            <item name="Samples: extensive formatter" href="xmldoclet-samples-extensive.html"/>
+            <item name="Samples: standard formatter" href="xmldoclet-samples-standard.html"/>
+        </menu>
+    </body>
 </project>

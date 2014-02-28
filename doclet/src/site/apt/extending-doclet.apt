@@ -1,0 +1,41 @@
+  ---
+  Extending the Doclets
+  ---
+
+First: Configure Repository
+
+  Since the binaries are not yet available from the central Maven repository, it is necessary to add a
+  <<<\<repository\>>>> configration to either your project's <<<pom.xml>>> or to your Maven installation's <<<settings.xml>>>.
+
+---
+<repositories>
+    <repository>
+        <id>mikaelsvensson-snapshots</id>
+        <url>http://devtools.mikaelsvensson.info/repository/snapshots/</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+    </repository>
+    <repository>
+        <id>mikaelsvensson-releases</id>
+        <url>http://devtools.mikaelsvensson.info/repository/releases/</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+---
+
+Extending <<<devtools>>>
+
+  Add a Maven dependency if you want to create your own Doclets based on the ones in <<<devtools>>>
+
+---
+<dependency>
+    <groupId>info.mikaelsvensson.devtools</groupId>
+    <artifactId>doclet</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+---
+
+  An then you write your customization by, for example, extending <<<XmlDoclet>>> or implementing <<<DocumentCreator>>>.

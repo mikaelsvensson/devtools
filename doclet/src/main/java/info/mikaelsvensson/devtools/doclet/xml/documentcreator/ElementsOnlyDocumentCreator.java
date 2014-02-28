@@ -25,14 +25,11 @@ import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+/**
+ * Very simple document creator which only outputs a list of class names.
+ */
 public class ElementsOnlyDocumentCreator extends AbstractDocumentCreator {
     public static final String NAME = "elementsonly";
-
-/*
-    public ElementsOnlyDocumentCreator() throws ParserConfigurationException {
-        super();
-    }
-*/
 
     @Override
     public Document generateDocument(final RootDoc doc, final PropertySet properties) throws DocumentCreatorException {

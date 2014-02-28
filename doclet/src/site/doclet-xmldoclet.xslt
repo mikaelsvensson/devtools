@@ -28,16 +28,55 @@
 
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:import href="shared.xslt"/>
     <xsl:output method="html" indent="yes" name="html"/>
 
     <xsl:template match="class" mode="doclet-xmldoclet">
 
-        <p>Document Creators:
-            <ul>
-                <xsl:for-each
+        <section name="Document Creators">
+
+            <xsl:call-template name="documentation">
+                <xsl:with-param name="element" select="//class[@qualified-name='info.mikaelsvensson.devtools.doclet.shared.DocumentCreator']/comment"/>
+            </xsl:call-template>
+
+            <xsl:for-each
                         select="//class[@abstract='false' and starts-with(@qualified-name, 'info.mikaelsvensson.') and ends-with(@qualified-name, 'DocumentCreator')]">
-                    <li>
-                        <xsl:value-of select="@name"/>
+                <xsl:sort select="@name"/>
+                    <subsection name="{@name}">
+
+                        <xsl:call-template name="documentation">
+                            <xsl:with-param name="element" select="comment"/>
+                        </xsl:call-template>
+
+                        <p>This is how you would send parameter values to the document generator from a Maven POM file:</p>
+                        <source>
+                            <xsl:text><![CDATA[<plugin>]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[  <groupId>org.apache.maven.plugins</groupId>]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[  <artifactId>maven-javadoc-plugin</artifactId>]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[  ...]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[  <configuration>]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[    ...]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[    <doclet>info.mikaelsvensson.devtools.doclet.xml.XmlDoclet</doclet>]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[    ...]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[    <additionalparams>]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[      -format.name ]]></xsl:text><xsl:value-of select="@qualified-name"/><xsl:text>&#x0a;</xsl:text>
+                            <xsl:for-each
+                                    select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
+                                <xsl:variable name="defaultValue"
+                                              select=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
+                                <xsl:choose>
+                                    <xsl:when test="$defaultValue">
+                                        <xsl:value-of select="concat('      -format.property.', @constant-value, ' ', $defaultValue, '&#x0a;')"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="concat('      -format.property.', @constant-value, ' parameter_value', '&#x0a;')"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:for-each>
+                            <xsl:text><![CDATA[    </additionalparams>]]>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[...]]></xsl:text>
+                        </source>
+
                         <br/>
                         Parameters:
                         <table>
@@ -68,10 +107,9 @@
                                 </xsl:for-each>
                             </tbody>
                         </table>
-                    </li>
+                    </subsection>
                 </xsl:for-each>
-            </ul>
-        </p>
+        </section>
 
     </xsl:template>
 

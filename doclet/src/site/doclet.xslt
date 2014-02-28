@@ -34,59 +34,64 @@
     <xsl:template match="class" mode="doclet">
         <xsl:param name="fileName"/>
         <xsl:result-document href="{$fileName}">
-            <html>
+            <document xmlns="http://maven.apache.org/XDOC/2.0"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
                 <xsl:call-template name="head">
                     <xsl:with-param name="pageTitle">Doclet
                         <xsl:value-of select="@name"/>
                     </xsl:with-param>
                 </xsl:call-template>
+
                 <body>
-                    <h1>
-                        <xsl:value-of select="@name"/>
-                    </h1>
-                    <xsl:call-template name="documentation">
-                        <xsl:with-param name="element" select="comment"/>
-                    </xsl:call-template>
 
-                    <p>
-                        Doclet Parameters:
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Default Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <xsl:for-each
-                                        select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
+                    <section name="Doclet {@name}">
+
+                        <xsl:call-template name="documentation">
+                            <xsl:with-param name="element" select="comment"/>
+                        </xsl:call-template>
+
+                        <p>
+                            Doclet Parameters:
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <xsl:value-of select="@constant-value"/>
-                                        </td>
-                                        <td>
-                                            <xsl:call-template name="documentation">
-                                                <xsl:with-param name="element" select="comment"/>
-                                            </xsl:call-template>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of
-                                                    select=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
-                                        </td>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Default Value</th>
                                     </tr>
-                                </xsl:for-each>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <xsl:for-each
+                                            select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
+                                        <tr>
+                                            <td>
+                                                <xsl:value-of select="@constant-value"/>
+                                            </td>
+                                            <td>
+                                                <xsl:call-template name="documentation">
+                                                    <xsl:with-param name="element" select="comment"/>
+                                                </xsl:call-template>
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                        select=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
+                                            </td>
+                                        </tr>
+                                    </xsl:for-each>
+                                </tbody>
+                            </table>
 
-                    </p>
-                    <xsl:choose>
-                        <xsl:when test="@qualified-name='info.mikaelsvensson.docutil.xml.XmlDoclet'">
-                            <xsl:apply-templates select="." mode="doclet-xmldoclet"/>
-                        </xsl:when>
-                    </xsl:choose>
+                        </p>
+                        <xsl:choose>
+                            <xsl:when test="@qualified-name='info.mikaelsvensson.devtools.doclet.xml.XmlDoclet'">
+                                <xsl:apply-templates select="." mode="doclet-xmldoclet"/>
+                            </xsl:when>
+                        </xsl:choose>
+                    </section>
                 </body>
-            </html>
+            </document>
         </xsl:result-document>
     </xsl:template>
 

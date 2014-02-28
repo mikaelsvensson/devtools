@@ -1,0 +1,95 @@
+<!--
+  ~ Copyright 2014 Mikael Svensson
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<project name="Create Sample Data" default="build" basedir=".">
+
+    <property name="xml-file" value="xmldoclet-samples-data.xml"/>
+    <property name="temp-file" value="xmldoclet-samples-temp.xml"/>
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
+    <target name="create">
+        <echo file="${xml-file}" message="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;files&gt;"/>
+        <foreach param="file" target="create-for-file">
+            <fileset dir="${basedir}/src/test/resources">
+                <include name="**/*.java" />
+                <exclude name="**/Embed*" />
+            </fileset>
+        </foreach>
+        <echo file="${xml-file}" message="&lt;/files&gt;" append="true"/>
+        <antcall target="transform"/>
+    </target>
+
+    <target name="transform">
+        <xslt in="${xml-file}" out="${basedir}/src/site/xdoc/xmldoclet-samples-allbyfile.xml" style="xmldoclet-samples-allbyfile.xslt"/>
+        <foreach list="enum,standard,extensive,elementsonly" param="format" target="transform-single-format">
+            <param name="format" value="${format}"/>
+        </foreach>
+    </target>
+
+    <target name="transform-single-format">
+        <xslt in="${xml-file}" out="${basedir}/src/site/xdoc/xmldoclet-samples-${format}.xml" style="xmldoclet-samples-oneformat.xslt">
+            <param name="format" expression="${format}"/>
+        </xslt>
+    </target>
+
+    <target name="build" depends="create, transform">
+
+    </target>
+
+    <target name="create-for-file">
+        <echo>${file}</echo>
+        <propertyregex property="fileid" input="${file}" regexp=".*\\(\w+)\.java" select="\1"/>
+        <echo file="${xml-file}" message="&lt;file name=&quot;${fileid}&quot;&gt;" append="true"/>
+        <concat destfile="${xml-file}" append="true">
+            <path path="${file}" />
+            <header>&lt;input&gt;&lt;![CDATA[</header>
+            <footer>]]&gt;&lt;/input&gt;</footer>
+        </concat>
+
+        <run-xmldoclet id="${fileid}" javasource="${file}" format="enum" format-params="-format.property.classfolder ./target/test-classes"/>
+        <run-xmldoclet id="${fileid}" javasource="${file}" format="standard"/>
+        <run-xmldoclet id="${fileid}" javasource="${file}" format="elementsonly"/>
+        <run-xmldoclet id="${fileid}" javasource="${file}" format="extensive"/>
+        <echo file="${xml-file}" message="&lt;/file&gt;" append="true"/>
+    </target>
+
+    <macrodef name="run-xmldoclet">
+        <attribute name="javasource"/>
+        <attribute name="format"/>
+        <attribute name="id"/>
+        <attribute name="format-params" default=""/>
+        <sequential>
+            <property name="temp-file-abs" location="${temp-file}"/>
+            <javadoc private="true" verbose="true" sourcefiles="@{javasource}" doclet="info.mikaelsvensson.devtools.doclet.xml.XmlDoclet" docletpath="target/classes" additionalparam="-format.name @{format} -output ${temp-file-abs} @{format-params}" />
+            <concat destfile="${xml-file}" append="true">
+                <path path="${temp-file}" />
+                <filterchain>
+                    <tokenfilter>
+                        <filetokenizer/>
+                        <replacestring from="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;" to="" />
+                    </tokenfilter>
+                </filterchain>
+                <header>&lt;output format=&quot;@{format}&quot;&gt;&lt;![CDATA[</header>
+                <footer>]]&gt;&lt;/output&gt;</footer>
+            </concat>
+        </sequential>
+    </macrodef>
+</project>

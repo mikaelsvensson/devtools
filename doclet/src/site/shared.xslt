@@ -32,8 +32,19 @@
 
     <xsl:template name="head">
         <xsl:param name="pageTitle"/>
+        <properties>
+            <title><xsl:value-of select="$pageTitle"/></title>
+            <!--<author email="user@company.com">John Doe</author>-->
+        </properties>
+
+        <!-- Optional HEAD element, which is copied as is into the XHTML <head> element -->
         <head>
-            <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"/>
+<!--
+            <link type="text/css" rel="stylesheet" href="css/sh_ide-codewarrior.min.css"/>
+            <script type="text/javascript" src="js/sh_main.min.js"></script>
+            <script type="text/javascript" src="js/sh_java.min.js"></script>
+            <script type="text/javascript" src="js/sh_xml.min.js"></script>
+            <script type="text/javascript" src="js/init_sh.js"></script>
             <script type="text/javascript">
                 $(document).ready(function () {
                 $("pre.embedded-java-file").addClass("sh_java");
@@ -41,20 +52,13 @@
                 sh_highlightDocument();
                 });
             </script>
-            <script type="text/javascript" src="resources/sh_main.min.js"></script>
-            <script type="text/javascript" src="resources/sh_java.min.js"></script>
-            <script type="text/javascript" src="resources/sh_xml.min.js"></script>
-            <link type="text/css" rel="stylesheet" href="resources/sh_acid.min.css"/>
-            <link type="text/css" rel="stylesheet" href="../css/site.css"/>
-            <title>
-                <xsl:value-of select="$pageTitle"/>
-            </title>
+-->
         </head>
     </xsl:template>
 
     <xsl:template name="documentation">
         <xsl:param name="element" />
-        <xsl:copy-of select="$element/child::*"/>
+        <xsl:copy-of select="$element/child::node()"/>
     </xsl:template>
 
 </xsl:stylesheet>

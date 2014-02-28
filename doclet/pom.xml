@@ -21,73 +21,72 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>generate-xmldoclet-samples</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <target>
+                                <ant antfile="${project.basedir}/xmldoclet-samples-antproject.xml" target="create"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-site-content-from-javadoc</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <sourcepath>${project.build.sourceDirectory}</sourcepath>
+                            <docfilessubdirs>true</docfilessubdirs>
+                            <doclet>info.mikaelsvensson.devtools.doclet.xml.XmlDoclet</doclet>
+                            <docletArtifacts>
+                                <docletArtifact>
+                                    <groupId>info.mikaelsvensson.devtools</groupId>
+                                    <artifactId>doclet</artifactId>
+                                    <version>1.0-SNAPSHOT</version>
+                                </docletArtifact>
+                                <docletArtifact>
+                                    <groupId>net.sf.saxon</groupId>
+                                    <artifactId>Saxon-HE</artifactId>
+                                    <version>9.4</version>
+                                </docletArtifact>
+                            </docletArtifacts>
+                            <show>private</show>
+                            <destDir>../</destDir>
+                            <additionalparam>
+                                -format.name extensive
+                                -format.property.wrapListElements true
+                                -format.property.showAnnotations true
+                                -output ${project.build.sourceDirectory}/../../site/xdoc/index.xml
+                                -transformer ${project.build.sourceDirectory}/../../site/index.xslt
+                                -untransformedoutput ./source-code-documentation.xml
+                            </additionalparam>
+                            <useStandardDocletOptions>false</useStandardDocletOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <reportPlugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-project-info-reports-plugin</artifactId>
-                            <version>2.4</version>
-                            <configuration>
-                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                            </configuration>
-                            <reports>
-                                <report>index</report>
-                                <report>plugins</report>
-                            </reports>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.8.1</version>
-                            <reports>
-                                <report>javadoc</report>
-                            </reports>
-                            <configuration>
-                                <docfilessubdirs>true</docfilessubdirs>
-                                <doclet>info.mikaelsvensson.devtools.doclet.chain.ChainDoclet</doclet>
-                                <docletArtifacts>
-                                    <docletArtifact>
-                                        <groupId>info.mikaelsvensson.devtools</groupId>
-                                        <artifactId>doclet</artifactId>
-                                        <version>1.0-SNAPSHOT</version>
-                                    </docletArtifact>
-                                    <docletArtifact>
-                                        <groupId>net.sf.saxon</groupId>
-                                        <artifactId>Saxon-HE</artifactId>
-                                        <version>9.4</version>
-                                    </docletArtifact>
-                                </docletArtifacts>
-                                <show>private</show>
-                                <additionalparam>
-                                    -chain:c:info.mikaelsvensson.devtools.doclet.xml.XmlDoclet
-                                    -c:format.name extensive
-                                    -c:format.property.wrapListElements true
-                                    -c:format.property.showAnnotations true
-                                    -c:transformer ${project.build.sourceDirectory}/../../site/index.xslt
-                                    -c:output ./index.html
-
-                                    -chain:x:info.mikaelsvensson.devtools.doclet.xml.XmlDoclet
-                                    -x:format.name extensive
-                                    -x:format.property.wrapListElements true
-                                    -x:format.property.showAnnotations true
-                                    -x:output ./source-code-documentation.xml
-                                </additionalparam>
-                                <useStandardDocletOptions>false</useStandardDocletOptions>
-                            </configuration>
-                        </plugin>
-                    </reportPlugins>
                 </configuration>
             </plugin>
             <plugin>
@@ -111,6 +110,28 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>plugins</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <dependencies>
         <dependency>

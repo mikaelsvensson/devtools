@@ -1,0 +1,28 @@
+  ---
+  About
+  ---
+
+  The <devtools> utilities are a couple of simple tools aiding developers with tasks such as extracting information
+  from Javadoc and performing server log analysis.
+
+{{{./doclet/index.html}The <doclet> Tools}}
+
+  Not happy with your <<<javadoc>>> output? Want XML instead of HTML?
+
+  Want to get information from your Java code and use in other applications?
+
+  Want to save time when running <<<javadoc>>> multiple times for large projects?
+
+  The <doclet> utilities is for you if your answer to one of the above questions is "yes".
+
+{{{./report/index.html}The <report> Tools}}
+
+  This is an up-coming set of console applications for server log analysis.
+
+  These tools will be:
+
+  * easy to configure since they will have few options
+
+  * designed to generate specific reports from specific logs
+
+  * easily incorporated into automated testing due to lack of GUI

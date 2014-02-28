@@ -22,9 +22,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.3</version>
                 <configuration>
                     <locales>en</locales>
+<!--
                     <reportPlugins>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
@@ -95,6 +96,7 @@
                             </reports>
                         </plugin>
                     </reportPlugins>
+-->
                 </configuration>
             </plugin>
         </plugins>

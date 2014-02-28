@@ -38,6 +38,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Highly specialized document creator which <em>only</em> outputs information about {@code enum} classes. On the other
+ * hand, it attempts to load each enum constant (using class loader) in order to access their <em>run-time values</em>.
+ * <p/>
+ * This allows this document creator to access the names, types <em>and values</em> for the enumeration constants.
+ */
 public class EnumDocumentCreator extends AbstractDocumentCreator {
     public static final String NAME = "enum";
 
@@ -47,14 +53,6 @@ public class EnumDocumentCreator extends AbstractDocumentCreator {
      */
     @FormatProperty
     public static final String PARAMETER_CLASS_FOLDER = "classfolder";
-//    private File classFolder;
-
-/*
-    public EnumDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
-        super();
-        classFolder = new File(parameters.get(PARAMETER_CLASS_FOLDER));
-    }
-*/
 
     @Override
     public Document generateDocument(final RootDoc doc, final PropertySet properties) throws DocumentCreatorException {

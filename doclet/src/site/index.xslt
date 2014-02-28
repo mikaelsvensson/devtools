@@ -35,68 +35,72 @@
 
     <xsl:output method="html" indent="yes" name="html"/>
     <xsl:param name="outputFile"/>
-    <xsl:param name="color"/>
-    <xsl:param name="title"/>
-
 
     <xsl:template match="/">
-        <html>
+        <document xmlns="http://maven.apache.org/XDOC/2.0"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
             <xsl:call-template name="head">
-                <xsl:with-param name="pageTitle" select="$title"/>
+                <xsl:with-param name="pageTitle" select="Doclets"/>
             </xsl:call-template>
+
             <body>
-                <p>Doclets:
-                    <ul>
-                        <xsl:for-each select="//class[tags/tag/@name = '@doclet']">
-                            <xsl:sort select="@name"/>
-                            <xsl:variable name="fileName" select="concat('doclet-', @name, '.html')"/>
-                            <li>
-                                <a href="{$fileName}">
+
+                <section name="Doclet Overview">
+
+                    <p>
+                        The
+                        <code>javadoc</code>
+                        tool excels at extracting documentation and other source code metadata from Java classes. The
+                        default output is, unfortunately, restricted to a myriad of HTML files. Luckily, the
+                        <code>javadoc</code>
+                        tool supports
+                        a "plugin mechanism" called "doclets". A doclet receives metadata, such as class members and
+                        source code comments,
+                        and produces output documents. The default doclet produces said myriad of HTML files.
+                    </p>
+
+                    <p>
+                        The
+                        <em>doclet</em>
+                        module includes replacement doclets for the default one. By using these alternative doclets you
+                        can
+                        harness the wealth of data which
+                        <code>javadoc</code>
+                        extracts from the source code without limiting yourself to the
+                        default HTML output.
+                    </p>
+
+                    <xsl:for-each select="//class[tags/tag/@name = '@doclet']">
+                        <xsl:sort select="@name"/>
+                        <xsl:variable name="fileName" select="concat(replace($outputFile, '.xml','-'), @name, '.xml')"/>
+                        <p>
+                            <strong>
+                                <a href="{replace($fileName, '.xml', '.html')}">
                                     <xsl:value-of select="@name"/>
                                 </a>
-                            </li>
-                            <xsl:apply-templates select="." mode="doclet">
-                                <xsl:with-param name="fileName" select="$fileName"/>
-                            </xsl:apply-templates>
-                        </xsl:for-each>
-                    </ul>
-                </p>
-                <p>Inline Tags:
-                    <ul>
-                        <xsl:for-each
-                                select="//class[@abstract='false' and ends-with(@qualified-name, 'InlineTagHandler')]">
-                            <li>
-                                <xsl:value-of select="@name"/>
-                            </li>
-                        </xsl:for-each>
-                    </ul>
-                </p>
-                <xsl:apply-templates select="documentation/java/packages/package"/>
-            </body>
-        </html>
-    </xsl:template>
+                                <xsl:if test="tags/tag[@name='@doclet-tagline']">
+                                    -
+                                    <xsl:value-of select="tags/tag[@name='@doclet-tagline']/@text"/>
+                                </xsl:if>
+                            </strong>
+                        </p>
+                        <p>
+                            <xsl:call-template name="documentation">
+                                <xsl:with-param name="element" select="comment/p[1]"/>
+                            </xsl:call-template>
+                        </p>
+                        <xsl:apply-templates select="." mode="doclet">
+                            <xsl:with-param name="fileName" select="$fileName"/>
+                        </xsl:apply-templates>
+                    </xsl:for-each>
 
-    <xsl:template match="package">
-        <xsl:variable name="fileName" select="concat(@name, '.html')"/>
-        <p style="color: {$color};">
-            Package
-            <a href="{$fileName}">
-                <xsl:value-of select="@name"/>
-            </a>
-        </p>
-        <xsl:result-document href="{$fileName}" format="html">
-            <html>
-                <xsl:call-template name="head">
-                    <xsl:with-param name="pageTitle">Package
-                        <xsl:value-of select="@name"/>
-                    </xsl:with-param>
-                </xsl:call-template>
-                <body>
-                    <xsl:apply-templates/>
-                    <a href="{$outputFile}">Back</a>
-                </body>
-            </html>
-        </xsl:result-document>
+                </section>
+
+            </body>
+
+        </document>
     </xsl:template>
 
     <xsl:template match="class">

@@ -20,17 +20,25 @@ import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
 import org.w3c.dom.Document;
 
+/**
+ * A document creator, also known as a formatter, defines how the resulting XML document will be constructed. The
+ * document creator takes the Javadoc documentation and processed it into an XML document.
+ * <p/>
+ * Different document creators offer different features in terms of what information is put into the XML document.
+ * Some creators are very verbose and generate large XML documents with tons of information. Others producer compacter
+ * output or very specific output for a subset of the documented classes.
+ * <p/>
+ * Choose a document creator based on how you plan to use the generated XML document, i.e. what kind of information
+ * you need extracted from the source code.
+ */
 public interface DocumentCreator {
     /**
      * Creates an XML document based on the supplied Javadoc metadata.
      *
-     * @param doc
-     *         the root object for the Javadoc documentation.
-     * @param properties
-     *         command-line properties specified by the user.
+     * @param doc        the root object for the Javadoc documentation.
+     * @param properties command-line properties specified by the user.
      * @return an DOM document. Should never return {@code null} (throws exception instead).
-     * @throws DocumentCreatorException
-     *         thrown in case an unrecoverable/severe error occurs during document generation.
+     * @throws DocumentCreatorException thrown in case an unrecoverable/severe error occurs during document generation.
      */
     Document generateDocument(RootDoc doc, final PropertySet properties) throws DocumentCreatorException;
 }

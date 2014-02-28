@@ -66,7 +66,7 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
      * Specifies which types of members should be included in the generated XML document for
      * <em>enum classes</em>.
      * <p/>
-     * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     * The value uses the same syntax as {@code classMemberTypeFilter}.
      *
      * @see #CLASS_MEMBER_TYPE_FILTER
      */
@@ -76,7 +76,7 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
      * Specifies which types of members should be included in the generated XML document for
      * <em>interfaces</em>.
      * <p/>
-     * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     * The value uses the same syntax as {@code classMemberTypeFilter}.
      *
      * @see #CLASS_MEMBER_TYPE_FILTER
      */
@@ -86,7 +86,7 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
      * Specifies which types of members should be included in the generated XML document for
      * <em>annotation classes</em>, i.e. interfaces that define annotations.
      * <p/>
-     * The value uses the same syntax as {@link #CLASS_MEMBER_TYPE_FILTER}.
+     * The value uses the same syntax as {@code classMemberTypeFilter}.
      *
      * @see #CLASS_MEMBER_TYPE_FILTER
      */

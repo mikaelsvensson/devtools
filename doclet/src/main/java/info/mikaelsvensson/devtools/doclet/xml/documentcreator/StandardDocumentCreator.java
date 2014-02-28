@@ -30,6 +30,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * Provides a lot of information of classes, interfaces, methods and so on. This document generator covers most use
+ * cases, especially since it has a few configuration options.
+ */
 public class StandardDocumentCreator extends AbstractDocumentCreator {
 
     public static final String NAME = "standard";
@@ -55,12 +59,6 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
         private boolean textOnlyComments;
         private boolean showAllTags;
     }
-
-/*
-    public StandardDocumentCreator(final Map<String, String> parameters) throws ParserConfigurationException {
-        super();
-    }
-*/
 
     @Override
     public Document generateDocument(final RootDoc root, final PropertySet properties) throws DocumentCreatorException {

@@ -30,27 +30,29 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
+ * The XmlDoclet outputs XML documents instead of HTML documents. The XML documents can then be further processed, using
+ * other tools, in order to produce reports or as input to other applications.
+ * <p/>
  * Creates XML documents based on the Java source code and, if specified by the user,
  * processes the XML document using an XSLT style sheet.
- *
+ * <p/>
  * The source code can be processed using a couple of different document creators, each one
  * designed to produce XML documents for different purposes (be they generic or specific
  * purposes).
- *
+ * <p/>
  * The primary objective of this doclet is to aid developers in creating more useful web
  * sites for their source code when using the {@code mvn site} command.
- *
+ * <p/>
  * The doclet has a couple of configuration attributes which makes it highly versatile.
  *
  * @doclet
+ * @doclet-tagline XML Documents From Source Code
  */
 public class XmlDoclet extends AbstractDoclet {
 
@@ -58,7 +60,7 @@ public class XmlDoclet extends AbstractDoclet {
      * Specifies which formatter to use to produce the XML document. A formatter is sometimes also referred to
      * as a document creator. Each formatter produces XML content is a very specific way and choosing the most
      * appropriate depends highly on your documentation needs.
-     *
+     * <p/>
      * In order to further customize the output, some formatters have their own configuration options.
      */
     @FormatProperty
@@ -160,20 +162,24 @@ public class XmlDoclet extends AbstractDoclet {
     private void generate(Document doc, File outputFile, File untransformedOutput, File xsltFile, Map<String, String> parameters) {
         try {
             if (xsltFile != null) {
-                root.printNotice("Transforming XML document using XSLT");
-                writeFile(doc, outputFile, xsltFile, parameters);
-                root.printNotice("Transformed XML document saved as " + outputFile.getAbsolutePath());
                 if (untransformedOutput != null) {
                     root.printNotice("Saving untransformed XML document");
                     writeFile(doc, untransformedOutput);
                     root.printNotice("XML document saved as " + untransformedOutput.getAbsolutePath());
                 }
+                root.printNotice("Transforming XML document using XSLT");
+                writeFile(doc, outputFile, xsltFile, parameters);
+                root.printNotice("Transformed XML document saved as " + outputFile.getAbsolutePath());
             } else {
                 root.printNotice("Saving XML document");
                 writeFile(doc, outputFile);
                 root.printNotice("XML document saved as " + outputFile.getAbsolutePath());
             }
         } catch (TransformerException e) {
+            root.printError(e.getMessage());
+        } catch (FileNotFoundException e) {
+            root.printError(e.getMessage());
+        } catch (UnsupportedEncodingException e) {
             root.printError(e.getMessage());
         }
     }
@@ -197,11 +203,22 @@ public class XmlDoclet extends AbstractDoclet {
         transformer.transform(xmlSource, outputTarget);
     }
 
-    private static void writeFile(Document doc, File file) throws TransformerException {
+    private static void writeFile(Document doc, File file) throws TransformerException, FileNotFoundException, UnsupportedEncodingException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        try {
+//            transformerFactory.setAttribute("indent-number", 4);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.transform(new DOMSource(doc.getDocumentElement()), new StreamResult(file));
+        try {
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+        transformer.transform(new DOMSource(doc.getDocumentElement()), new StreamResult(new OutputStreamWriter(new FileOutputStream(file), "UTF-8")));
         System.out.println(file.getAbsolutePath());
     }
 
