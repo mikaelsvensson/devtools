@@ -40,7 +40,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//TODO: MISV 20120621 Move to module doc-util-space12 (thus removing the need to depend om openejb for the javax.persistence annotations)
 public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
     @FormatName
     public static final String NAME = "db2";

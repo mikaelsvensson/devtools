@@ -28,6 +28,7 @@
 package info.mikaelsvensson.devtools.xml.documentcreator;
 
 import enumeration.Fruit;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactoryException;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.EnumDocumentCreator;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -54,7 +55,7 @@ public class EnumDocumentCreatorTest extends AbstractDocumentCreatorTest {
         performTest(Fruit.class);
     }
 
-    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
+    private void performTest(final Class<?> cls) throws IOException, URISyntaxException, SAXException, ParserConfigurationException, DocumentCreatorFactoryException {
         performTest(EnumDocumentCreator.NAME, cls, "-format.property." + EnumDocumentCreator.PARAMETER_CLASS_FOLDER, ".\\target\\classes");
     }
 

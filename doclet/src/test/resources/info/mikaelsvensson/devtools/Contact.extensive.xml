@@ -206,7 +206,7 @@
                                         <type dimension="0" primitive="false" qualified-name="info.mikaelsvensson.devtools.Required"/>
                                     </annotation>
                                 </annotations>
-                                <type dimension="0" primitive="false" qualified-name="javax.mail.internet.InternetAddress"/>
+                                <type dimension="0" primitive="false" qualified-name="java.lang.String"/>
                             </field>
                             <field access="private" final="false" name="name" static="false" synthetic="false" transient="false" volatile="false">
                                 <annotations>

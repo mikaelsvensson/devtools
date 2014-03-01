@@ -2,6 +2,7 @@ package info.mikaelsvensson.devtools.xml.documentcreator;
 
 import enumeration.Fruit;
 import info.mikaelsvensson.devtools.*;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactoryException;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive.ExtensiveDocumentCreator;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -72,7 +73,7 @@ public class ExtensiveDocumentCreatorTest extends AbstractDocumentCreatorTest {
                 "si");
     }
 
-    private void performTest(final Class<?> testClass, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
+    private void performTest(final Class<?> testClass, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException, DocumentCreatorFactoryException {
         performTest(ExtensiveDocumentCreator.NAME, testClass, documentCreatorArgs);
     }
 

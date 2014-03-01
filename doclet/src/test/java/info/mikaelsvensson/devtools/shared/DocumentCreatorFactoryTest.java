@@ -1,6 +1,7 @@
 package info.mikaelsvensson.devtools.shared;
 
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactory;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactoryException;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.ElementsOnlyDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.EnumDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.StandardDocumentCreator;
@@ -8,7 +9,6 @@ import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive.Extensi
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class DocumentCreatorFactoryTest
@@ -57,9 +57,8 @@ public class DocumentCreatorFactoryTest
                 is(ElementsOnlyDocumentCreator.class));
     }
 
-    @Test
-    public void failToCreateMissing() throws Exception
-    {
-        assertNull(DocumentCreatorFactory.getDocumentCreator("invalid name"));
+    @Test(expected = DocumentCreatorFactoryException.class)
+    public void failToCreateMissing() throws Exception {
+        DocumentCreatorFactory.getDocumentCreator("invalid name");
     }
 }
