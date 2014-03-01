@@ -13,15 +13,6 @@
         Javadoc and performing server log analysis.
     </description>
 
-    <modules>
-        <module>report</module>
-        <module>site-map-generator-demo</module>
-        <module>doclet</module>
-        <module>devtools-skin</module>
-        <module>site-search</module>
-        <module>common</module>
-    </modules>
-
     <distributionManagement>
         <repository>
             <id>mikaelsvensson-devtools</id>
@@ -51,6 +42,7 @@
     <properties>
         <github.global.server>github</github.global.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <release.arguments></release.arguments>
     </properties>
 
     <developers>
@@ -95,11 +87,14 @@
                     -->
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.1</version>
+                    <version>2.4.1</version>
                     <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
-                        <arguments>${arguments} -Psonatype-oss-release</arguments> <!-- sonatype-oss-release? -->
+                        <pushChanges>false</pushChanges>
+                        <arguments>${release.arguments} -Psonatype-oss-release,release-modules,sign-artifacts</arguments> <!-- sonatype-oss-release? -->
                     </configuration>
                 </plugin>
             </plugins>
@@ -152,6 +147,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -164,6 +160,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -198,13 +195,52 @@
 
     <profiles>
         <profile>
-            <id>sign-artifacts</id>
+            <!--
+            When doing a release using the release:perform goal it includes publishing the project documentation and it
+            is unnecessary to include documentation for modules which are not "production ready". Actually, deploying
+            any artifacts for such modules is unnecessary.
+            -->
+            <id>release-modules</id>
+<!--
             <activation>
                 <property>
                     <name>performRelease</name>
                     <value>true</value>
                 </property>
             </activation>
+-->
+            <modules>
+                <module>doclet</module>
+            </modules>
+        </profile>
+        <profile>
+            <!--
+            All modules included by default. This ensures that the release:prepare goal for maven-release-plugin updates
+            the version numbers for all modules.
+            -->
+            <id>all-modules</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>report</module>
+                <module>site-map-generator-demo</module>
+                <module>doclet</module>
+                <module>devtools-skin</module>
+                <module>site-search</module>
+                <module>common</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sign-artifacts</id>
+<!--
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+-->
             <build>
                 <plugins>
                     <plugin>
@@ -235,6 +271,9 @@
                 <configuration>
                     <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                    <!-- Force specific URL to prevent the plugin to add module names to the default URL. -->
+                    <webAccessUrl>https://github.com/mikaelsvensson/devtools</webAccessUrl>
+                    <anonymousConnection>scm:git:git@github.com:mikaelsvensson/devtools.git</anonymousConnection>
                 </configuration>
                 <reportSets>
                     <reportSet>
