@@ -4,12 +4,12 @@
     <parent>
         <artifactId>devtools</artifactId>
         <groupId>info.mikaelsvensson.devtools</groupId>
-        <version>1.0</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>report</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <name>report</name>
     <url>http://devtools.mikaelsvensson.info/report</url>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>info.mikaelsvensson.devtools</groupId>
             <artifactId>common</artifactId>
-            <version>1.0</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
