@@ -1,0 +1,62 @@
+  ---
+  Using the Doclets from Console
+  ---
+
+Using the Doclets from Console
+
+  In order to use a custom Doclet, instead of the default one, one needs to specify the <<<-doclet>>> and
+  <<<-docletpath>>> options. The Doclets may themselves require some options to be specified but that another
+  thing. For now, let us start with a simple example.
+
+  First, download the binary from {{http://devtools.mikaelsvensson.info/repository/releases/info/mikaelsvensson/devtools/doclet/${projectVersion}/doclet-${projectVersion}.jar}}.
+
+  This is <<<Hello.java>>>:
+
++--
+package demo;
+
+public class Hello {
+    /**
+     * Prints the words "Hello World".
+     */
+    public static void main(String[] args) {
+        System.out.println("Hello World");
+    }
+}
++--
+
+  This is the <<<javadoc>>> command:
+
++--
+javadoc
+    -doclet info.mikaelsvensson.devtools.doclet.xml.XmlDoclet
+    -docletpath doclet-${projectVersion}.jar
+    -format.name standard
+    -output javadoc-hello.xml
+    Hello.java
++--
+
+  This is the resulting <<<javadoc-hello.xml>>>:
+
++--
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<packages>
+    <package name="demo">
+        <class abstract="false" access="public" extends="java.lang.Object" interface="false" name="Hello" qualified-name="demo.Hello" serializable="false">
+            <methods>
+                <method abstract="false" access="public" constructor="false" final="false" name="main" partofproperty="false" static="true" synchronized="false">
+                    <parameters>
+                        <parameter type="java.lang.String"/>
+                    </parameters>
+                    <returns type="void"/>
+                    <comment format="html">
+                        <p>Prints the words "Hello World".</p>
+                    </comment>
+                    <exceptions/>
+                </method>
+            </methods>
+            <interfaces/>
+        </class>
+    </package>
+</packages>
++--

@@ -86,11 +86,13 @@
                                 </xsl:if>
                             </strong>
                         </p>
-                        <p>
-                            <xsl:call-template name="documentation">
-                                <xsl:with-param name="element" select="comment/p[1]"/>
-                            </xsl:call-template>
-                        </p>
+                        <xsl:if test="comment/p[1]">
+                            <p>
+                                <xsl:call-template name="documentation">
+                                    <xsl:with-param name="element" select="comment/p[1]"/>
+                                </xsl:call-template>
+                            </p>
+                        </xsl:if>
                         <xsl:apply-templates select="." mode="doclet">
                             <xsl:with-param name="fileName" select="$fileName"/>
                         </xsl:apply-templates>

@@ -1,8 +1,8 @@
   ---
-  Using the Doclets
+  Using the Doclets in Maven
   ---
 
-Using the Doclets
+Using the Doclets in Maven
 
   Since the binaries are not yet available from the central Maven repository, it is necessary to add a
   <<<\<repository\>>>> configration to either your project's <<<pom.xml>>> or to your Maven installation's <<<settings.xml>>>.

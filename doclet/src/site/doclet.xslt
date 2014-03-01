@@ -52,41 +52,51 @@
                             <xsl:with-param name="element" select="comment"/>
                         </xsl:call-template>
 
-                        <p>
-                            Doclet Parameters:
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Default Value</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <xsl:for-each
-                                            select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
-                                        <tr>
-                                            <td>
-                                                <xsl:value-of select="@constant-value"/>
-                                            </td>
-                                            <td>
-                                                <xsl:call-template name="documentation">
-                                                    <xsl:with-param name="element" select="comment"/>
-                                                </xsl:call-template>
-                                            </td>
-                                            <td>
-                                                <xsl:value-of
-                                                        select=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
-                                            </td>
-                                        </tr>
-                                    </xsl:for-each>
-                                </tbody>
-                            </table>
+                        <section name="Required Javadoc Configuration">
+                            <p>Make sure Javadoc is started with these options:</p>
+                            <ul>
+                                <li>
+                                    <code>doclet</code>
+                                    set to
+                                    <code>
+                                        <xsl:value-of select="@qualified-name"/>
+                                    </code>
+                                </li>
+                                <li>
+                                    <code>docletpath</code>
+                                    set to the path of
+                                    <code>doclet.jar</code>.
+                                </li>
+                            </ul>
+                            <p>For more information about how to make Javadoc use this Doclet, check out the Getting
+                                Started pages:
+                            </p>
+                            <ul>
+                                <li>
+                                    <a href="using-doclets-from-console.html">Using the Doclets from Console</a>
+                                </li>
+                                <li>
+                                    <a href="using-doclets-in-maven.html">Using the Doclets in Maven</a>
+                                </li>
+                            </ul>
+                        </section>
 
-                        </p>
+                        <section name="Doclet Configuration Options">
+                            <p>These options are used only by the
+                                <xsl:value-of select="@name"/> doclet (they are specified in the same way as other
+                                Javadoc options).
+                            </p>
+
+                            <xsl:call-template name="classFormatPropertiesTable">
+                                <xsl:with-param name="element" select="."/>
+                            </xsl:call-template>
+                        </section>
+
                         <xsl:choose>
                             <xsl:when test="@qualified-name='info.mikaelsvensson.devtools.doclet.xml.XmlDoclet'">
-                                <xsl:apply-templates select="." mode="doclet-xmldoclet"/>
+                                <xsl:apply-templates select="." mode="doclet-xmldoclet">
+                                    <xsl:with-param name="docletFileName" select="$fileName"/>
+                                </xsl:apply-templates>
                             </xsl:when>
                         </xsl:choose>
                     </section>

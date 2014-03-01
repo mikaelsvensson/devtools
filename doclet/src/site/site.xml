@@ -32,7 +32,8 @@
     </custom>
     <body>
         <menu name="Getting Started">
-            <item name="Using the Doclets" href="using-doclet.html"/>
+            <item name="Using the Doclets in Maven" href="using-doclets-in-maven.html"/>
+            <item name="Using the Doclets from Console" href="using-doclets-from-console.html"/>
         </menu>
         <menu name="Chain Doclet">
             <item name="Introduction" href="index-ChainDoclet.html"/>
@@ -40,11 +41,11 @@
         <menu name="XML Doclet">
             <item name="Introduction" href="index-XmlDoclet.html"/>
             <item name="Create Custom XML Document Creator" href="custom-document-creator.html"/>
-            <item name="Samples: All of them" href="xmldoclet-samples-allbyfile.html"/>
-            <item name="Samples: elementsonly formatter" href="xmldoclet-samples-elementsonly.html"/>
-            <item name="Samples: enum formatter" href="xmldoclet-samples-enum.html"/>
-            <item name="Samples: extensive formatter" href="xmldoclet-samples-extensive.html"/>
-            <item name="Samples: standard formatter" href="xmldoclet-samples-standard.html"/>
+            <item name="Document Creator db2" href="index-XmlDoclet-db2.html"/>
+            <item name="Document Creator elementsonly" href="index-XmlDoclet-elementsonly.html"/>
+            <item name="Document Creator enum" href="index-XmlDoclet-enum.html"/>
+            <item name="Document Creator extensive" href="index-XmlDoclet-extensive.html"/>
+            <item name="Document Creator standard" href="index-XmlDoclet-standard.html"/>
         </menu>
     </body>
 </project>

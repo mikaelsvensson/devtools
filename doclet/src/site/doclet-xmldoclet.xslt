@@ -32,6 +32,9 @@
     <xsl:output method="html" indent="yes" name="html"/>
 
     <xsl:template match="class" mode="doclet-xmldoclet">
+        <xsl:param name="docletFileName"/>
+
+        <xsl:variable name="docletName" select="@name"/>
 
         <section name="Document Creators">
 
@@ -39,79 +42,145 @@
                 <xsl:with-param name="element" select="//class[@qualified-name='info.mikaelsvensson.devtools.doclet.shared.DocumentCreator']/comment"/>
             </xsl:call-template>
 
+            <table>
+                <tbody>
             <xsl:for-each
                         select="//class[@abstract='false' and starts-with(@qualified-name, 'info.mikaelsvensson.') and ends-with(@qualified-name, 'DocumentCreator')]">
                 <xsl:sort select="@name"/>
                 <xsl:variable name="document-creator-id" select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatName']/@constant-value"/>
-                    <subsection name="{$document-creator-id}">
 
-                        <xsl:call-template name="documentation">
-                            <xsl:with-param name="element" select="comment"/>
+                <xsl:variable name="documentCreatorFileName" select="concat(replace($docletFileName, '.xml','-'), $document-creator-id, '.xml')"/>
+
+                <tr>
+                    <td>
+                        <p>
+                            <xsl:value-of select="$document-creator-id"/>
+                        </p>
+                    </td>
+                    <td>
+                        <xsl:if test="comment/p[1]">
+                            <p>
+                                <xsl:call-template name="documentation">
+                                    <xsl:with-param name="element" select="comment/p[1]"/>
+                                </xsl:call-template>
+                            </p>
+                        </xsl:if>
+                        <p>
+                            <a href="{replace($documentCreatorFileName, '.xml', '.html')}">More information, options and samples</a>
+                        </p>
+                    </td>
+                </tr>
+
+                <xsl:result-document href="{$documentCreatorFileName}">
+                    <document xmlns="http://maven.apache.org/XDOC/2.0"
+                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                              xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+                        <xsl:call-template name="head">
+                            <xsl:with-param name="pageTitle">Doclet
+                                <xsl:value-of select="@name"/>
+                            </xsl:with-param>
                         </xsl:call-template>
 
-                        <p>This is how you would send parameter values to the document generator from a Maven POM file:</p>
-                        <source>
-                            <xsl:text><![CDATA[<plugin>]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[  <groupId>org.apache.maven.plugins</groupId>]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[  <artifactId>maven-javadoc-plugin</artifactId>]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[  ...]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[  <configuration>]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[    ...]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[    <doclet>info.mikaelsvensson.devtools.doclet.xml.XmlDoclet</doclet>]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[    ...]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[    <additionalparams>]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[      -format.name ]]></xsl:text><xsl:value-of select="$document-creator-id"/><xsl:text>&#x0a;</xsl:text>
-                            <xsl:for-each
-                                    select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
-                                <xsl:variable name="defaultValue"
-                                              select=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
-                                <xsl:choose>
-                                    <xsl:when test="$defaultValue">
-                                        <xsl:value-of select="concat('      -format.property.', @constant-value, ' ', $defaultValue, '&#x0a;')"/>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:value-of select="concat('      -format.property.', @constant-value, ' parameter_value', '&#x0a;')"/>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </xsl:for-each>
-                            <xsl:text><![CDATA[    </additionalparams>]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[...]]></xsl:text>
-                        </source>
+                        <body>
+                            <section name="Document Creator {$document-creator-id}">
 
-                        <br/>
-                        Parameters:
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Default Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <xsl:for-each
-                                        select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
-                                    <tr>
-                                        <td>
-                                            <xsl:value-of select="@constant-value"/>
-                                        </td>
-                                        <td>
-                                            <xsl:call-template name="documentation">
-                                                <xsl:with-param name="element" select="comment"/>
-                                            </xsl:call-template>
-                                        </td>
-                                        <td>
-                                            <xsl:value-of
-                                                    select=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
-                                        </td>
-                                    </tr>
-                                </xsl:for-each>
-                            </tbody>
-                        </table>
-                    </subsection>
-                </xsl:for-each>
+                                <p>
+                                    <a href="{replace($docletFileName, '.xml', '.html')}">Back to overview of <xsl:value-of select="$docletName"/></a>
+                                </p>
+
+                                <xsl:call-template name="documentation">
+                                    <xsl:with-param name="element" select="comment"/>
+                                </xsl:call-template>
+
+                                <p>This is how you would send parameter values to the document generator from a Maven POM file:</p>
+
+                                <source>
+                                    <xsl:text><![CDATA[<plugin>]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[  <groupId>org.apache.maven.plugins</groupId>]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[  <artifactId>maven-javadoc-plugin</artifactId>]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[  ...]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[  <configuration>]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[    ...]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[    <doclet>info.mikaelsvensson.devtools.doclet.xml.XmlDoclet</doclet>]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[    ...]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[    <additionalparams>]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[      -format.name ]]></xsl:text><xsl:value-of select="$document-creator-id"/><xsl:text>&#x0a;</xsl:text>
+                                    <xsl:for-each
+                                            select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
+                                        <xsl:variable name="defaultValue"
+                                                      select=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
+                                        <xsl:choose>
+                                            <xsl:when test="$defaultValue">
+                                                <xsl:value-of select="concat('      -format.property.', @constant-value, ' ', $defaultValue, '&#x0a;')"/>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="concat('      -format.property.', @constant-value, ' parameter_value', '&#x0a;')"/>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </xsl:for-each>
+                                    <xsl:text><![CDATA[    </additionalparams>]]>&#x0a;</xsl:text>
+                                    <xsl:text><![CDATA[...]]></xsl:text>
+                                </source>
+
+                                <subsection name="Document Creator Format Options">
+
+                                    <xsl:call-template name="classFormatPropertiesTable">
+                                        <xsl:with-param name="element" select="."/>
+                                    </xsl:call-template>
+
+                                </subsection>
+
+                                <xsl:variable name="samples" select="document('../../xmldoclet-samples-data.xml')/files/file[output/@format=$document-creator-id]"/>
+
+                                <xsl:if test="count($samples) > 0">
+
+                                    <subsection name="Samples">
+                                        <p>There are <xsl:value-of select="count($samples)"/> samples for this document creator:</p>
+                                        <ul>
+                                            <xsl:for-each select="$samples">
+                                                <xsl:sort select="@name"/>
+                                                <li><a href="#sample-{@name}"><xsl:value-of select="@name"/></a></li>
+                                            </xsl:for-each>
+                                        </ul>
+
+                                        <xsl:apply-templates select="$samples">
+                                            <xsl:with-param name="format" select="$document-creator-id"/>
+                                            <xsl:sort select="@name"/>
+                                        </xsl:apply-templates>
+                                    </subsection>
+                                </xsl:if>
+                            </section>
+                        </body>
+                    </document>
+                </xsl:result-document>
+            </xsl:for-each>
+                </tbody>
+            </table>
         </section>
 
+    </xsl:template>
+
+    <xsl:template match="file">
+        <xsl:param name="format"/>
+        <a name="sample-{@name}"/>
+        <subsection name="{@name}">
+            <xsl:apply-templates select="input | output[@format = $format]"/>
+        </subsection>
+    </xsl:template>
+
+    <xsl:template match="input">
+        <p>Source:</p>
+        <pre class="sh_java">
+            <xsl:value-of select="."/>
+        </pre>
+    </xsl:template>
+
+    <xsl:template match="output">
+        <p>Output:</p>
+        <pre class="sh_xml">
+            <xsl:value-of select="."/>
+        </pre>
     </xsl:template>
 
 </xsl:stylesheet>

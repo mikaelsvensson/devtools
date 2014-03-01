@@ -61,4 +61,36 @@
         <xsl:copy-of select="$element/child::node()"/>
     </xsl:template>
 
+    <xsl:template name="classFormatPropertiesTable">
+        <xsl:param name="element" />
+        <table>
+            <tbody>
+                <xsl:for-each
+                        select="$element//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
+                    <tr>
+                        <td>
+                            <code>
+                                <xsl:value-of select="@constant-value"/>
+                            </code>
+                        </td>
+                        <td>
+                            <xsl:call-template name="documentation">
+                                <xsl:with-param name="element" select="comment"/>
+                            </xsl:call-template>
+
+                            <xsl:if test=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']">
+                                <p>Default value:
+                                    <code>
+                                        <xsl:value-of
+                                                select=".//annotation[type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']/element-values/element-value[@element-name='defaultValue']"/>
+                                    </code>
+                                </p>
+                            </xsl:if>
+                        </td>
+                    </tr>
+                </xsl:for-each>
+            </tbody>
+        </table>
+    </xsl:template>
+
 </xsl:stylesheet>

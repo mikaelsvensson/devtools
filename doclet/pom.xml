@@ -15,6 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <projectVersion>${project.version}</projectVersion>
     </properties>
 
     <build>
