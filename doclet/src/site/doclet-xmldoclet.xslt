@@ -42,7 +42,8 @@
             <xsl:for-each
                         select="//class[@abstract='false' and starts-with(@qualified-name, 'info.mikaelsvensson.') and ends-with(@qualified-name, 'DocumentCreator')]">
                 <xsl:sort select="@name"/>
-                    <subsection name="{@name}">
+                <xsl:variable name="document-creator-id" select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatName']/@constant-value"/>
+                    <subsection name="{$document-creator-id}">
 
                         <xsl:call-template name="documentation">
                             <xsl:with-param name="element" select="comment"/>
@@ -59,7 +60,7 @@
                             <xsl:text><![CDATA[    <doclet>info.mikaelsvensson.devtools.doclet.xml.XmlDoclet</doclet>]]>&#x0a;</xsl:text>
                             <xsl:text><![CDATA[    ...]]>&#x0a;</xsl:text>
                             <xsl:text><![CDATA[    <additionalparams>]]>&#x0a;</xsl:text>
-                            <xsl:text><![CDATA[      -format.name ]]></xsl:text><xsl:value-of select="@qualified-name"/><xsl:text>&#x0a;</xsl:text>
+                            <xsl:text><![CDATA[      -format.name ]]></xsl:text><xsl:value-of select="$document-creator-id"/><xsl:text>&#x0a;</xsl:text>
                             <xsl:for-each
                                     select=".//field[annotations/annotation/type/@qualified-name='info.mikaelsvensson.devtools.doclet.xml.FormatProperty']">
                                 <xsl:variable name="defaultValue"

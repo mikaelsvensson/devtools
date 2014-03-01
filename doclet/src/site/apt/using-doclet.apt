@@ -2,7 +2,7 @@
   Using the Doclets
   ---
 
-First: Configure Repository
+Using the Doclets
 
   Since the binaries are not yet available from the central Maven repository, it is necessary to add a
   <<<\<repository\>>>> configration to either your project's <<<pom.xml>>> or to your Maven installation's <<<settings.xml>>>.
@@ -26,7 +26,7 @@ First: Configure Repository
 </repositories>
 ---
 
-Using <<<devtools>>>
+Configure Javadoc to Use Doclet
 
   Sure, <<<javadoc>>> can be started from a console but it is most often started by build tools like Ant or Maven. This
   shows how to use a custom Doclet when starting Javadoc using <<<maven-javadoc-plugin>>>.
@@ -57,7 +57,9 @@ Using <<<devtools>>>
 </build>
 ---
 
-  XSLT 2.0 transformations using <Saxon-HE 9.4>:
+  Using XSLT and {{{./index-XmlDoclet.html}XmlDoclet}} is a potent combination and it gets even more powerful when one
+  releases the awesome power of XSLT 2.0! To do this one needs to add a XSLT 2.0 library to the "doclet path". One
+  such library is <Saxon-HE 9.4> and it can be used like this:
 
 ---
 <docletArtifacts>

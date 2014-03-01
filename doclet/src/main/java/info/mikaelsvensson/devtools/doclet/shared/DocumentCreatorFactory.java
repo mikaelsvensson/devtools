@@ -16,50 +16,50 @@
 
 package info.mikaelsvensson.devtools.doclet.shared;
 
-import info.mikaelsvensson.devtools.doclet.xml.documentcreator.ElementsOnlyDocumentCreator;
-import info.mikaelsvensson.devtools.doclet.xml.documentcreator.EnumDocumentCreator;
-import info.mikaelsvensson.devtools.doclet.xml.documentcreator.StandardDocumentCreator;
-import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.Db2MetadataDocumentCreator;
-import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive.ExtensiveDocumentCreator;
-
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ServiceLoader;
 
 public final class DocumentCreatorFactory {
-    private static Map<String, Class<? extends DocumentCreator>> factories = new HashMap<String, Class<? extends DocumentCreator>>();
 
-    static {
-        DocumentCreatorFactory.registerDocumentCreatorFactory(EnumDocumentCreator.NAME, EnumDocumentCreator.class);
-        DocumentCreatorFactory.registerDocumentCreatorFactory(StandardDocumentCreator.NAME, StandardDocumentCreator.class);
-        DocumentCreatorFactory.registerDocumentCreatorFactory(ElementsOnlyDocumentCreator.NAME, ElementsOnlyDocumentCreator.class);
-        DocumentCreatorFactory.registerDocumentCreatorFactory(ExtensiveDocumentCreator.NAME, ExtensiveDocumentCreator.class);
-        DocumentCreatorFactory.registerDocumentCreatorFactory(Db2MetadataDocumentCreator.NAME, Db2MetadataDocumentCreator.class);
-    }
+    private static ServiceLoader<DocumentCreator> documentCreatorLoader = ServiceLoader.load(DocumentCreator.class);
 
     private DocumentCreatorFactory() {
     }
 
-    public static DocumentCreator getDocumentCreator(String id) {
-
-        if (factories.containsKey(id)) {
-            try {
-                return factories.get(id).getConstructor().newInstance();
-            } catch (NoSuchMethodException e) {
-                return null;
-            } catch (InvocationTargetException e) {
-                return null;
-            } catch (InstantiationException e) {
-                return null;
-            } catch (IllegalAccessException e) {
-                return null;
+    /**
+     * First, the factory finds out if requested document creator name matches any of the known document
+     * creators (the ones defined in the META-INF folder according to the ServiceLoader API requirements).
+     * <p/>
+     * If that fails the factory guesses that the requested document creator name is actually the class
+     * name of a DocumentCreator implementation and attempts to load, and instantiate, that class.
+     */
+    public static DocumentCreator getDocumentCreator(String name) throws DocumentCreatorFactoryException {
+        /*
+         * Scan known document creators.
+         */
+        for (DocumentCreator creator : documentCreatorLoader) {
+            if (creator.getName().equals(name)) {
+                return creator;
             }
-        } else {
-            return null;
         }
-    }
-
-    public static void registerDocumentCreatorFactory(String id, Class<? extends DocumentCreator> documentCreatorClass) {
-        factories.put(id, documentCreatorClass);
+        /*
+         * Test if requested name is actually the name of an implementation class.
+         */
+        try {
+            Class<?> cls = ClassLoader.getSystemClassLoader().loadClass(name);
+            return (DocumentCreator) cls.getConstructor().newInstance();
+        } catch (ClassCastException e) {
+            throw new DocumentCreatorFactoryException(e);
+        } catch (NoSuchMethodException e) {
+            throw new DocumentCreatorFactoryException(e);
+        } catch (InvocationTargetException e) {
+            throw new DocumentCreatorFactoryException(e);
+        } catch (InstantiationException e) {
+            throw new DocumentCreatorFactoryException(e);
+        } catch (IllegalAccessException e) {
+            throw new DocumentCreatorFactoryException(e);
+        } catch (ClassNotFoundException e) {
+            throw new DocumentCreatorFactoryException(e);
+        }
     }
 }

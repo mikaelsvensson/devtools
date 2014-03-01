@@ -31,6 +31,11 @@ import javax.xml.parsers.ParserConfigurationException;
 public abstract class AbstractDocumentCreator implements DocumentCreator {
     protected static final String ATTR_NAME = "name";
     protected static final String ATTR_Q_NAME = "qualified-name";
+    private String id;
+
+    protected AbstractDocumentCreator(String id) {
+        this.id = id;
+    }
 
     protected Document createDocument(final String rootElementName) throws ParserConfigurationException {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -52,5 +57,10 @@ public abstract class AbstractDocumentCreator implements DocumentCreator {
         } catch (JavadocItemHandlerException e) {
             throw new DocumentCreatorException(e);
         }
+    }
+
+    @Override
+    public String getName() {
+        return id;
     }
 }

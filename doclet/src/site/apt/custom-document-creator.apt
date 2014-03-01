@@ -1,0 +1,174 @@
+  ---
+  Create Custom XML Document Creator
+  ---
+
+Create Custom XML Document Creator
+
+  Most of the build-in document creators have a couple of configuration options, allowing for some customization of
+  what the generated XML document will look like. These options are enough in most cases but the may be cases when
+  you need even more control over the produced XML documents. For this reason, there is a "plug-in mechanism" which
+  allows anyone to create their own document creators, either from scratch or by extending an existing one.
+
+First: Configure Repository
+
+  Since the binaries are not yet available from the central Maven repository, it is necessary to add a
+  <<<\<repository\>>>> configration to either your project's <<<pom.xml>>> or to your Maven installation's <<<settings.xml>>>.
+
+---
+<repositories>
+    <repository>
+        <id>mikaelsvensson-snapshots</id>
+        <url>http://devtools.mikaelsvensson.info/repository/snapshots/</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+    </repository>
+    <repository>
+        <id>mikaelsvensson-releases</id>
+        <url>http://devtools.mikaelsvensson.info/repository/releases/</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+---
+
+Extending Doclet
+
+  Add a Maven dependency if you want to create your own Doclets based on the ones in <<<devtools>>>
+
+---
+<dependency>
+    <groupId>info.mikaelsvensson.devtools</groupId>
+    <artifactId>doclet</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+---
+
+  An then you write your customization by, for example, extending <<<XmlDoclet>>> or
+  implementing <<<DocumentCreator>>>.
+
+Creating Your Own Document Creator
+
+  It is pretty straight-forward to create your own document creator, either by extending and existing
+  one or by creating one from scratch.
+
+  Extending an existing one is as simple as extending, for example, <<<StandardDocumentCreator>>> and overriding its <<<generateDocument>>> method.
+
+  Creating one from scratch is basically the same thing: Implement the <<<DocumentCreator>>> interface and its <<<generateDocument>>> method.
+
+  Then you only need to compile your document creator and make sure the class files are accessible
+  to <<<javadoc>>> when you run it.
+
+  When invoked, <<<XmlDoclet>>> will only be able to use your document creator if you refer to it using
+  its fully-qualified class name (see the next section). If you want to simplify configuration you may
+  give the document creator a (shorter) name.
+
+  This is done in two steps:
+
+  [[1]] overriding/implementing the <<<getName>>> method
+
+  [[2]] including the fully-qualified class name of your document creator in a file called
+  <<</META-INF/services/info.mikaelsvensson.devtools.doclet.shared.DocumentCreator>>>. Yes, the file
+  has no file extension and it should only contain the class name(s) of your document creators.
+
+  []
+
+  The <<<info.mikaelsvensson.devtools:demo>>> module contains a sample document creator named
+  <<<demo.ClassNameOnlyDocumentGenerator>>>. Let us look at its two files...
+
+  <<<src\main\java\demo\ClassNameOnlyDocumentGenerator.java>>>:
+
+---
+package demo;
+
+import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.RootDoc;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
+import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.AbstractDocumentCreator;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+public class ClassNameOnlyDocumentGenerator extends AbstractDocumentCreator {
+    public ClassNameOnlyDocumentGenerator() {
+        super("classnameonly"); // Name returned by AbstractDocumentCreator.getName()
+    }
+
+    @Override
+    public Document generateDocument(RootDoc doc, PropertySet properties) throws DocumentCreatorException {
+        try {
+            Document root = createDocument("classes"); // Helper method inherited from superclass
+            for (ClassDoc classDoc : doc.classes()) {
+                Element clsElement = root.createElement("class");
+                clsElement.setAttribute("name", classDoc.name());
+                root.getDocumentElement().appendChild(clsElement);
+            }
+            return root;
+        } catch (ParserConfigurationException e) {
+            return null; // Not the best of error handling...
+        }
+    }
+}
+---
+
+  <<<src\main\resources\META-INF\services\info.mikaelsvensson.devtools.doclet.shared.DocumentCreator>>>:
+
+---
+demo.ClassNameOnlyDocumentGenerator
+---
+
+*Using Your Own Document Creator
+
+  As usual, the document creator to use is specified using the <<<format.name>>> parameter. If you
+  generate your documentation using Maven and the <<<maven-javadoc-plugin>>>, you specify this in
+  the in <<<\<additionalparams\>>>> element of your plugin configuration.
+
+  The name of your document creator is either the fully-qualified class name or, if you provided a custom
+  name as per the previous section, the name returned by the <<<DocumentCreator.getName()>>> method.
+
+  Let us look at an example...
+
+  Imaging a Maven module with a single Java file, <<<HelloWorld.java>>> and this piece of code in its <<<pom.xml>>>:
+
+---
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>generate-site-content-from-javadoc</id>
+            <goals>
+                <goal>javadoc</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+                <doclet>info.mikaelsvensson.devtools.doclet.xml.XmlDoclet</doclet>
+                <docletArtifacts>
+                    <docletArtifact>
+                        <groupId>info.mikaelsvensson.devtools</groupId>
+                        <artifactId>demo</artifactId>
+                    </docletArtifact>
+                </docletArtifacts>
+                <additionalparam>
+                    -format.name classnameonly
+                    -output ${project.build.directory}/classes.xml
+                </additionalparam>
+                <useStandardDocletOptions>false</useStandardDocletOptions>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+---
+
+  When running <<<mvn package>>>, the document creator mentioned above will be used to produce this file
+  (called <<<classes.xml>>>) in the <<<target>>> folder:
+
+---
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<classes>
+    <class name="HelloWorld"/>
+</classes>
+---

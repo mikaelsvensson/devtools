@@ -20,6 +20,7 @@ import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.xml.FormatName;
 import info.mikaelsvensson.devtools.doclet.xml.FormatProperty;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.AbstractDocumentCreator;
 import org.w3c.dom.Document;
@@ -93,6 +94,7 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
     @FormatProperty(defaultValue = ClassDocHandler.DEFAULT_ANNOTATION_MEMBER_TYPE_FILTER)
     public static final String ANNOTATION_MEMBER_TYPE_FILTER = "annotationMemberTypeFilter";
 
+    @FormatName
     public static final String NAME = "extensive";
 
     /**
@@ -117,6 +119,10 @@ public class ExtensiveDocumentCreator extends AbstractDocumentCreator {
      */
     @FormatProperty
     public static final String WRAP_LIST_ELEMENTS = "wrapListElements";
+
+    public ExtensiveDocumentCreator() {
+        super(NAME);
+    }
 
 // ------------------------ INTERFACE METHODS ------------------------
 

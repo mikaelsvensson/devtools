@@ -18,10 +18,10 @@ package info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2;
 
 import com.sun.javadoc.*;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
-import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactory;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.xml.FormatName;
 import info.mikaelsvensson.devtools.doclet.xml.FormatProperty;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.AbstractDocumentCreator;
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.metadata.*;
@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 
 //TODO: MISV 20120621 Move to module doc-util-space12 (thus removing the need to depend om openejb for the javax.persistence annotations)
 public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
+    @FormatName
     public static final String NAME = "db2";
 
     /**
@@ -56,18 +57,11 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
     private static final String ATTR_TYPE = "type";
     public static final String PROPERTY_DATABASE_NAME = "Database Name";
 
+    public Db2MetadataDocumentCreator() {
+        super(NAME);
+    }
+
 //    private Db2ConverterDocletAction options;
-
-/*
-    public Db2MetadataDocumentCreator(Db2ConverterDocletAction options) throws ParserConfigurationException {
-        super();
-        this.options = options;
-    }
-*/
-
-    public static void register() {
-        DocumentCreatorFactory.registerDocumentCreatorFactory(Db2MetadataDocumentCreator.NAME, Db2MetadataDocumentCreator.class);
-    }
 
     @Override
     public Document generateDocument(RootDoc doc, final PropertySet properties) throws DocumentCreatorException {

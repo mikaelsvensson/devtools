@@ -7,10 +7,10 @@
         <groupId>info.mikaelsvensson.devtools</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>site-map-generator-demo</artifactId>
+    <artifactId>demo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>site-map-generator-demo</name>
+    <name>demo</name>
     <url>http://devtools.mikaelsvensson.info/site-map-generator-demo</url>
 
     <properties>
@@ -19,6 +19,35 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-site-content-from-javadoc</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <doclet>info.mikaelsvensson.devtools.doclet.xml.XmlDoclet</doclet>
+                            <docletArtifacts>
+                                <docletArtifact>
+                                    <groupId>info.mikaelsvensson.devtools</groupId>
+                                    <artifactId>demo</artifactId>
+                                    <version>1.0-SNAPSHOT</version>
+                                </docletArtifact>
+                            </docletArtifacts>
+                            <additionalparam>
+                                -format.name classnameonly
+                                -output ${project.build.directory}/classes.xml
+                            </additionalparam>
+                            <useStandardDocletOptions>false</useStandardDocletOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -106,6 +135,11 @@
         <dependency>
             <groupId>info.mikaelsvensson.devtools</groupId>
             <artifactId>report</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>info.mikaelsvensson.devtools</groupId>
+            <artifactId>doclet</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

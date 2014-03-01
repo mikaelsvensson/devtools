@@ -1,0 +1,5 @@
+info.mikaelsvensson.devtools.doclet.xml.documentcreator.db2.Db2MetadataDocumentCreator
+info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive.ExtensiveDocumentCreator
+info.mikaelsvensson.devtools.doclet.xml.documentcreator.ElementsOnlyDocumentCreator
+info.mikaelsvensson.devtools.doclet.xml.documentcreator.EnumDocumentCreator
+info.mikaelsvensson.devtools.doclet.xml.documentcreator.StandardDocumentCreator

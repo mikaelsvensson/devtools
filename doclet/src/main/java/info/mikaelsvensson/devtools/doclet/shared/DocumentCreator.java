@@ -41,4 +41,11 @@ public interface DocumentCreator {
      * @throws DocumentCreatorException thrown in case an unrecoverable/severe error occurs during document generation.
      */
     Document generateDocument(RootDoc doc, final PropertySet properties) throws DocumentCreatorException;
+
+    /**
+     * String used to identify the document creator in configuration files. Hence, it must be unique.
+     *
+     * @return string which uniquely identifies the document creator in lists of other document creator names
+     */
+    String getName();
 }

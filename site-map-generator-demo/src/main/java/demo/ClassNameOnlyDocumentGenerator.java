@@ -14,42 +14,35 @@
  *    limitations under the License.
  */
 
-package info.mikaelsvensson.devtools.doclet.xml.documentcreator;
+package demo;
 
 import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.RootDoc;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
-import info.mikaelsvensson.devtools.doclet.shared.DocumentWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
-import info.mikaelsvensson.devtools.doclet.xml.FormatName;
+import info.mikaelsvensson.devtools.doclet.xml.documentcreator.AbstractDocumentCreator;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-/**
- * Very simple document creator which only outputs a list of class names.
- */
-public class ElementsOnlyDocumentCreator extends AbstractDocumentCreator {
-    @FormatName
-    public static final String NAME = "elementsonly";
-
-    public ElementsOnlyDocumentCreator() {
-        super(NAME);
+public class ClassNameOnlyDocumentGenerator extends AbstractDocumentCreator {
+    public ClassNameOnlyDocumentGenerator() {
+        super("classnameonly");
     }
 
     @Override
-    public Document generateDocument(final RootDoc doc, final PropertySet properties) throws DocumentCreatorException {
-
-        DocumentWrapper documentWrapper;
+    public Document generateDocument(RootDoc doc, PropertySet properties) throws DocumentCreatorException {
         try {
-            documentWrapper = new DocumentWrapper(createDocument("classes"));
+            Document root = createDocument("classes");
+            for (ClassDoc classDoc : doc.classes()) {
+                Element clsElement = root.createElement("class");
+                clsElement.setAttribute("name", classDoc.name());
+                root.getDocumentElement().appendChild(clsElement);
+            }
+            return root;
         } catch (ParserConfigurationException e) {
-            throw new DocumentCreatorException(e);
+            return null;
         }
-
-        for (ClassDoc classDoc : doc.classes()) {
-            documentWrapper.addChild("class").addChild("name").setText(classDoc.qualifiedName());
-        }
-        return documentWrapper.getDocument();
     }
 }

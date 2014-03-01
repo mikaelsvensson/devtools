@@ -2,6 +2,7 @@ package info.mikaelsvensson.devtools.xml.documentcreator;
 
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreator;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactory;
+import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactoryException;
 import info.mikaelsvensson.devtools.doclet.xml.XmlDoclet;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
@@ -31,7 +32,7 @@ public abstract class AbstractDocumentCreatorTest {
         XMLUnit.setIgnoreAttributeOrder(true);
     }
 
-    protected void performTest(String documentCreatorId, final Class testClass, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException {
+    protected void performTest(String documentCreatorId, final Class testClass, String... documentCreatorArgs) throws IOException, URISyntaxException, SAXException, ParserConfigurationException, DocumentCreatorFactoryException {
 
         DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(documentCreatorId);
 

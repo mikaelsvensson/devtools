@@ -21,6 +21,7 @@ import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.xml.FormatName;
 import info.mikaelsvensson.devtools.doclet.xml.FormatProperty;
 import org.w3c.dom.Document;
 
@@ -36,6 +37,7 @@ import java.util.Map;
  */
 public class StandardDocumentCreator extends AbstractDocumentCreator {
 
+    @FormatName
     public static final String NAME = "standard";
 
     @FormatProperty
@@ -50,6 +52,10 @@ public class StandardDocumentCreator extends AbstractDocumentCreator {
     public static final String PARAMETER_TEXT_ONLY_COMMENTS = "textOnlyComments";
     @FormatProperty
     public static final String PARAMETER_SHOW_ALL_TAGS = "showAllTags";
+
+    public StandardDocumentCreator() {
+        super(NAME);
+    }
 
     private class Options {
         private boolean showAnnotations;

@@ -23,6 +23,7 @@ import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorException;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
 import info.mikaelsvensson.devtools.doclet.shared.propertyset.PropertySet;
+import info.mikaelsvensson.devtools.doclet.xml.FormatName;
 import info.mikaelsvensson.devtools.doclet.xml.FormatProperty;
 import org.w3c.dom.Document;
 
@@ -45,6 +46,7 @@ import java.util.Map;
  * This allows this document creator to access the names, types <em>and values</em> for the enumeration constants.
  */
 public class EnumDocumentCreator extends AbstractDocumentCreator {
+    @FormatName
     public static final String NAME = "enum";
 
     /**
@@ -53,6 +55,10 @@ public class EnumDocumentCreator extends AbstractDocumentCreator {
      */
     @FormatProperty
     public static final String PARAMETER_CLASS_FOLDER = "classfolder";
+
+    public EnumDocumentCreator() {
+        super(NAME);
+    }
 
     @Override
     public Document generateDocument(final RootDoc doc, final PropertySet properties) throws DocumentCreatorException {
