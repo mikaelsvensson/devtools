@@ -65,12 +65,16 @@ public class AbstractDoclet {
         root.printNotice(message);
     }
 
-    protected void printError(Exception e) {
-        root.printError(e.getMessage());
+    protected void printError(Throwable e) {
+        root.printError(getMessage(e));
     }
 
-    protected void printWarning(Exception e) {
-        root.printWarning(e.getMessage());
+    protected void printWarning(Throwable e) {
+        root.printWarning(getMessage(e));
+    }
+
+    private String getMessage(Throwable e) {
+        return e.getClass().getName() + " " + e.getMessage();
     }
 
 }
