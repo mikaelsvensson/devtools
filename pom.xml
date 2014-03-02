@@ -1,6 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <modules>
+        <module>analysis</module>
+    </modules>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
     <groupId>info.mikaelsvensson.devtools</groupId>
     <artifactId>devtools</artifactId>
     <packaging>pom</packaging>
@@ -12,27 +19,20 @@
         Javadoc and performing server log analysis.
     </description>
 
-    <distributionManagement>
-        <repository>
-            <id>mikaelsvensson-devtools</id>
-            <url>ftp://ftp.mikaelsvensson.info/devtools/repository/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>mikaelsvensson-devtools</id>
-            <url>ftp://ftp.mikaelsvensson.info/devtools/repository/snapshots</url>
-        </snapshotRepository>
-        <downloadUrl>https://github.com/mikaelsvensson/devtools/downloads</downloadUrl>
-        <site>
-            <id>mikaelsvensson-devtools</id>
-            <url>ftp://ftp.mikaelsvensson.info/devtools</url>
-        </site>
-    </distributionManagement>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <!--<distribution>repo</distribution>-->
+        </license>
+    </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/mikaelsvensson/devtools.git</connection>
-        <url>https://github.com/mikaelsvensson/devtools</url>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:git@github.com:mikaelsvensson/devtools.git</connection>
+        <developerConnection>scm:git:git@github.com:mikaelsvensson/devtools.git</developerConnection>
+        <url>git@github.com:mikaelsvensson/devtools.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <issueManagement>
         <system>GitHub Issues</system>
@@ -261,6 +261,27 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>deploy-mikaelsvensson</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>mikaelsvensson-devtools</id>
+                    <url>ftp://ftp.mikaelsvensson.info/devtools/repository/releases</url>
+                </repository>
+                <snapshotRepository>
+                    <id>mikaelsvensson-devtools</id>
+                    <url>ftp://ftp.mikaelsvensson.info/devtools/repository/snapshots</url>
+                </snapshotRepository>
+                <downloadUrl>https://github.com/mikaelsvensson/devtools/downloads</downloadUrl>
+                <site>
+                    <id>mikaelsvensson-devtools</id>
+                    <url>ftp://ftp.mikaelsvensson.info/devtools</url>
+                </site>
+            </distributionManagement>
         </profile>
     </profiles>
 
