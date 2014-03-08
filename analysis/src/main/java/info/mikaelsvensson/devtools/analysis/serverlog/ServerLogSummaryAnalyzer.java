@@ -22,20 +22,19 @@ import org.apache.commons.cli.CommandLine;
 
 import java.io.File;
 
-public class ServerLogSummaryAnalyzer extends AbstractAnalyzer
-{
-    public static void main(String[] args) throws Exception
-    {
-        new ServerLogSummaryAnalyzer().run(args,
-                "Utility for summarizing the JBoss server log file based on message categories and priorities.");
+public class ServerLogSummaryAnalyzer extends AbstractAnalyzer {
+    public static void main(String[] args) throws Exception {
+        new ServerLogSummaryAnalyzer().run(args);
+    }
+
+    public void run(String[] args) throws Exception {
+        run(args, "Utility for summarizing the JBoss server log file based on message categories and priorities.");
     }
 
     @Override
-    protected void runImpl(CommandLine commandLine, String[] files, String reportFileName) throws Exception
-    {
+    protected void runImpl(CommandLine commandLine, String[] files, String reportFileName) throws Exception {
         File[] fs = new File[files.length];
-        for (int i = 0; i < files.length; i++)
-        {
+        for (int i = 0; i < files.length; i++) {
             String path = files[i];
             fs[i] = new File(path);
         }
