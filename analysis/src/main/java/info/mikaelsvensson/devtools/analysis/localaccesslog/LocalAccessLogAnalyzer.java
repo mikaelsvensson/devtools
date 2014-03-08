@@ -31,10 +31,12 @@ import java.util.Collections;
 public class LocalAccessLogAnalyzer extends AbstractAnalyzer
 {
 
-    public static void main(String[] args) throws Exception
-    {
-        new LocalAccessLogAnalyzer().run(args, "Counts the number of different http status codes in the http access log, e.g. localhost_access_log.log. The result is exported as both a plain-text report and a pie chart.");
+    public static void main(String[] args) throws Exception {
+        new LocalAccessLogAnalyzer().run(args);
+    }
 
+    public void run(String[] args) throws Exception {
+        run(args, "Counts the number of different http status codes in the http access log, e.g. localhost_access_log.log. The result is exported as both a plain-text report and a pie chart.");
     }
 
     @Override
