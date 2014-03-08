@@ -23,8 +23,7 @@ import org.apache.commons.cli.OptionBuilder;
 
 import java.io.File;
 
-public class Db2MonAnalyzer extends AbstractAnalyzer
-{
+public class Db2MonAnalyzer extends AbstractAnalyzer {
 
     private static final String OPT_ALL_COLUMN_NAMES = "all-column-names";
     private static final String OPT_OUTPUT_COLUMN_NAMES = "output-column-names";
@@ -33,9 +32,12 @@ public class Db2MonAnalyzer extends AbstractAnalyzer
     private static final String OPT_ROW_ID_FILTER_PATTERN = "rowid-filter-pattern";
     private static final int MINUTES_BETWEEN_SESSIONS = 1;
 
-    public static void main(String[] args) throws Exception
-    {
-        new Db2MonAnalyzer().run(args, "" +
+    public static void main(String[] args) throws Exception {
+        new Db2MonAnalyzer().run(args);
+    }
+
+    public void run(String[] args) throws Exception {
+        run(args, "" +
                 "Tool explicitly designed to aid in the analysis of DB2 statistics information acquired by " +
                 "repeatedly exporting information from views/functions such as MON_GET_TABLE to text files. " +
                 "The name of each such text file must contain a timestamp of some sort. All lines of all " +
@@ -47,17 +49,16 @@ public class Db2MonAnalyzer extends AbstractAnalyzer
                 OptionBuilder.isRequired().withArgName("pattern").withDescription("MessageFormat pattern used for extracting timestamp from date column").withLongOpt(OPT_DATE_FORMAT).hasArg().create("df"));
     }
 
+
     @Override
-    protected void runImpl(CommandLine commandLine, String[] filePaths, String reportFileName) throws Exception
-    {
+    protected void runImpl(CommandLine commandLine, String[] filePaths, String reportFileName) throws Exception {
         String[] columnNames = commandLine.hasOption(OPT_ALL_COLUMN_NAMES) ? commandLine.getOptionValues(OPT_ALL_COLUMN_NAMES) : null;
         String[] outputColumnNames = commandLine.hasOption(OPT_OUTPUT_COLUMN_NAMES) ? commandLine.getOptionValues(OPT_OUTPUT_COLUMN_NAMES) : null;
         String[] idColumnNames = commandLine.hasOption(OPT_ID_COLUMN_NAMES) ? commandLine.getOptionValues(OPT_ID_COLUMN_NAMES) : null;
         String dateFormat = commandLine.getOptionValue(OPT_DATE_FORMAT);
         final String rowIdFilterPattern = commandLine.getOptionValue(OPT_ROW_ID_FILTER_PATTERN);
         final File[] files = new File[filePaths.length];
-        for (int i = 0; i < filePaths.length; i++)
-        {
+        for (int i = 0; i < filePaths.length; i++) {
             files[i] = new File(filePaths[i]);
         }
         Db2MonLog log = Db2MonLog.fromLogFile(MINUTES_BETWEEN_SESSIONS, dateFormat, files);
