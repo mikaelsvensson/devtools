@@ -29,6 +29,9 @@ public abstract class AbstractCommandHandler implements CommandHandler {
     public static String getAffectedTableName(String sql) {
         int posDot = sql.indexOf('.');
         int posSpace = sql.indexOf(' ', posDot);
+        posSpace = posSpace == -1 ? sql.indexOf('\n', posDot) : posSpace;
+        posSpace = posSpace == -1 ? sql.indexOf('\r', posDot) : posSpace;
+        posSpace = posSpace == -1 ? sql.indexOf('\t', posDot) : posSpace;
         return sql.substring(posDot + 1 + 1, posSpace - 1);
     }
 
