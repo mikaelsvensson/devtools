@@ -27,6 +27,23 @@
         </license>
     </licenses>
 
+    <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+
+        <downloadUrl>https://github.com/mikaelsvensson/devtools/downloads</downloadUrl>
+        <site>
+            <id>mikaelsvensson-devtools</id>
+            <url>ftp://ftp.mikaelsvensson.info/devtools</url>
+        </site>
+    </distributionManagement>
+
     <scm>
         <connection>scm:git:git@github.com:mikaelsvensson/devtools.git</connection>
         <developerConnection>scm:git:git@github.com:mikaelsvensson/devtools.git</developerConnection>
@@ -264,9 +281,6 @@
         </profile>
         <profile>
             <id>deploy-mikaelsvensson</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <distributionManagement>
                 <repository>
                     <id>mikaelsvensson-devtools</id>
@@ -276,11 +290,6 @@
                     <id>mikaelsvensson-devtools</id>
                     <url>ftp://ftp.mikaelsvensson.info/devtools/repository/snapshots</url>
                 </snapshotRepository>
-                <downloadUrl>https://github.com/mikaelsvensson/devtools/downloads</downloadUrl>
-                <site>
-                    <id>mikaelsvensson-devtools</id>
-                    <url>ftp://ftp.mikaelsvensson.info/devtools</url>
-                </site>
             </distributionManagement>
         </profile>
     </profiles>
