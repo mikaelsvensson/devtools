@@ -4,10 +4,10 @@
     <parent>
         <artifactId>devtools</artifactId>
         <groupId>info.mikaelsvensson.devtools</groupId>
-        <version>1.2</version>
+        <version>1.3-SNAPSHOT</version>
     </parent>
     <artifactId>doclet</artifactId>
-    <version>1.2</version>
+    <version>1.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>doclet</name>
     <url>http://devtools.mikaelsvensson.info/doclet</url>
