@@ -4,10 +4,10 @@
     <parent>
         <artifactId>devtools</artifactId>
         <groupId>info.mikaelsvensson.devtools</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2</version>
     </parent>
     <artifactId>demo</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
     <name>demo</name>
     <url>http://devtools.mikaelsvensson.info/site-map-generator-demo</url>
@@ -134,12 +134,12 @@
         <dependency>
             <groupId>info.mikaelsvensson.devtools</groupId>
             <artifactId>report</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>info.mikaelsvensson.devtools</groupId>
             <artifactId>doclet</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 
