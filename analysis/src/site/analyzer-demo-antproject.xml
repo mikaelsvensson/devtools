@@ -1,0 +1,23 @@
+<project name="Demo Project for Ant" default="test-serverlogsummaryanalyzer">
+    <property name="projectVersion" value="1.2-SNAPSHOT"/>
+    <property name="jarVersion" value="1.2-20140309.073747-8"/>
+    <target name="test-serverlogsummaryanalyzer">
+        <get src="https://oss.sonatype.org/content/repositories/snapshots/info/mikaelsvensson/devtools/analysis/${projectVersion}/analysis-${jarVersion}-jar-with-dependencies.jar"
+             dest="."/>
+
+        <fileset id="server_log.set" dir="../test/resources/sample-logs">
+            <include name="**/server.log*"/>
+        </fileset>
+        <pathconvert property="server_log.paths" pathsep="&quot; &quot;" refid="server_log.set"/>
+
+        <java classname="info.mikaelsvensson.devtools.analysis.serverlog.ServerLogSummaryAnalyzer"
+              fork="true"
+              failonerror="false">
+            <arg line="
+                --report-file-name ServerLogSummaryAnalyzer.Report.txt
+                --files &quot;${server_log.paths}&quot;
+                "/>
+            <classpath path="analysis-${jarVersion}-jar-with-dependencies.jar"/>
+        </java>
+    </target>
+</project>

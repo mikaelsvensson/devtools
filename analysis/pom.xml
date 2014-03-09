@@ -15,7 +15,55 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <projectVersion>${project.version}</projectVersion>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-site-content-from-javadoc</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <sourcepath>${project.build.sourceDirectory}</sourcepath>
+                            <docfilessubdirs>true</docfilessubdirs>
+                            <doclet>info.mikaelsvensson.devtools.doclet.xml.XmlDoclet</doclet>
+                            <docletArtifacts>
+                                <docletArtifact>
+                                    <groupId>info.mikaelsvensson.devtools</groupId>
+                                    <artifactId>doclet</artifactId>
+                                    <version>${project.version}</version>
+                                </docletArtifact>
+                                <docletArtifact>
+                                    <groupId>net.sf.saxon</groupId>
+                                    <artifactId>Saxon-HE</artifactId>
+                                    <version>9.4</version>
+                                </docletArtifact>
+                            </docletArtifacts>
+                            <show>private</show>
+                            <destDir>../</destDir>
+                            <additionalparam>
+                                -format.name extensive
+                                -format.property.wrapListElements true
+                                -format.property.showAnnotations true
+                                -output ${project.build.sourceDirectory}/../../site/xdoc/index.xml
+                                -transformer ${project.build.sourceDirectory}/../../site/index.xslt
+                                -untransformedoutput ./source-code-documentation.xml
+                            </additionalparam>
+                            <useStandardDocletOptions>false</useStandardDocletOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>

@@ -78,7 +78,7 @@
         <attribute name="format-params" default=""/>
         <sequential>
             <property name="temp-file-abs" location="${temp-file}"/>
-            <javadoc private="true" verbose="true" sourcefiles="@{javasource}" doclet="info.mikaelsvensson.devtools.doclet.xml.XmlDoclet" docletpath="target/classes" additionalparam="-format.name @{format} -output ${temp-file-abs} @{format-params}" />
+            <javadoc private="true" verbose="true" sourcefiles="@{javasource}" doclet="info.mikaelsvensson.devtools.doclet.xml.XmlDoclet" docletpath="target/classes" classpath="target/classes" additionalparam="-format.name @{format} -output ${temp-file-abs} @{format-params}" />
             <concat destfile="${xml-file}" append="true">
                 <path path="${temp-file}" />
                 <filterchain>
