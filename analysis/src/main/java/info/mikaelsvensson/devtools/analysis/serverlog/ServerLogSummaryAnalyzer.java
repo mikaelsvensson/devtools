@@ -17,18 +17,17 @@
 package info.mikaelsvensson.devtools.analysis.serverlog;
 
 import info.mikaelsvensson.devtools.analysis.shared.AbstractAnalyzer;
+import info.mikaelsvensson.devtools.analysis.shared.CliHelp;
 import info.mikaelsvensson.devtools.analysis.shared.reportprinter.PlainTextReportPrinter;
 import org.apache.commons.cli.CommandLine;
 
 import java.io.File;
 
+@CliHelp(text = "" +
+        "Utility for summarizing the JBoss server log file based on message categories and priorities.")
 public class ServerLogSummaryAnalyzer extends AbstractAnalyzer {
     public static void main(String[] args) throws Exception {
         new ServerLogSummaryAnalyzer().run(args);
-    }
-
-    public void run(String[] args) throws Exception {
-        run(args, "Utility for summarizing the JBoss server log file based on message categories and priorities.");
     }
 
     @Override

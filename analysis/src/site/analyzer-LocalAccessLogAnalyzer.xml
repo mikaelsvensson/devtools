@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <subsection name="Compiling">
+        <p>
+            <code>analysis$ mvn clean install dependency:copy-dependencies</code>
+        </p>
+    </subsection>
+    <subsection name="Running">
+        <p>Usage example:</p>
+
+        <pre><![CDATA[
+    java info.mikaelsvensson.devtools.analysis.localaccesslog.LocalAccessLogAnalyzer \
+        -rfn LocalAccessLogAnalyzer.Report.{4}.txt \
+        -f jboss-eap-5.1\jboss-as\server\default\log\local*
+]]></pre>
+
+        <p>The report will be saved as
+            <code>LocalAccessLogAnalyzer.Report.log.txt</code>
+        </p>
+
+        <p>Additional pie charts for each session mentioned in the report:</p>
+        <ul>
+            <li><code>LocalAccessLogAnalyzer.Report.log.txt.2014-01-22-0806.png</code></li>
+            <li><code>LocalAccessLogAnalyzer.Report.log.txt.2014-01-22-1033.png</code></li>
+            <li>...</li>
+        </ul>
+
+        <p>Note how {4} in the "rfn" argument value is replaced by the name of the log file's folder.</p>
+
+    </subsection>
+</document>

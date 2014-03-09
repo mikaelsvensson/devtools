@@ -16,39 +16,65 @@
 
 package info.mikaelsvensson.devtools.analysis.db2;
 
-import info.mikaelsvensson.devtools.analysis.shared.AbstractAnalyzer;
+import info.mikaelsvensson.devtools.analysis.shared.*;
 import info.mikaelsvensson.devtools.analysis.shared.reportprinter.PlainTextReportPrinter;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.OptionBuilder;
 
 import java.io.File;
 
+@CliOptions(opts = {
+        @CliOptionConfig(
+                required = true,
+                argsDescription = "list",
+                description = "list of all column names in source files",
+                longName = Db2MonAnalyzer.OPT_ALL_COLUMN_NAMES,
+                numArgs = OptionUtil.UNLIMITED,
+                name = "cn"),
+        @CliOptionConfig(
+                argsDescription = "list",
+                description = "list of columns to use in report (use same column names as specified by " + Db2MonAnalyzer.OPT_ALL_COLUMN_NAMES + " option)",
+                longName = Db2MonAnalyzer.OPT_OUTPUT_COLUMN_NAMES,
+                numArgs = OptionUtil.UNLIMITED,
+                name = "ocn"),
+        @CliOptionConfig(
+                required = true,
+                argsDescription = "list",
+                description = "list of columns to identify rows (use same column names as specified by " + Db2MonAnalyzer.OPT_ALL_COLUMN_NAMES + " option)",
+                longName = Db2MonAnalyzer.OPT_ID_COLUMN_NAMES,
+                numArgs = OptionUtil.UNLIMITED,
+                name = "idcn"),
+        @CliOptionConfig(
+                argsDescription = "regex",
+                description = "regular expression used to filter which lines to include in reports",
+                longName = Db2MonAnalyzer.OPT_ROW_ID_FILTER_PATTERN,
+                numArgs = OptionUtil.UNLIMITED,
+                name = "rfp"),
+        @CliOptionConfig(
+                required = true,
+                argsDescription = "pattern",
+                description = "MessageFormat pattern used for extracting timestamp from date column",
+                longName = Db2MonAnalyzer.OPT_DATE_FORMAT,
+                numArgs = 1,
+                name = "df")
+})
+@CliHelp(text = "" +
+        "Tool explicitly designed to aid in the analysis of DB2 statistics information acquired by " +
+        "repeatedly exporting information from views/functions such as MON_GET_TABLE to text files. " +
+        "The name of each such text file must contain a timestamp of some sort. All lines of all " +
+        "input files must have the same number of columns.")
 public class Db2MonAnalyzer extends AbstractAnalyzer {
 
-    private static final String OPT_ALL_COLUMN_NAMES = "all-column-names";
-    private static final String OPT_OUTPUT_COLUMN_NAMES = "output-column-names";
-    private static final String OPT_ID_COLUMN_NAMES = "id-column-names";
-    private static final String OPT_DATE_FORMAT = "date-format";
-    private static final String OPT_ROW_ID_FILTER_PATTERN = "rowid-filter-pattern";
+    static final String OPT_ALL_COLUMN_NAMES = "all-column-names";
+    static final String OPT_OUTPUT_COLUMN_NAMES = "output-column-names";
+    static final String OPT_ID_COLUMN_NAMES = "id-column-names";
+    static final String OPT_DATE_FORMAT = "date-format";
+    static final String OPT_ROW_ID_FILTER_PATTERN = "rowid-filter-pattern";
+
     private static final int MINUTES_BETWEEN_SESSIONS = 1;
 
     public static void main(String[] args) throws Exception {
         new Db2MonAnalyzer().run(args);
     }
-
-    public void run(String[] args) throws Exception {
-        run(args, "" +
-                "Tool explicitly designed to aid in the analysis of DB2 statistics information acquired by " +
-                "repeatedly exporting information from views/functions such as MON_GET_TABLE to text files. " +
-                "The name of each such text file must contain a timestamp of some sort. All lines of all " +
-                "input files must have the same number of columns.",
-                OptionBuilder.isRequired().withArgName("list").withDescription("list of all column names in source files").withLongOpt(OPT_ALL_COLUMN_NAMES).hasArgs().create("cn"),
-                OptionBuilder.withArgName("list").withDescription("list of columns to use in report (use same column names as specified by " + OPT_ALL_COLUMN_NAMES + " option)").withLongOpt(OPT_OUTPUT_COLUMN_NAMES).hasArgs().create("ocn"),
-                OptionBuilder.isRequired().withArgName("list").withDescription("list of columns to identify rows (use same column names as specified by " + OPT_ALL_COLUMN_NAMES + " option)").withLongOpt(OPT_ID_COLUMN_NAMES).hasArgs().create("idcn"),
-                OptionBuilder.withArgName("regex").withDescription("regular expression used to filter which lines to include in reports").withLongOpt(OPT_ROW_ID_FILTER_PATTERN).hasArgs().create("rfp"),
-                OptionBuilder.isRequired().withArgName("pattern").withDescription("MessageFormat pattern used for extracting timestamp from date column").withLongOpt(OPT_DATE_FORMAT).hasArg().create("df"));
-    }
-
 
     @Override
     protected void runImpl(CommandLine commandLine, String[] filePaths, String reportFileName) throws Exception {

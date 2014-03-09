@@ -1,0 +1,27 @@
+  ---
+  Using the Analysis Tools from Ant
+  ---
+
+Using the Analysis Tools from Ant
+
+  Download binary and analyze <<<server.log>>>:
+
+---
+<project name="Demo Project for Ant" default="test-serverlogsummaryanalyzer">
+    <target name="test-serverlogsummaryanalyzer">
+        <!-- Download binary -->
+        <get dest="." src="https://oss.sonatype.org/content/repositories/releases/info/mikaelsvensson/devtools/analysis/${projectVersion}/analysis-${projectVersion}-jar-with-dependencies.jar" />
+
+        <!-- Run analyzer -->
+        <java classname="info.mikaelsvensson.devtools.analysis.serverlog.ServerLogSummaryAnalyzer"
+              fork="true"
+              failonerror="false">
+            <arg line="
+                --report-file-name ServerLogSummaryAnalyzer.Report.txt
+                --files server.log
+                "/>
+            <classpath path="analysis-${projectVersion}-jar-with-dependencies.jar"/>
+        </java>
+    </target>
+</project>
+---

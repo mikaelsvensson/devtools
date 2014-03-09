@@ -28,7 +28,7 @@
 
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-    <xsl:import href="shared.xslt"/>
+    <xsl:import href="../../../common/src/site/shared.xslt"/>
     <xsl:output method="html" indent="yes" name="html"/>
 
     <xsl:template match="class" mode="doclet-xmldoclet">

@@ -17,6 +17,7 @@
 package info.mikaelsvensson.devtools.analysis.localaccesslog;
 
 import info.mikaelsvensson.devtools.analysis.shared.AbstractAnalyzer;
+import info.mikaelsvensson.devtools.analysis.shared.CliHelp;
 import info.mikaelsvensson.devtools.analysis.shared.ReportGenerator;
 import info.mikaelsvensson.devtools.analysis.shared.reportprinter.PlainTextReportPrinter;
 import org.apache.commons.cli.CommandLine;
@@ -27,7 +28,9 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
-
+@CliHelp(text = "" +
+        "Counts the number of different http status codes in the http access log, e.g. localhost_access_log.log. " +
+        "The result is exported as both a plain-text report and a pie chart.")
 public class LocalAccessLogAnalyzer extends AbstractAnalyzer
 {
 
@@ -36,7 +39,7 @@ public class LocalAccessLogAnalyzer extends AbstractAnalyzer
     }
 
     public void run(String[] args) throws Exception {
-        run(args, "Counts the number of different http status codes in the http access log, e.g. localhost_access_log.log. The result is exported as both a plain-text report and a pie chart.");
+        run(args);
     }
 
     @Override

@@ -14,3 +14,15 @@
   Want to save time when running <<<javadoc>>> multiple times for large projects?
 
   The <doclet> utilities is for you if your answer to one of the above questions is "yes".
+
+{{{./analysis/index.html}The <analysis> Tools}}
+
+  There are many graphical tools for analyzing log files, and they often have a lot of features and options.
+
+  But what if you want to perform unattended log analysis?
+
+  The <analysis> utilities are used to process certain types of log, e.g. JBoss server logs, and produce
+  certain reports based on the logs, e.g. a report on how many exceptions have been logged.
+
+  On other words: These analyzers are not for everyone, but very useful to those with the targeted needs! Read more
+  about each analyzer to see if is will produce the type of report you are interested in.

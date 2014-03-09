@@ -18,30 +18,47 @@ package info.mikaelsvensson.devtools.analysis.shared;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 
-public abstract class AbstractAnalyzer
-{
+@CliOptions(opts = {
+        @CliOptionConfig(
+                argsDescription = "output report file path",
+                description = "file name for the report",
+                required = true,
+                longName = AbstractAnalyzer.OPT_REPORT_FILE_NAME,
+                numArgs = 1,
+                name = "rfn"),
+        @CliOptionConfig(
+                argsDescription = "input log files",
+                description = "list of log files to analyze",
+                required = true,
+                longName = AbstractAnalyzer.OPT_FILES,
+                numArgs = OptionUtil.UNLIMITED,
+                name = "f")
+})
+public abstract class AbstractAnalyzer {
     protected static final String FILE_PATH_GROUPER_DESCRIPTION = "optional string (none|merged|merge_by_folder) which, if present, affects which files are covered by each generated report ('none' = each log file processed individually, 'merge_all' = all log files will be used to generate a single report, 'merge_by_folder' = log files from the same folder will be processed together).";
-    private static final String OPT_REPORT_FILE_NAME = "report-file-name";
-    private static final String OPT_FILES = "files";
+    static final String OPT_REPORT_FILE_NAME = "report-file-name";
+    static final String OPT_FILES = "files";
 
+    protected void run(String[] args, Option... commandLineOptions) throws Exception
+    {
+        run(args, OptionUtil.getInstance().getCliHelp(this), commandLineOptions);
+    }
     protected void run(String[] args, String usageHelp, Option... commandLineOptions) throws Exception
     {
-        Option[] defaultOptions = new Option[]{
-                OptionBuilder.withArgName("output report file path").withDescription("file name for the report").isRequired().withLongOpt(OPT_REPORT_FILE_NAME).hasArg().create("rfn"),
-                OptionBuilder.withArgName("input log files").withDescription("list of log files to analyze").isRequired().withLongOpt(OPT_FILES).hasArgs().create("f")
-        };
-        Option[] allOptions = new Option[defaultOptions.length + commandLineOptions.length];
-        System.arraycopy(defaultOptions, 0, allOptions, 0, defaultOptions.length);
-        System.arraycopy(commandLineOptions, 0, allOptions, defaultOptions.length, commandLineOptions.length);
+        List<Option> options = OptionUtil.getInstance().getOptions(this);
+        if (commandLineOptions != null && commandLineOptions.length > 0) {
+            options.addAll(Arrays.asList(commandLineOptions));
+        }
 
-        final CommandLine commandLine = CommandLineUtil.parseArgs(args, usageHelp, this.getClass(), allOptions);
+        final CommandLine commandLine = CommandLineUtil.parseArgs(args, usageHelp, this.getClass(), options.toArray(new Option[options.size()]));
 
         String reportFileName = commandLine.getOptionValue(OPT_REPORT_FILE_NAME);
         String[] files = commandLine.getOptionValues(OPT_FILES);
@@ -50,8 +67,7 @@ public abstract class AbstractAnalyzer
 
     protected abstract void runImpl(CommandLine commandLine, String[] files, String reportFileName) throws Exception;
 
-    public static String getFormattedString(String pattern, File patternArgumentSourceFile)
-    {
+    public static String getFormattedString(String pattern, File patternArgumentSourceFile) {
         // LinkedHashMap since the values should be returned in the order of insertion (for backwards compatibility)
         final LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
         values.put("logFileName", patternArgumentSourceFile.getName());
@@ -63,8 +79,7 @@ public abstract class AbstractAnalyzer
 
         // Add numeric "key" for each "parameter" (for backwards compability)
         int i = 0;
-        for (Object value : values.values().toArray())
-        {
+        for (Object value : values.values().toArray()) {
             values.put(String.valueOf(i++), value);
         }
 

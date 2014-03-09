@@ -1,0 +1,14 @@
+<project name="Analysis">
+    <body>
+        <menu name="Getting Started">
+            <item name="Analysis Tools from Console" href="using-console.html"/>
+            <item name="Analysis Tools from Ant" href="using-ant.html"/>
+        </menu>
+        <menu name="Analyzers">
+            <item name="Db2EventLogAnalyzer" href="index-Db2EventLogAnalyzer.html"/>
+            <item name="Db2MonAnalyzer" href="index-Db2MonAnalyzer.html"/>
+            <item name="LocalAccessLogAnalyzer" href="index-LocalAccessLogAnalyzer.html"/>
+            <item name="ServerLogSummaryAnalyzer" href="index-ServerLogSummaryAnalyzer.html"/>
+        </menu>
+    </body>
+</project>

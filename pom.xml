@@ -230,6 +230,7 @@
 -->
             <modules>
                 <module>doclet</module>
+                <module>analysis</module>
             </modules>
         </profile>
         <profile>

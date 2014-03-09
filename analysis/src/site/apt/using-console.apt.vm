@@ -1,0 +1,16 @@
+  ---
+  Using Analysis Tools from Console
+  ---
+
+Using Analysis Tools from Console
+
+  Download the binary from {{https://oss.sonatype.org/content/repositories/releases/info/mikaelsvensson/devtools/analysis/${projectVersion}/analysis-${projectVersion}-jar-with-dependencies.jar}}.
+
+  Run tool:
+
++--
+java -jar analysis-${projectVersion}-jar-with-dependencies.jar
+    info.mikaelsvensson.devtools.analysis.serverlog.ServerLogSummaryAnalyzer
+    --report-file-name report.txt
+    --files <path_to_server_logs_to_analyze>
++--
