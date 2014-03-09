@@ -8,53 +8,47 @@ import info.mikaelsvensson.devtools.doclet.xml.documentcreator.StandardDocumentC
 import info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive.ExtensiveDocumentCreator;
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-public class DocumentCreatorFactoryTest
-{
+public class DocumentCreatorFactoryTest {
     @Test
-    public void createStandard() throws Exception
-    {
-        assertThat(
-                DocumentCreatorFactory.getDocumentCreator(StandardDocumentCreator.NAME),
-                is(StandardDocumentCreator.class));
-        assertThat(
-                DocumentCreatorFactory.getDocumentCreator(StandardDocumentCreator.class.getName()),
-                is(StandardDocumentCreator.class));
+    public void createStandard() throws Exception {
+        assertTrue(
+                DocumentCreatorFactory.getDocumentCreator(StandardDocumentCreator.NAME)
+                        instanceof StandardDocumentCreator);
+        assertTrue(
+                DocumentCreatorFactory.getDocumentCreator(StandardDocumentCreator.class.getName())
+                        instanceof StandardDocumentCreator);
     }
 
     @Test
-    public void createExtensive() throws Exception
-    {
-        assertThat(
-                DocumentCreatorFactory.getDocumentCreator(ExtensiveDocumentCreator.NAME),
-                is(ExtensiveDocumentCreator.class));
-        assertThat(
-                DocumentCreatorFactory.getDocumentCreator(ExtensiveDocumentCreator.class.getName()),
-                is(ExtensiveDocumentCreator.class));
+    public void createExtensive() throws Exception {
+        assertTrue(
+                DocumentCreatorFactory.getDocumentCreator(ExtensiveDocumentCreator.NAME)
+                        instanceof ExtensiveDocumentCreator);
+        assertTrue(
+                DocumentCreatorFactory.getDocumentCreator(ExtensiveDocumentCreator.class.getName())
+                        instanceof ExtensiveDocumentCreator);
     }
 
     @Test
-    public void createEnum() throws Exception
-    {
-        assertThat(
-                DocumentCreatorFactory.getDocumentCreator(EnumDocumentCreator.NAME),
-                is(EnumDocumentCreator.class));
-        assertThat(
-                DocumentCreatorFactory.getDocumentCreator(EnumDocumentCreator.class.getName()),
-                is(EnumDocumentCreator.class));
+    public void createEnum() throws Exception {
+        assertTrue(
+                DocumentCreatorFactory.getDocumentCreator(EnumDocumentCreator.NAME)
+                        instanceof EnumDocumentCreator);
+        assertTrue(
+                DocumentCreatorFactory.getDocumentCreator(EnumDocumentCreator.class.getName())
+                        instanceof EnumDocumentCreator);
     }
 
     @Test
-    public void createElementsOnly() throws Exception
-    {
-        assertThat(
-                DocumentCreatorFactory.getDocumentCreator(ElementsOnlyDocumentCreator.NAME),
-                is(ElementsOnlyDocumentCreator.class));
-        assertThat(
-                DocumentCreatorFactory.getDocumentCreator(ElementsOnlyDocumentCreator.class.getName()),
-                is(ElementsOnlyDocumentCreator.class));
+    public void createElementsOnly() throws Exception {
+        assertTrue(
+                DocumentCreatorFactory.getDocumentCreator(ElementsOnlyDocumentCreator.NAME)
+                        instanceof ElementsOnlyDocumentCreator);
+        assertTrue(
+                DocumentCreatorFactory.getDocumentCreator(ElementsOnlyDocumentCreator.class.getName())
+                        instanceof ElementsOnlyDocumentCreator);
     }
 
     @Test(expected = DocumentCreatorFactoryException.class)

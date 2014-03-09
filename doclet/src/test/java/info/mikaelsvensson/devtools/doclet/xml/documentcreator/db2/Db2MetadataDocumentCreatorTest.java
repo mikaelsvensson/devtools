@@ -4,8 +4,7 @@ import info.mikaelsvensson.devtools.doclet.shared.DocumentCreator;
 import info.mikaelsvensson.devtools.doclet.shared.DocumentCreatorFactory;
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class Db2MetadataDocumentCreatorTest
 {
@@ -13,6 +12,6 @@ public class Db2MetadataDocumentCreatorTest
     public void createElementsOnly() throws Exception
     {
         DocumentCreator documentCreator = DocumentCreatorFactory.getDocumentCreator(Db2MetadataDocumentCreator.NAME);
-        assertThat(documentCreator, is(Db2MetadataDocumentCreator.class));
+        assertTrue(documentCreator instanceof Db2MetadataDocumentCreator);
     }
 }
