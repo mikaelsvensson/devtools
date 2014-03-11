@@ -38,10 +38,6 @@ public class LocalAccessLogAnalyzer extends AbstractAnalyzer
         new LocalAccessLogAnalyzer().run(args);
     }
 
-    public void run(String[] args) throws Exception {
-        run(args);
-    }
-
     @Override
     protected void runImpl(CommandLine commandLine, String[] paths, String reportFileName) throws Exception
     {

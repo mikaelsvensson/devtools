@@ -47,11 +47,12 @@ public abstract class AbstractAnalyzer {
     static final String OPT_REPORT_FILE_NAME = "report-file-name";
     static final String OPT_FILES = "files";
 
-    protected void run(String[] args, Option... commandLineOptions) throws Exception
+    public void run(String[] args, Option... commandLineOptions) throws Exception
     {
         run(args, OptionUtil.getInstance().getCliHelp(this), commandLineOptions);
     }
-    protected void run(String[] args, String usageHelp, Option... commandLineOptions) throws Exception
+
+    public void run(String[] args, String usageHelp, Option... commandLineOptions) throws Exception
     {
         List<Option> options = OptionUtil.getInstance().getOptions(this);
         if (commandLineOptions != null && commandLineOptions.length > 0) {
