@@ -36,5 +36,5 @@ public @interface CliOptionConfig {
 
     int numArgs() default 0;
 
-    char separator() default ' ';
+    char separator() default '=';
 }
