@@ -19,10 +19,23 @@ package info.mikaelsvensson.devtools.analysis.shared;
 import org.apache.commons.cli.*;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CommandLineUtil
-{
-    public static CommandLine parseArgs(String[] args, String usageHelp, Class<?> appClass, Option... opts)
+public class CommandLineUtil {
+    private static CommandLineUtil ourInstance = new CommandLineUtil();
+
+    public static CommandLineUtil getInstance() {
+        return ourInstance;
+    }
+
+    private CommandLineUtil() {
+    }
+
+    public static final int UNLIMITED = Option.UNLIMITED_VALUES;
+    public static final int OPTIONAL = -3;
+
+    public CommandLine parseArgs(String[] args, String usageHelp, Class<?> appClass, Option... opts)
     {
         final Options options = new Options();
         try
@@ -63,5 +76,41 @@ public class CommandLineUtil
             System.exit(0);
             return null;
         }
+    }
+
+    public List<Option> getOptions(Object owner) throws IllegalAccessException {
+        List<Option> options = new ArrayList<Option>();
+        Class<?> cls = owner.getClass();
+        do {
+            CliOptions cliOptions = cls.getAnnotation(CliOptions.class);
+            if (cliOptions != null) {
+                for (CliOptionConfig config : cliOptions.opts()) {
+
+                    if (config != null) {
+                        Option option = new Option(config.name(), config.description());
+                        if (config.longName().length() > 0) {
+                            option.setLongOpt(config.longName());
+                        }
+                        if (config.numArgs() == OPTIONAL) {
+                            option.setOptionalArg(true);
+                        } else {
+                            option.setArgs(config.numArgs());
+                        }
+                        option.setRequired(config.required());
+                        option.setValueSeparator(config.separator());
+                        options.add(option);
+                    }
+                }
+            }
+        } while ((cls = cls.getSuperclass()) != null);
+        return options;
+    }
+
+    public String getCliHelp(Object owner) {
+        CliHelp cliHelp = owner.getClass().getAnnotation(CliHelp.class);
+        if (cliHelp != null) {
+            return cliHelp.text();
+        }
+        return null;
     }
 }

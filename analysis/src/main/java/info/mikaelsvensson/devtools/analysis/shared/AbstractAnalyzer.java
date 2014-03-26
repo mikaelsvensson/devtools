@@ -39,27 +39,26 @@ import java.util.List;
                 description = "list of log files to analyze",
                 required = true,
                 longName = AbstractAnalyzer.OPT_FILES,
-                numArgs = OptionUtil.UNLIMITED,
+                numArgs = CommandLineUtil.UNLIMITED,
                 name = "f")
 })
 public abstract class AbstractAnalyzer {
-    protected static final String FILE_PATH_GROUPER_DESCRIPTION = "optional string (none|merged|merge_by_folder) which, if present, affects which files are covered by each generated report ('none' = each log file processed individually, 'merge_all' = all log files will be used to generate a single report, 'merge_by_folder' = log files from the same folder will be processed together).";
     static final String OPT_REPORT_FILE_NAME = "report-file-name";
     static final String OPT_FILES = "files";
 
     public void run(String[] args, Option... commandLineOptions) throws Exception
     {
-        run(args, OptionUtil.getInstance().getCliHelp(this), commandLineOptions);
+        run(args, CommandLineUtil.getInstance().getCliHelp(this), commandLineOptions);
     }
 
     public void run(String[] args, String usageHelp, Option... commandLineOptions) throws Exception
     {
-        List<Option> options = OptionUtil.getInstance().getOptions(this);
+        List<Option> options = CommandLineUtil.getInstance().getOptions(this);
         if (commandLineOptions != null && commandLineOptions.length > 0) {
             options.addAll(Arrays.asList(commandLineOptions));
         }
 
-        final CommandLine commandLine = CommandLineUtil.parseArgs(args, usageHelp, this.getClass(), options.toArray(new Option[options.size()]));
+        final CommandLine commandLine = CommandLineUtil.getInstance().parseArgs(args, usageHelp, this.getClass(), options.toArray(new Option[options.size()]));
 
         String reportFileName = commandLine.getOptionValue(OPT_REPORT_FILE_NAME);
         String[] files = commandLine.getOptionValues(OPT_FILES);
