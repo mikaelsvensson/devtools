@@ -58,11 +58,15 @@ public abstract class AbstractAnalyzer {
             options.addAll(Arrays.asList(commandLineOptions));
         }
 
-        final CommandLine commandLine = CommandLineUtil.getInstance().parseArgs(args, usageHelp, this.getClass(), options.toArray(new Option[options.size()]));
+        try {
+            final CommandLine commandLine = CommandLineUtil.getInstance().parseArgs(args, usageHelp, this.getClass(), options.toArray(new Option[options.size()]));
 
-        String reportFileName = commandLine.getOptionValue(OPT_REPORT_FILE_NAME);
-        String[] files = commandLine.getOptionValues(OPT_FILES);
-        runImpl(commandLine, files, reportFileName);
+            String reportFileName = commandLine.getOptionValue(OPT_REPORT_FILE_NAME);
+            String[] files = commandLine.getOptionValues(OPT_FILES);
+            runImpl(commandLine, files, reportFileName);
+        } catch (CommandLineException e) {
+            System.out.println(e.getHelpText());
+        }
     }
 
     protected abstract void runImpl(CommandLine commandLine, String[] files, String reportFileName) throws Exception;

@@ -19,6 +19,7 @@ package info.mikaelsvensson.devtools.analysis.shared;
 import org.apache.commons.cli.*;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,7 @@ public class CommandLineUtil {
     public static final int UNLIMITED = Option.UNLIMITED_VALUES;
     public static final int OPTIONAL = -3;
 
-    public CommandLine parseArgs(String[] args, String usageHelp, Class<?> appClass, Option... opts)
-    {
+    public CommandLine parseArgs(String[] args, String usageHelp, Class<?> appClass, Option... opts) throws CommandLineException {
         final Options options = new Options();
         try
         {
@@ -49,9 +49,9 @@ public class CommandLineUtil {
             final CommandLine commandLine = commandLineParser.parse(options, args);
             return commandLine;
         }
-        catch (ParseException e)
-        {
-            final PrintWriter pw = new PrintWriter(System.out);
+        catch (ParseException e) {
+            StringWriter writer = new StringWriter();
+            final PrintWriter pw = new PrintWriter(writer);
             pw.println("ERROR:");
             pw.println(e.getMessage());
 
@@ -73,8 +73,7 @@ public class CommandLineUtil {
                     0,
                     1);
             pw.close();
-            System.exit(0);
-            return null;
+            throw new CommandLineException("Could not parse command line", writer.toString(), e);
         }
     }
 
@@ -96,6 +95,7 @@ public class CommandLineUtil {
                         } else {
                             option.setArgs(config.numArgs());
                         }
+                        option.setArgName(config.argsDescription());
                         option.setRequired(config.required());
                         option.setValueSeparator(config.separator());
                         options.add(option);
