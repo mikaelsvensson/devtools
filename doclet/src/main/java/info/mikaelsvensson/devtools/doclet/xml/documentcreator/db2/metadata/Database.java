@@ -21,11 +21,12 @@ import java.util.*;
 public class Database extends DatabaseObject {
     private List<Table> tables = new ArrayList<Table>();
     private Map<String, String> properties = new TreeMap<String, String>();
+    private Date timeStamp;
+    private List<String> parseErrors = new ArrayList<String>();
+
     public Date getTimeStamp() {
         return timeStamp;
     }
-
-    private Date timeStamp;
 
     public List<Table> getTables() {
         return tables;
@@ -58,5 +59,15 @@ public class Database extends DatabaseObject {
 
     public void setTimeStamp(Date date) {
         this.timeStamp = date;
+    }
+
+    public List<String> getParseErrors()
+    {
+        return parseErrors;
+    }
+
+    public void setParseErrors(List<String> parseErrors)
+    {
+        this.parseErrors = parseErrors;
     }
 }
