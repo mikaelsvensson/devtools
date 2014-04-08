@@ -172,6 +172,14 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
         if (db.getTimeStamp() != null) {
             databaseEl.setAttribute("timestamp", DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.ENGLISH).format(db.getTimeStamp()));
         }
+        if (db.getParseErrors() != null && db.getParseErrors().size() > 0)
+        {
+            final ElementWrapper errorsEl = databaseEl.addChild("parse-errors");
+            for (String parseError : db.getParseErrors())
+            {
+                errorsEl.addChildWithText("parse-error", parseError);
+            }
+        }
 
         for (Table table : db.getTables()) {
             ElementWrapper tableEl = databaseEl.addChild("table", ATTR_NAME, table.getName());
@@ -264,7 +272,7 @@ public class Db2MetadataDocumentCreator extends AbstractDocumentCreator {
                     if (null != commandType) {
                         commandType.getCommandHandler().execute(db, token);
                     } else {
-                        throw new DocumentCreatorException("Cannot interpret command '" + token + "'");
+                        db.getParseErrors().add("Ignoring unknown command '" + token + "'");
                     }
                 }
             }
