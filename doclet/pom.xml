@@ -69,7 +69,7 @@
                                 -format.name extensive
                                 -format.property.wrapListElements true
                                 -format.property.showAnnotations true
-                                -output ${project.build.sourceDirectory}/../../site/xdoc/index.xml
+                                -d ${project.build.sourceDirectory}/../../site/xdoc/index.xml
                                 -transformer ${project.build.sourceDirectory}/../../site/index.xslt
                                 -untransformedoutput ./source-code-documentation.xml
                             </additionalparam>

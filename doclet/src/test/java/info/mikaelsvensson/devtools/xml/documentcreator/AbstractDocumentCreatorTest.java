@@ -46,7 +46,7 @@ public abstract class AbstractDocumentCreatorTest {
         args[i++] = "-private";
         args[i++] = "-format.name";
         args[i++] = documentCreatorId;
-        args[i++] = "-output";
+        args[i++] = "-d";
         args[i++] = actualFile.getAbsolutePath();
         for (String documentCreatorArg : documentCreatorArgs) {
             args[i++] = documentCreatorArg;

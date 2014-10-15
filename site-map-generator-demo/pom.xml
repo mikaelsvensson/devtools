@@ -39,7 +39,7 @@
                             </docletArtifacts>
                             <additionalparam>
                                 -format.name classnameonly
-                                -output ${project.build.directory}/classes.xml
+                                -d ${project.build.directory}/classes.xml
                             </additionalparam>
                             <useStandardDocletOptions>false</useStandardDocletOptions>
                         </configuration>
