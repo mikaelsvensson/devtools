@@ -20,4 +20,8 @@ public class DocumentCreatorFactoryException extends Exception {
     public DocumentCreatorFactoryException(Throwable cause) {
         super(cause);
     }
+
+    public DocumentCreatorFactoryException(String message) {
+        super(message);
+    }
 }

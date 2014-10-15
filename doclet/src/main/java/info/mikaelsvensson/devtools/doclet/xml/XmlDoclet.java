@@ -124,6 +124,7 @@ public class XmlDoclet extends AbstractDoclet {
         } catch (PropertySetException e) {
             printError(e);
         } catch (Throwable e) {
+            e.printStackTrace();
             printError(e);
         }
         return true;
@@ -160,6 +161,9 @@ public class XmlDoclet extends AbstractDoclet {
 
     private void generate(Document doc, File outputFile, File untransformedOutput, File xsltFile, Map<String, String> parameters) {
         try {
+            if (outputFile.isDirectory()) {
+                outputFile = new File(outputFile, "javadoc.xml");
+            }
             if (xsltFile != null) {
                 if (untransformedOutput != null) {
                     root.printNotice("Saving untransformed XML document");

@@ -34,6 +34,9 @@ public final class DocumentCreatorFactory {
      * name of a DocumentCreator implementation and attempts to load, and instantiate, that class.
      */
     public static DocumentCreator getDocumentCreator(String name) throws DocumentCreatorFactoryException {
+        if (name == null || "".equals(name)) {
+            throw new DocumentCreatorFactoryException("No document creator specified.");
+        }
         /*
          * Scan known document creators.
          */
