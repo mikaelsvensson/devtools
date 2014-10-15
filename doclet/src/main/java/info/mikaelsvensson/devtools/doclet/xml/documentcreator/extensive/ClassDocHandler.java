@@ -17,7 +17,11 @@
 package info.mikaelsvensson.devtools.doclet.xml.documentcreator.extensive;
 
 import com.sun.javadoc.ClassDoc;
+import com.sun.javadoc.Type;
 import info.mikaelsvensson.devtools.doclet.shared.ElementWrapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
     public static final char FILTER_TYPE_SUPER_CLASS = 's';
@@ -102,7 +106,16 @@ class ClassDocHandler<T extends ClassDoc> extends ProgramElementDocHandler<T> {
             for (char c : classMemberTypeFilter.toCharArray()) {
                 switch (c) {
                     case FILTER_TYPE_SUPER_CLASS:
-                        handleDocImpl(el, "superclass", doc.superclassType());
+                        Type superclass = doc.superclassType();
+                        handleDocImpl(el, "superclass", superclass);
+
+                        List<ClassDoc> superclasses = new ArrayList<ClassDoc>();
+                        while (superclass != null) {
+                            superclasses.add(superclass.asClassDoc());
+                            superclass = superclass.asClassDoc().superclassType();
+                        }
+//                        System.out.println("superclasses.size() = " + superclasses.size());
+                        handleDocImpl(el, superclasses.toArray(new Object[superclasses.size()]), "superclasses", "superclass");
                         break;
                     case FILTER_TYPE_CONSTRUCTORS:
                         handleDocImpl(el, doc.constructors(), "constructors", "constructor");
